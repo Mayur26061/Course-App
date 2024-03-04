@@ -8,7 +8,7 @@ function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const navigate = useNavigate();
-  const handleLogin = () => {
+  const handleSign = () => {
     axios
       .post("http://localhost:3000/admin/signup", {
         username: email,
@@ -16,7 +16,7 @@ function Register() {
       })
       .then((response) => {
         if (response.data.token) {
-          localStorage.setItem("auth", "Bearer " + response.data.token);
+          localStorage.setItem("token", response.data.token);
           navigate("/courses");
         }
       })
@@ -40,7 +40,8 @@ function Register() {
       <br />
       <Card style={{ width: "275px", padding: "20px" }} variant="outlined">
         <TextField
-          style={{ margin: "10px" }}
+          style={{ marginBottom: "10px" }}
+          fullWidth={true}
           id="email"
           label="Email"
           variant="outlined"
@@ -49,7 +50,8 @@ function Register() {
         />
         <br />
         <TextField
-          style={{ margin: "10px" }}
+          style={{ marginBottom: "10px" }}
+          fullWidth={true}
           id="password"
           label="Password"
           variant="outlined"
@@ -58,14 +60,20 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <br />
-        <Button style={{ margin: "10px" }} variant="contained" size="small">
+        <Button
+          style={{ marginTop: "10px" }}
+          variant="contained"
+          size="small"
+          onClick={handleSign}
+        >
           Register
         </Button>
-        <br />
-        Already a user?{" "}
-        <Button onClick={() => navigate("/Login")} size="small">
-          Login
-        </Button>
+        <div style={{ marginTop: "10px" }}>
+          Already a user?{" "}
+          <Button onClick={() => navigate("/Login")} size="small">
+            Login
+          </Button>
+        </div>
       </Card>
     </div>
   );

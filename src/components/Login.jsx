@@ -26,7 +26,7 @@ function Login() {
           console.log(response.data.error);
         } else {
           if (response.data.token) {
-            localStorage.setItem("auth", "Bearer " + response.data.token);
+            localStorage.setItem("token", response.data.token);
             navigate("/courses");
           }
         }
@@ -47,33 +47,42 @@ function Login() {
       <Typography variant="h6">Login</Typography>
       <br />
       <Card style={{ width: "275px", padding: "20px" }} variant="outlined">
-        <TextField
-          style={{ margin: "10px" }}
-          id="email"
-          label="Email"
-          variant="outlined"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <br />
-        <TextField
-          style={{ margin: "10px" }}
-          id="password"
-          label="Password"
-          variant="outlined"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <br />
-        <Button style={{ margin: "10px" }} variant="contained" size="small">
-          Login
-        </Button>
-        <br />
-        New user?{" "}
-        <Button onClick={() => navigate("/register")} size="small">
-          Sign up
-        </Button>
+        <form>
+          <TextField
+            fullWidth={true}
+            style={{ marginBottom: "10px" }}
+            label="Email"
+            variant="outlined"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <br />
+          <TextField
+            type="password"
+            fullWidth={true}
+            style={{ marginBottom: "10px" }}
+            label="Password"
+            variant="outlined"
+            autoComplete="true"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <br />
+          <Button
+            style={{ marginTop: "10px" }}
+            variant="contained"
+            size="small"
+            onClick={handleLogin}
+          >
+            Login
+          </Button>
+        </form>
+        <div style={{ marginTop: "10px" }}>
+          New user?{" "}
+          <Button onClick={() => navigate("/register")} size="small">
+            Sign up
+          </Button>
+        </div>
       </Card>
     </div>
   );

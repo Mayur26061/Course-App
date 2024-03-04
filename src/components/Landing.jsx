@@ -10,14 +10,10 @@ function Landing() {
       <Typography variant="h3">Welcome to course selling website</Typography>
       <div style={{ padding: 5 }}>
         <Link style={{ margin: 2 }} to={"/register"}>
-          <Button variant="contained">
-            Register
-          </Button>
+          <Button variant="contained">Register</Button>
         </Link>
         <Link style={{ margin: 2 }} to={"/login"}>
-          <Button variant="contained">
-            Login
-          </Button>
+          <Button variant="contained">Login</Button>
         </Link>
       </div>
     </div>
