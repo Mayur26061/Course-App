@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditCourse from "./EditCourse";
 import { Button, Typography } from "@mui/material";
-import "./SingleCourse.css"
+import "./SingleCourse.css";
 
 const SingleCourse = () => {
   let { cid } = useParams();

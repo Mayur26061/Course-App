@@ -7,6 +7,8 @@ import { Button, TextField, Card, Typography } from "@mui/material";
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  // const []
+  //
   const navigate = useNavigate();
   const handleLogin = () => {
     axios
@@ -27,7 +29,7 @@ function Login() {
         } else {
           if (response.data.token) {
             localStorage.setItem("token", response.data.token);
-            navigate("/courses");
+            window.location = "/courses";
           }
         }
       });
