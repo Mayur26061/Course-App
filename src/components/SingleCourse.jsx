@@ -25,10 +25,17 @@ const SingleCourse = () => {
       });
   }, []);
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    }}>
       {course && (
         <div>
-          <img src={course.imageLink} alt="" />
+          <div style={{ display: "flex" }}>
+          <img src={course.imageLink} style={{width:900,height:400}} alt="" />
+          </div>
           <div style={{ display: "flex" }}>
             <div>
               <Typography variant="h5">{course.title}</Typography>
@@ -43,15 +50,11 @@ const SingleCourse = () => {
         </div>
       )}
       {isedit && (
-        <div className="popup-wrapper abc">
-          <div className="popup">
             <EditCourse
               course={course}
               setCourse={setCourse}
               setIsEdit={setIsEdit}
             />
-          </div>
-        </div>
       )}
     </div>
   );

@@ -24,7 +24,7 @@ function ShowCourses() {
   return (
     <div>
       <h1>Create Course Page</h1>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", flexWrap: "wrap",justifyContent:"center" }}>
         {courses.map((c) => (
           <Course key={c._id} course={c} />
         ))}

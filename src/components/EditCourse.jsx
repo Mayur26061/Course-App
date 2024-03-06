@@ -32,8 +32,8 @@ const EditCourse = ({ course, setCourse, setIsEdit }) => {
       });
   };
   return (
-    <div>
-      <Card style={{ width: 500, padding: "20px" }} variant="outlined">
+      <div className="popup-wrapper abc">
+      <Card className="popup" style={{ width: 500, padding: "20px" }} variant="outlined">
         <Typography>Edit Course</Typography>
         <TextField
           value={title}
