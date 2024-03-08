@@ -6,6 +6,12 @@ function Course(props) {
   const navigate = useNavigate();
   return (
     <div
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if(e.key === "Enter"){
+          navigate(`/course/${props.course._id}`);
+        }
+      }}
       onClick={() => {
         navigate(`/course/${props.course._id}`);
       }}

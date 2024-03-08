@@ -45,16 +45,19 @@ const Appbar = () => {
             </div>
           )}
           {userEmail && (
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => {
-                localStorage.setItem("token", null);
-                window.location = "/login";
-              }}
-            >
-              Logout
-            </Button>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div style={{ marginRight: 5 }}>{userEmail}</div>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => {
+                  localStorage.setItem("token", null);
+                  window.location = "/login";
+                }}
+              >
+                Logout
+              </Button>
+            </div>
           )}
         </div>
       )}
