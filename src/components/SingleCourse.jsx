@@ -20,7 +20,6 @@ const SingleCourse = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setCourse(response.data.course);
       });
   }, []);
