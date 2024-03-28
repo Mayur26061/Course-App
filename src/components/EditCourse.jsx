@@ -8,28 +8,24 @@ const EditCourse = ({ course, setCourse, setIsEdit }) => {
   const [description, setDescription] = useState(course.description);
   const [price, setPrice] = useState(course.price);
   const [isPublished, setIsPublished] = useState(course.published);
-  const updateCourse = () => {
-    axios
-      .put(
-        `http://localhost:3000/admin/courses/${course._id}`,
-        {
-          title,
-          description,
-          price,
-          published: isPublished,
+  const updateCourse = async () => {
+    const res = await axios.put(
+      `http://localhost:3000/admin/courses/${course._id}`,
+      {
+        title,
+        description,
+        price,
+        published: isPublished,
+      },
+      {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("token"),
         },
-        {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data.data);
-        setIsEdit(false);
-        setCourse(response.data.data);
-        // setCourse(response.data.course)
-      });
+      }
+    );
+    setIsEdit(false);
+    setCourse(res.data.data);
+    // setCourse(response.data.course)
   };
   return (
     <div className="popup-wrapper abc">

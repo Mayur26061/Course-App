@@ -8,21 +8,15 @@ function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const navigate = useNavigate();
-  const handleSign = () => {
-    axios
-      .post("http://localhost:3000/admin/signup", {
-        username: email,
-        password,
-      })
-      .then((response) => {
-        if (response.data.token) {
-          localStorage.setItem("token", response.data.token);
-          navigate("/courses");
-        }
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+  const handleSign = async () => {
+    const response = await axios.post("http://localhost:3000/admin/signup", {
+      username: email,
+      password,
+    });
+    if (response.data.token) {
+      localStorage.setItem("token", response.data.token);
+      navigate("/courses");
+    }
     setEmail("");
     setPassword("");
   };

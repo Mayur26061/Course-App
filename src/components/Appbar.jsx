@@ -6,19 +6,20 @@ const Appbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [isloading, setIsLoading] = useState(true);
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/admin/me", {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
+    const fetchme = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/admin/me", {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
         setUserEmail(res.data.user);
         setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+      } catch {
+        console.log("Error");
+      }
+    };
+    fetchme();
   }, []);
   const navigate = useNavigate();
   return (
@@ -46,7 +47,12 @@ const Appbar = () => {
           )}
           {userEmail && (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ marginRight: 5 }}>{userEmail}</div>
+              <Button onClick={() => navigate("/createcourse")} variant="text">
+                Add Course
+              </Button>
+              <Button onClick={() => navigate("/courses")} variant="text">
+                Courses
+              </Button>
               <Button
                 size="small"
                 variant="contained"

@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Course from "./Courses";
-import { atom,useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { coursesState } from "./utils";
 function ShowCourses() {
-  const [courses,setCourses] = useRecoilState(coursesState)
+  const [courses, setCourses] = useRecoilState(coursesState);
   useEffect(() => {
     axios
       .get("http://localhost:3000/admin/courses", {
@@ -26,10 +26,10 @@ function ShowCourses() {
   return (
     <div>
       <h1>Create Course Page</h1>
-      <div style={{ display: "flex", flexWrap: "wrap",justifyContent:"center" }}>
-        {courses && courses.map((c) => (
-          <Course key={c._id} course={c} />
-        ))}
+      <div
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+      >
+        {courses && courses.map((c) => <Course key={c._id} course={c} />)}
       </div>
     </div>
   );

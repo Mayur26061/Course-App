@@ -7,32 +7,27 @@ import { Button, TextField, Card, Typography } from "@mui/material";
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  // const []
-  //
+
   const navigate = useNavigate();
-  const handleLogin = () => {
-    axios
-      .post(
-        "http://localhost:3000/admin/login",
-        {},
-        {
-          headers: {
-            username: email,
-            password,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.error) {
-          console.log(response.data.error);
-        } else {
-          if (response.data.token) {
-            localStorage.setItem("token", response.data.token);
-            window.location = "/courses";
-          }
-        }
-      });
+  const handleLogin = async () => {
+    const response = await axios.post(
+      "http://localhost:3000/admin/login",
+      {},
+      {
+        headers: {
+          username: email,
+          password,
+        },
+      }
+    );
+    if (response.data.error) {
+      console.log(response.data.error);
+    } else {
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        window.location = "/courses";
+      }
+    }
     setEmail("");
     setPassword("");
   };

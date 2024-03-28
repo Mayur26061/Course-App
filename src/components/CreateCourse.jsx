@@ -8,22 +8,23 @@ function CreateCourse() {
   const [price, setPrice] = useState(0);
   const [isPublished, setIsPublished] = useState(true);
 
-  const createCourse = () => {
+  const createCourse = async () => {
     let course = {
       title,
       description,
       price,
       published: isPublished,
     };
-    axios
-      .post("http://localhost:3000/admin/courses", course, {
+    const res = await axios.post(
+      "http://localhost:3000/admin/courses",
+      course,
+      {
         headers: {
           authorization: "Bearer " + localStorage.getItem("token"),
         },
-      })
-      .then((res) => {
-        console.log(res.data);
-      });
+      }
+    );
+    console.log(res.data);
     setTitle("");
     setDescription("");
     setPrice(0);

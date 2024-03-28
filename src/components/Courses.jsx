@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function Course(props) {
@@ -7,14 +7,6 @@ function Course(props) {
   return (
     <div
       tabIndex={0}
-      onKeyDown={(e) => {
-        if(e.key === "Enter"){
-          navigate(`/course/${props.course._id}`);
-        }
-      }}
-      onClick={() => {
-        navigate(`/course/${props.course._id}`);
-      }}
     >
       <Card sx={{ width: 345 }} style={{ margin: 10 }}>
         <CardMedia
@@ -30,6 +22,9 @@ function Course(props) {
           <Typography variant="body2" color="text.secondary">
             {props.course.description}
           </Typography>
+          <div style={{'marginTop':3}}>
+          <Button onClick={()=>{navigate(`/course/${props.course._id}`)}} variant="contained">Edit</Button>
+          </div>
         </CardContent>
       </Card>
     </div>

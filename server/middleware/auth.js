@@ -21,7 +21,7 @@ const AuthenticateUser = (req, res, next) => {
             next();
         });
     } else {
-        res.status(401).send({ error: "Unauthorized" });
+        res.status(403).send({ error: "Unauthorized" });
     }
 };
 
