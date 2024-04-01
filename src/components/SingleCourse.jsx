@@ -1,14 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import EditCourse from "./EditCourse";
-import { Button, Typography } from "@mui/material";
-import "./SingleCourse.css";
+import UpdateCourse from "./UpdateCourse";
+import CourseCard from "./CourseCard";
+import { Button, Grid, Typography } from "@mui/material";
 
 const SingleCourse = () => {
   let { cid } = useParams();
   const [course, setCourse] = useState();
-  const [isedit, setIsEdit] = useState(false);
   useEffect(() => {
     axios
       .get("http://localhost:3000/admin/getcourse", {
@@ -23,10 +22,16 @@ const SingleCourse = () => {
         setCourse(response.data.course);
       });
   }, []);
+  if (!course){
+    return <></>
+  }
   return (
     <div>
-      {(course &&
-      (<GrayTopper title={course.title}/>))}
+      <GrayTopper title={course.title}/>
+      <Grid container>
+      <UpdateCourse course={course} setCourse={setCourse}/>
+      <CourseCard course={course}/>
+      </Grid>
     </div>
   )
 }
@@ -80,7 +85,7 @@ export default SingleCourse;
 //         </div>
 //       )}
 //       {isedit && (
-//         <EditCourse
+//         <UpdateCourse
 //           course={course}
 //           setCourse={setCourse}
 //           setIsEdit={setIsEdit}

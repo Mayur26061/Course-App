@@ -25,7 +25,7 @@ function ShowCourses() {
   // and set it in the courses state variable.
   return (
     <div>
-      <h1>Create Course Page</h1>
+      <h1>Courses</h1>
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >

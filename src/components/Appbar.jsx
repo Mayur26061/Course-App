@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Appbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [isloading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchme = async () => {
       try {
@@ -13,7 +15,9 @@ const Appbar = () => {
             authorization: "Bearer " + localStorage.getItem("token"),
           },
         });
-        setUserEmail(res.data.user);
+        if(res.data.user){
+          setUserEmail(res.data.user);
+        }
         setIsLoading(false);
       } catch {
         console.log("Error");
@@ -21,7 +25,6 @@ const Appbar = () => {
     };
     fetchme();
   }, []);
-  const navigate = useNavigate();
   return (
     <div
       style={{ display: "flex", justifyContent: "space-between", padding: 10 }}

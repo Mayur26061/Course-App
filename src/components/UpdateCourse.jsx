@@ -3,12 +3,12 @@ import { Button, Card, Switch, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 
-const EditCourse = ({ course, setCourse, setIsEdit }) => {
+const UpdateCourse = ({ course, setCourse }) => {
   const [title, setTitle] = useState(course.title);
   const [description, setDescription] = useState(course.description);
   const [price, setPrice] = useState(course.price);
   const [isPublished, setIsPublished] = useState(course.published);
-  const updateCourse = async () => {
+  const update = async () => {
     const res = await axios.put(
       `http://localhost:3000/admin/courses/${course._id}`,
       {
@@ -23,14 +23,10 @@ const EditCourse = ({ course, setCourse, setIsEdit }) => {
         },
       }
     );
-    setIsEdit(false);
     setCourse(res.data.data);
-    // setCourse(response.data.course)
   };
   return (
-    <div className="popup-wrapper abc">
       <Card
-        className="popup"
         style={{ width: 500, padding: "20px" }}
         variant="outlined"
       >
@@ -81,25 +77,15 @@ const EditCourse = ({ course, setCourse, setIsEdit }) => {
           <Button
             style={{ margin: 5 }}
             onClick={() => {
-              updateCourse();
+              update();
             }}
             variant="contained"
           >
-            Save
-          </Button>
-          <Button
-            style={{ margin: 5 }}
-            variant="outlined"
-            onClick={() => {
-              setIsEdit(false);
-            }}
-          >
-            Close
+            Update
           </Button>
         </div>
       </Card>
-    </div>
   );
 };
 
-export default EditCourse;
+export default UpdateCourse;
