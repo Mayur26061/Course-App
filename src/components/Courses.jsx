@@ -8,13 +8,7 @@ function Course(props) {
     <div
       tabIndex={0}
     >
-      <Card sx={{ width: 345 }} style={{ margin: 10 }}>
-        <CardMedia
-          component="img"
-          alt="courseImage"
-          height="140"
-          image={props.course.imageLink}
-        />
+      <Card sx={{ width: 280 }} style={{ margin: 10, textAlign:"center" }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {props.course.title}
@@ -22,8 +16,15 @@ function Course(props) {
           <Typography variant="body2" color="text.secondary">
             {props.course.description}
           </Typography>
-          <div style={{'marginTop':3}}>
-          <Button onClick={()=>{navigate(`/course/${props.course._id}`)}} variant="contained">Edit</Button>
+        <CardMedia
+          component="img"
+          alt="courseImage"
+          height="150"
+          image={props.course.imageLink}
+          style={{marginTop:5}}
+        />
+          <div style={{'marginTop':20}}>
+          <Button onClick={()=>{navigate(`/course/${props.course._id}`)}} size="small" variant="contained">Edit</Button>
           </div>
         </CardContent>
       </Card>

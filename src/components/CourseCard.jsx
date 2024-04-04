@@ -1,9 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Card, Typography } from "@mui/material"
 
 const CourseCard = ({course})=>{
-    return <div>
+    return <div style={{display:"flex", marginTop:50, justifyContent:"center", width:"100%"}}>
         <Card style={{
-            margin:10,
+            marginTop:50,
             width:350,
             minHeight:200,
             borderRadius:20,

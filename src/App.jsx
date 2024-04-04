@@ -23,8 +23,8 @@ function App() {
       <Appbar />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signin" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/createcourse" element={<CreateCourse />} />
           <Route path="/courses" element={<ShowCourses />} />
           <Route path="/course/:cid" element={<SingleCourse />} />

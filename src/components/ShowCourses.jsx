@@ -25,9 +25,8 @@ function ShowCourses() {
   // and set it in the courses state variable.
   return (
     <div>
-      <h1>Courses</h1>
       <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
+        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center",backgroundColor: "rgb(238, 238, 238)" }}
       >
         {courses && courses.map((c) => <Course key={c._id} course={c} />)}
       </div>

@@ -60,12 +60,12 @@ function Register() {
           size="small"
           onClick={handleSign}
         >
-          Register
+          Signup
         </Button>
         <div style={{ marginTop: "10px" }}>
           Already a user?{" "}
-          <Button onClick={() => navigate("/Login")} size="small">
-            Login
+          <Button onClick={() => navigate("/signin")} size="small">
+            Signin
           </Button>
         </div>
       </Card>

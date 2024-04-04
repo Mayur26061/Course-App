@@ -41,7 +41,7 @@ function Login() {
         alignItems: "center",
       }}
     >
-      <Typography variant="h6">Login</Typography>
+      <Typography variant="h6">Signin</Typography>
       <br />
       <Card style={{ width: "275px", padding: "20px" }} variant="outlined">
         <form>
@@ -71,12 +71,12 @@ function Login() {
             size="small"
             onClick={handleLogin}
           >
-            Login
+            Signin
           </Button>
         </form>
         <div style={{ marginTop: "10px" }}>
           New user?{" "}
-          <Button onClick={() => navigate("/register")} size="small">
+          <Button onClick={() => navigate("/signup")} size="small">
             Sign up
           </Button>
         </div>

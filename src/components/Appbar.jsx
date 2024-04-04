@@ -39,11 +39,11 @@ const Appbar = () => {
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("/signup")}
               >
                 Sign Up
               </Button>
-              <Button size="small" onClick={() => navigate("/login")}>
+              <Button size="small" onClick={() => navigate("/signin")}>
                 Sign In
               </Button>
             </div>
@@ -61,7 +61,7 @@ const Appbar = () => {
                 variant="contained"
                 onClick={() => {
                   localStorage.setItem("token", null);
-                  window.location = "/login";
+                  window.location = "/signin";
                 }}
               >
                 Logout

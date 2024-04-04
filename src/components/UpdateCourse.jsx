@@ -26,65 +26,59 @@ const UpdateCourse = ({ course, setCourse }) => {
     setCourse(res.data.data);
   };
   return (
-      <Card
-        style={{ width: 500, padding: "20px" }}
-        variant="outlined"
-      >
-        <Typography>Edit Course</Typography>
-        <TextField
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          style={{ marginTop: "10px" }}
-          variant="outlined"
-          label="Title"
-          fullWidth={true}
-        />
-        <TextField
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          fullWidth={true}
-          style={{ marginTop: "10px" }}
-          variant="outlined"
-          label="Description"
-        />
-        <TextField
-          fullWidth={true}
-          value={price}
-          variant="outlined"
-          label="Price"
-          style={{ marginTop: "10px" }}
-          onChange={(e) => setPrice(e.target.value)}
-        />
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginTop: 5,
-          }}
-        >
-          <Switch
-            checked={isPublished}
-            onChange={(e) => setIsPublished(e.target.checked)}
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <Card style={{ maxWidth: 600, marginTop: 200 }} variant="outlined">
+        <div style={{ padding: 20 }}>
+          <Typography style={{ marginBottom: 10 }}>Edit Course</Typography>
+          <TextField
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            style={{ marginBottom: "10px" }}
+            variant="outlined"
+            label="Title"
+            fullWidth={true}
           />
-          <Typography>Published</Typography>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            style={{ margin: 5 }}
-            onClick={() => {
-              update();
+          <TextField
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            fullWidth={true}
+            style={{ marginBottom: "10px" }}
+            variant="outlined"
+            label="Description"
+          />
+          <TextField
+            fullWidth={true}
+            value={price}
+            variant="outlined"
+            label="Price"
+            style={{ marginBottom: "10px" }}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: 5,
             }}
-            variant="contained"
           >
-            Update
-          </Button>
+            <Switch
+              checked={isPublished}
+              onChange={(e) => setIsPublished(e.target.checked)}
+            />
+            <Typography>Published</Typography>
+          </div>
+            <Button
+              style={{ margin: 5 }}
+              onClick={() => {
+                update();
+              }}
+              variant="contained"
+            >
+              Update
+            </Button>
         </div>
       </Card>
+    </div>
   );
 };
 
