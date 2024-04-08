@@ -6,10 +6,14 @@ import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
 import { Grid, Typography } from "@mui/material";
 import { BASE_URL } from "../config";
-
+import { courseState } from "../stores/atoms/course";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { courseLoadingState, courseTitleState } from "../stores/selectors/course";
+import { Loading } from "./Loading";
 const SingleCourse = () => {
   let { cid } = useParams();
-  const [course, setCourse] = useState();
+  const setCourse = useSetRecoilState(courseState);
+  const isLoading = useRecoilValue(courseLoadingState);
   useEffect(() => {
     axios
       .get(`${BASE_URL}/admin/getcourse`, {
@@ -21,21 +25,21 @@ const SingleCourse = () => {
         },
       })
       .then((response) => {
-        setCourse(response.data.course);
+        setCourse({ isLoading: false, course: response.data.course });
       });
   }, []);
-  if (!course) {
-    return <></>;
+  if (isLoading) {
+    return <Loading />;
   }
   return (
     <div>
-      <GrayTopper title={course.title} />
+      <GrayTopper />
       <Grid container>
         <Grid item lg={8} md={12} sm={12}>
-          <UpdateCourse course={course} setCourse={setCourse} />
+          <UpdateCourse />
         </Grid>
         <Grid item lg={4} md={12} sm={12}>
-          <CourseCard course={course} />
+          <CourseCard />
         </Grid>
       </Grid>
     </div>
@@ -44,7 +48,8 @@ const SingleCourse = () => {
 
 export default SingleCourse;
 
-function GrayTopper({ title }) {
+function GrayTopper() {
+  const title = useRecoilValue(courseTitleState);
   return (
     <div
       style={{
@@ -53,7 +58,7 @@ function GrayTopper({ title }) {
         top: 0,
         width: "100vw",
         zIndex: "0",
-        marginBottom:-250
+        marginBottom: -250,
       }}
     >
       <div
@@ -77,44 +82,3 @@ function GrayTopper({ title }) {
     </div>
   );
 }
-
-// return (
-//     <div
-//       style={{
-//         display: "flex",
-//         flexDirection: "column",
-//         justifyContent: "center",
-//       }}
-//     >
-//       {course && (
-//         <div>
-//           <div style={{ display: "flex" }}>
-//             <img
-//               src={course.imageLink}
-//               style={{ width: 900, height: 400 }}
-//               alt=""
-//             />
-//           </div>
-//           <div style={{ display: "flex" }}>
-//             <div>
-//               <Typography variant="h5">{course.title}</Typography>
-//               <Typography>Rs.{course.price}</Typography>
-//             </div>
-//             <div>
-//               <Button variant="outlined" onClick={() => setIsEdit(true)}>
-//                 Edit
-//               </Button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//       {isedit && (
-//         <UpdateCourse
-//           course={course}
-//           setCourse={setCourse}
-//           setIsEdit={setIsEdit}
-//         />
-//       )}
-//     </div>
-//   );
-// };

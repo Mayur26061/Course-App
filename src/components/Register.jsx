@@ -3,10 +3,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
 import { BASE_URL } from "../config";
+import { userState } from "../stores/atoms/user";
+import { useSetRecoilState } from "recoil";
 
 function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const setUser = useSetRecoilState(userState);
+
   const navigate = useNavigate();
   const handleSign = async () => {
     const response = await axios.post(`${BASE_URL}/admin/signup`, {
@@ -15,7 +19,13 @@ function Register() {
     });
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
+      setUser({ isLoading: false, userEmail: email });
       navigate("/courses");
+    } else {
+      setUser({
+        isLoading: false,
+        userEmail: null,
+      });
     }
     setEmail("");
     setPassword("");

@@ -3,29 +3,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../config";
+import { userState } from "../stores/atoms/user";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { userEmailState } from "../stores/selectors/userEmail";
+import { userLoadingState } from "../stores/selectors/isUserLoading";
 const Appbar = () => {
-  const [userEmail, setUserEmail] = useState(null);
-  const [isloading, setIsLoading] = useState(true);
+  const setUser = useSetRecoilState(userState);
+  const userEmail = useRecoilValue(userEmailState);
+  const isLoading = useRecoilValue(userLoadingState);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchme = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/admin/me`, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        });
-        if(res.data.user){
-          setUserEmail(res.data.user);
-        }
-        setIsLoading(false);
-      } catch {
-        console.log("Error");
-      }
-    };
-    fetchme();
-  }, []);
   return (
     <div
       style={{ display: "flex", justifyContent: "space-between", padding: 10 }}
@@ -33,7 +20,7 @@ const Appbar = () => {
       <div>
         <Typography variant="h6">Coursera</Typography>
       </div>
-      {!isloading && (
+      {!isLoading && (
         <div>
           {!userEmail && (
             <div>
@@ -62,7 +49,11 @@ const Appbar = () => {
                 variant="contained"
                 onClick={() => {
                   localStorage.setItem("token", null);
-                  window.location = "/signin";
+                  setUser({
+                    isLoading: false,
+                    userEmail: null,
+                  });
+                  navigate("/signin");
                 }}
               >
                 Logout

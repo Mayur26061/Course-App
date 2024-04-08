@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
 import { BASE_URL } from "../config";
-
+import { userState } from "../stores/atoms/user";
+import { useSetRecoilState } from "recoil";
 /// File is incomplete. You need to add input boxes to take input for users to login.
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const setUser = useSetRecoilState(userState);
 
   const navigate = useNavigate();
   const handleLogin = async () => {
@@ -26,7 +28,11 @@ function Login() {
     } else {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        window.location = "/courses";
+        setUser({
+          isLoading: false,
+          userEmail: email,
+        });
+        navigate("/courses");
       }
     }
     setEmail("");

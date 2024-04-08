@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Landing from "./components/Landing";
@@ -8,14 +9,40 @@ import Appbar from "./components/Appbar";
 import Notfound from "./components/Notfound";
 import SingleCourse from "./components/SingleCourse";
 import "./App.css";
+import { BASE_URL } from "./config";
+import axios from "axios";
+import { userState } from "./stores/atoms/user";
+import { useSetRecoilState } from "recoil";
 
 function App() {
+  const setUser = useSetRecoilState(userState);
+  useEffect(() => {
+    const fetchme = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/admin/me`, {
+          headers: {
+            authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        });
+        if (res.data.user) {
+          setUser({ isLoading: false, userEmail: res.data.user });
+        } else {
+          setUser({ isLoading: false, userEmail: null });
+        }
+      } catch {
+        setUser({ isLoading: false, userEmail: null });
+        console.log("Error");
+      }
+    };
+    fetchme();
+  }, []);
+
   return (
     <div
       style={{ width: "100vw", height: "100vh", backgroundColor: "#eeeeee" }}
     >
       <Router>
-      <Appbar />
+        <Appbar />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signin" element={<Login />} />

@@ -1,19 +1,26 @@
 /* eslint-disable react/prop-types */
 import { Button, Card, Switch, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_URL } from "../config";
+import { courseState } from "../stores/atoms/course";
+import { useRecoilState } from "recoil";
 
-
-const UpdateCourse = ({ course, setCourse }) => {
-  const [title, setTitle] = useState(course.title);
-  const [description, setDescription] = useState(course.description);
-  const [price, setPrice] = useState(course.price);
-  const [isPublished, setIsPublished] = useState(course.published);
-  
+const UpdateCourse = () => {
+  const [course, setCourse] = useRecoilState(courseState);
+  const [title, setTitle] = useState(course.course.title);
+  const [description, setDescription] = useState(course.course.description);
+  const [price, setPrice] = useState(course.course.price);
+  const [isPublished, setIsPublished] = useState(course.course.published);
+useEffect(()=>{
+  setTitle(course.course.title);
+  setDescription(course.course.description);
+  setPrice(course.course.price);
+  setIsPublished(course.course.published);
+},[])
   const update = async () => {
     const res = await axios.put(
-      `${BASE_URL}/admin/courses/${course._id}`,
+      `${BASE_URL}/admin/courses/${course.course._id}`,
       {
         title,
         description,
@@ -26,7 +33,7 @@ const UpdateCourse = ({ course, setCourse }) => {
         },
       }
     );
-    setCourse(res.data.data);
+    setCourse({ isLoading: false, course: res.data.data });
   };
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
@@ -70,15 +77,15 @@ const UpdateCourse = ({ course, setCourse }) => {
             />
             <Typography>Published</Typography>
           </div>
-            <Button
-              style={{ margin: 5 }}
-              onClick={() => {
-                update();
-              }}
-              variant="contained"
-            >
-              Update
-            </Button>
+          <Button
+            style={{ margin: 5 }}
+            onClick={() => {
+              update();
+            }}
+            variant="contained"
+          >
+            Update
+          </Button>
         </div>
       </Card>
     </div>
