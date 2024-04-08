@@ -1,16 +1,18 @@
+/* eslint-disable react/prop-types */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
-import { Button, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { BASE_URL } from "../config";
 
 const SingleCourse = () => {
   let { cid } = useParams();
   const [course, setCourse] = useState();
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin/getcourse", {
+      .get(`${BASE_URL}/admin/getcourse`, {
         headers: {
           authorization: "Bearer " + localStorage.getItem("token"),
         },

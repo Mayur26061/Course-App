@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import Course from "./Courses";
 import { useRecoilState } from "recoil";
 import { coursesState } from "./utils";
+import { BASE_URL } from "../config";
 function ShowCourses() {
   const [courses, setCourses] = useRecoilState(coursesState);
   useEffect(() => {
     axios
-      .get("http://localhost:3000/admin/courses", {
+      .get(`${BASE_URL}/admin/courses`, {
         headers: {
           authorization: "Bearer " + localStorage.getItem("token"),
         },

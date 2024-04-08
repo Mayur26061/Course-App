@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
+import { BASE_URL } from "../config";
 
 /// File is incomplete. You need to add input boxes to take input for users to login.
 function Login() {
@@ -11,7 +12,7 @@ function Login() {
   const navigate = useNavigate();
   const handleLogin = async () => {
     const response = await axios.post(
-      "http://localhost:3000/admin/login",
+      `${BASE_URL}/admin/login`,
       {},
       {
         headers: {

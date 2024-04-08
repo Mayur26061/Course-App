@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../config";
 const Appbar = () => {
   const [userEmail, setUserEmail] = useState(null);
   const [isloading, setIsLoading] = useState(true);
@@ -10,7 +11,7 @@ const Appbar = () => {
   useEffect(() => {
     const fetchme = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/admin/me", {
+        const res = await axios.get(`${BASE_URL}/admin/me`, {
           headers: {
             authorization: "Bearer " + localStorage.getItem("token"),
           },

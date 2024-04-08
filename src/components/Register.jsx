@@ -2,14 +2,14 @@ import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
+import { BASE_URL } from "../config";
 
-/// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const navigate = useNavigate();
   const handleSign = async () => {
-    const response = await axios.post("http://localhost:3000/admin/signup", {
+    const response = await axios.post(`${BASE_URL}/admin/signup`, {
       username: email,
       password,
     });

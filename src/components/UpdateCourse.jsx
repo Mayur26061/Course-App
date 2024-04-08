@@ -2,15 +2,18 @@
 import { Button, Card, Switch, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
+import { BASE_URL } from "../config";
+
 
 const UpdateCourse = ({ course, setCourse }) => {
   const [title, setTitle] = useState(course.title);
   const [description, setDescription] = useState(course.description);
   const [price, setPrice] = useState(course.price);
   const [isPublished, setIsPublished] = useState(course.published);
+  
   const update = async () => {
     const res = await axios.put(
-      `http://localhost:3000/admin/courses/${course._id}`,
+      `${BASE_URL}/admin/courses/${course._id}`,
       {
         title,
         description,

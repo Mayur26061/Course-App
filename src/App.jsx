@@ -8,17 +8,12 @@ import Appbar from "./components/Appbar";
 import Notfound from "./components/Notfound";
 import SingleCourse from "./components/SingleCourse";
 import "./App.css";
-import { RecoilRoot } from "recoil";
-// This file shows how you can do routing in React.
-// Try going to /login, /register, /about, /courses on the website and see how the html changes
-// based on the route.
-// You can also try going to /random and see what happens (a route that doesnt exist)
+
 function App() {
   return (
     <div
       style={{ width: "100vw", height: "100vh", backgroundColor: "#eeeeee" }}
     >
-      <RecoilRoot>
       <Router>
       <Appbar />
         <Routes>
@@ -31,7 +26,6 @@ function App() {
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
-      </RecoilRoot>
     </div>
   );
 }
