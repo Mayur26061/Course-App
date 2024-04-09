@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
@@ -8,13 +8,17 @@ import { Grid, Typography } from "@mui/material";
 import { BASE_URL } from "../config";
 import { courseState } from "../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { courseLoadingState, courseTitleState } from "../stores/selectors/course";
+import {
+  courseLoadingState,
+  courseTitleState,
+} from "../stores/selectors/course";
 import { Loading } from "./Loading";
 const SingleCourse = () => {
   let { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);
   const isLoading = useRecoilValue(courseLoadingState);
   useEffect(() => {
+    setCourse({ isLoading: true, course: null });
     axios
       .get(`${BASE_URL}/admin/getcourse`, {
         headers: {

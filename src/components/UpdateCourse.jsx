@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Button, Card, Switch, TextField, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BASE_URL } from "../config";
 import { courseState } from "../stores/atoms/course";
 import { useRecoilState } from "recoil";
@@ -12,12 +12,6 @@ const UpdateCourse = () => {
   const [description, setDescription] = useState(course.course.description);
   const [price, setPrice] = useState(course.course.price);
   const [isPublished, setIsPublished] = useState(course.course.published);
-useEffect(()=>{
-  setTitle(course.course.title);
-  setDescription(course.course.description);
-  setPrice(course.course.price);
-  setIsPublished(course.course.published);
-},[])
   const update = async () => {
     const res = await axios.put(
       `${BASE_URL}/admin/courses/${course.course._id}`,

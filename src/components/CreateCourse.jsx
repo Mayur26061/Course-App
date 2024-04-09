@@ -8,6 +8,7 @@ function CreateCourse() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [isPublished, setIsPublished] = useState(true);
+  const [imageLink, setImageLink] = useState("")
 
   const createCourse = async () => {
     let course = {
@@ -15,6 +16,7 @@ function CreateCourse() {
       description,
       price,
       published: isPublished,
+      imageLink
     };
     const res = await axios.post(
       `${BASE_URL}/admin/courses`,
@@ -62,8 +64,16 @@ function CreateCourse() {
           fullWidth={true}
           value={price}
           variant="outlined"
+          style={{ marginBottom: "10px" }}
           label="Price"
           onChange={(e) => setPrice(e.target.value)}
+        />
+        <TextField
+          fullWidth={true}
+          value={imageLink}
+          variant="outlined"
+          label="Image Link"
+          onChange={(e) => setImageLink(e.target.value)}
         />
         <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
           <Switch

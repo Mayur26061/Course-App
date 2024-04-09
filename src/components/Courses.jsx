@@ -13,7 +13,7 @@ function Course(props) {
           <Typography gutterBottom variant="h5" component="div">
             {props.course.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography sx={{height:20}} style={{overflow:"hidden",textOverflow:"ellipsis", whiteSpace:"nowrap"}} variant="body2" color="text.secondary">
             {props.course.description}
           </Typography>
         <CardMedia
