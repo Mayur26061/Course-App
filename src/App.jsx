@@ -13,6 +13,7 @@ import { BASE_URL } from "./config";
 import axios from "axios";
 import { userState } from "./stores/atoms/user";
 import { useSetRecoilState } from "recoil";
+import SingleContent from "./components/SingleContent";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -39,7 +40,13 @@ function App() {
 
   return (
     <div
-      style={{ width: "100vw", height: "100vh", backgroundColor: "#eeeeee" }}
+      style={{
+        width: "100%",
+        height: "100vh",
+        backgroundColor: "#eeeeee",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       <Router>
         <Appbar />
@@ -50,6 +57,7 @@ function App() {
           <Route path="/createcourse" element={<CreateCourse />} />
           <Route path="/courses" element={<ShowCourses />} />
           <Route path="/course/:cid" element={<SingleCourse />} />
+          <Route path="/course/:co/content/:cid" element={<SingleContent />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
