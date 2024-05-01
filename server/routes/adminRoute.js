@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const express = require("express");
 const router = express.Router()
-const { Admin, Course } = require("../db/schema")
+const { Admin, Course, Content } = require("../db/schema")
 const { generateToken, AuthenticateUser } = require("../middleware/auth")
 
 router.post("/signup", async (req, res) => {
@@ -78,7 +78,7 @@ router.get("/courses", AuthenticateUser, async (req, res) => {
 });
 
 router.get("/getcourse", AuthenticateUser, async (req, res) => {
-    const course = await Course.findById(req.query.courseId)
+    const course = await Course.findById(req.query.courseId).populate('content')
     if (!course) {
         return res.status(500).send({ error: "Something went wrong" })
     }
@@ -87,5 +87,37 @@ router.get("/getcourse", AuthenticateUser, async (req, res) => {
 
 router.get("/me", AuthenticateUser, async (req, res) => {
     res.send({ user: req.user })
+})
+router.post("/:courseId/content", AuthenticateUser, async (req, res) => {
+    const course = await Course.findById(req.params.courseId);
+    if (!course) {
+        return res.status(500).send({ error: "Something went wrong" })
+    }
+    const co = {
+        title: req.body.title,
+        description: req.body.description,
+        type: req.body.type,
+        url: req.body.url,
+        preview: req.body.preview || false,
+        published: req.body.preview || true,
+        courses: course._id
+    }
+    const content = await Content.create(co);
+    course.content.push(content);
+    await course.save()
+    res.send({ cont: content })
+})
+router.put("/content/:contentId", AuthenticateUser, async (req, res) => {
+    const content = await Content.findByIdAndUpdate(
+        req.params.contentId,
+        req.body,
+        {
+            new: true,
+        });
+    res.send({ cont: content })
+})
+router.get("/content/:contentId", AuthenticateUser, async (req, res) => {
+    const content = await Content.findById(req.params.contentId);
+    res.send({ cont: content })
 })
 module.exports = router

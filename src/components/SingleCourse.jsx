@@ -13,6 +13,7 @@ import {
   courseTitleState,
 } from "../stores/selectors/course";
 import { Loading } from "./Loading";
+import ContentSection from "./ContentSection";
 const SingleCourse = () => {
   let { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);
@@ -29,6 +30,7 @@ const SingleCourse = () => {
         },
       })
       .then((response) => {
+        // console.log(response.data.course)
         setCourse({ isLoading: false, course: response.data.course });
       });
   }, []);
@@ -36,7 +38,7 @@ const SingleCourse = () => {
     return <Loading />;
   }
   return (
-    <div>
+    <div style={{backgroundColor: "rgb(238, 238, 238)"}}>
       <GrayTopper />
       <Grid container>
         <Grid item lg={8} md={12} sm={12}>
@@ -46,6 +48,7 @@ const SingleCourse = () => {
           <CourseCard />
         </Grid>
       </Grid>
+      <ContentSection/>
     </div>
   );
 };
@@ -60,7 +63,7 @@ function GrayTopper() {
         height: 250,
         background: "#212121",
         top: 0,
-        width: "100vw",
+        width: "100%",
         zIndex: "0",
         marginBottom: -250,
       }}
