@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Button, Card } from "@mui/material";
+import { Button } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../config";
-import { validateContent } from "./utils";
 
 const SingleContent = () => {
   const { co, cid } = useParams();
@@ -33,7 +32,7 @@ const SingleContent = () => {
         }}
       >
         <div style={{ position: "absolute" }}>
-          <Link to={`/course/${co}`}>
+          <Link to={`/admin/course/${co}`}>
             <Button variant="contained">&lt; Back to Course</Button>
           </Link>
         </div>

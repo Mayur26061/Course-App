@@ -22,10 +22,10 @@ function Landing() {
               </Typography>
               {!userEmail && (
                 <div style={{ padding: 5 }}>
-                  <Link style={{ margin: 2 }} to={"/signup"}>
+                  <Link style={{ margin: 2 }} to={"/admin/signup"}>
                     <Button variant="contained">Signup</Button>
                   </Link>
-                  <Link style={{ margin: 2 }} to={"/signin"}>
+                  <Link style={{ margin: 2 }} to={"/admin/signin"}>
                     <Button variant="contained">Signin</Button>
                   </Link>
                 </div>

@@ -20,7 +20,7 @@ function Register() {
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
       setUser({ isLoading: false, userEmail: email });
-      navigate("/courses");
+      navigate("/admin/courses");
     } else {
       setUser({
         isLoading: false,
@@ -74,7 +74,7 @@ function Register() {
         </Button>
         <div style={{ marginTop: "10px" }}>
           Already a user?{" "}
-          <Button onClick={() => navigate("/signin")} size="small">
+          <Button onClick={() => navigate("/admin/signin")} size="small">
             Signin
           </Button>
         </div>

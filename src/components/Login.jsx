@@ -32,7 +32,7 @@ function Login() {
           isLoading: false,
           userEmail: email,
         });
-        navigate("/courses");
+        navigate("/admin/courses");
       }
     }
     setEmail("");
@@ -83,7 +83,7 @@ function Login() {
         </form>
         <div style={{ marginTop: "10px" }}>
           New user?{" "}
-          <Button onClick={() => navigate("/signup")} size="small">
+          <Button onClick={() => navigate("/admin/signup")} size="small">
             Sign up
           </Button>
         </div>

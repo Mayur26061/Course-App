@@ -14,6 +14,7 @@ import axios from "axios";
 import { userState } from "./stores/atoms/user";
 import { useSetRecoilState } from "recoil";
 import SingleContent from "./components/SingleContent";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -51,13 +52,21 @@ function App() {
       <Router>
         <Appbar />
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/signin" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
-          <Route path="/createcourse" element={<CreateCourse />} />
-          <Route path="/courses" element={<ShowCourses />} />
-          <Route path="/course/:cid" element={<SingleCourse />} />
-          <Route path="/course/:co/content/:cid" element={<SingleContent />} />
+          <Route path="/admin">
+            <Route index element={<Landing />} />
+            <Route exact path="signin" element={<Login />} />
+            <Route exact path="signup" element={<Register />} />
+            <Route exact path="createcourse" element={<CreateCourse />} />
+            <Route exact path="courses" element={<ShowCourses />} />
+            <Route exact path="course/:cid" element={<SingleCourse />} />
+            <Route
+              exact
+              path="course/:co/content/:cid"
+              element={<SingleContent />}
+            />
+            <Route exact path="*" element={<Notfound />} />
+          </Route>
+          <Route index element={<Navigate to="/admin" replace />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>

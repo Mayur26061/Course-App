@@ -24,7 +24,7 @@ function Course(props) {
           style={{marginTop:5}}
         />
           <div style={{'marginTop':20}}>
-          <Button onClick={()=>{navigate(`/course/${props.course._id}`)}} size="small" variant="contained">Edit</Button>
+          <Button onClick={()=>{navigate(`/admin/course/${props.course._id}`)}} size="small" variant="contained">Edit</Button>
           </div>
         </CardContent>
       </Card>

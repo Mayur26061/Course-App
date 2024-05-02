@@ -1,12 +1,10 @@
 import { Button, Typography } from "@mui/material";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../config";
 import { userState } from "../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userEmailState } from "../stores/selectors/userEmail";
 import { userLoadingState } from "../stores/selectors/isUserLoading";
+
 const Appbar = () => {
   const setUser = useSetRecoilState(userState);
   const userEmail = useRecoilValue(userEmailState);
@@ -27,21 +25,21 @@ const Appbar = () => {
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/admin/signup")}
               >
                 Sign Up
               </Button>
-              <Button size="small" onClick={() => navigate("/signin")}>
+              <Button size="small" onClick={() => navigate("/admin/signin")}>
                 Sign In
               </Button>
             </div>
           )}
           {userEmail && (
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Button onClick={() => navigate("/createcourse")} variant="text">
+              <Button onClick={() => navigate("/admin/createcourse")} variant="text">
                 Add Course
               </Button>
-              <Button onClick={() => navigate("/courses")} variant="text">
+              <Button onClick={() => navigate("/admin/courses")} variant="text">
                 Courses
               </Button>
               <Button
@@ -53,7 +51,7 @@ const Appbar = () => {
                     isLoading: false,
                     userEmail: null,
                   });
-                  navigate("/signin");
+                  navigate("/admin/signin");
                 }}
               >
                 Logout
