@@ -33,7 +33,7 @@ router.post("/login", async (req, res) => {
   res.status(401).send({ error: "User not found" });
 });
 
-router.get("/courses", AuthenticateUser, async (req, res) => {
+router.get("/courses", async (req, res) => {
   // logic to list all courses
   const course = await Course.find({ published: true })
   res.send({ courses: course });
