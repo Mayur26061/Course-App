@@ -10,13 +10,13 @@ const generateToken = (target) => {
 
 const AuthenticateUser = (req, res, next) => {
     const { authorization } = req.headers;
-    console.log(authorization)
     if (authorization) {
         let token = authorization.split(" ")[1];
         jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, data) => {
             if (err) {
                 return res.status(403).send({ error: "Forbidden" });
             }
+            console.log(data.username)
             req.user = data.username;
             next();
         });
