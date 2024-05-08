@@ -28,7 +28,6 @@ export default function CreateContent({ handleClose, open }) {
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [url, setUrl] = useState("");
-  const [preview, setPreivew] = useState(true);
   const [published, setPublished] = useState(true);
   let { cid } = useParams();
   const onCloses = () => {
@@ -37,7 +36,6 @@ export default function CreateContent({ handleClose, open }) {
     setDescription("");
     setType("");
     setUrl("");
-    setPreivew(true);
     setPublished(true);
   };
   const createContent = async () => {
@@ -46,7 +44,6 @@ export default function CreateContent({ handleClose, open }) {
       description,
       type,
       url,
-      preview,
       published,
     };
     if (title && type && url && validateContent(contentobj)) {
@@ -62,7 +59,6 @@ export default function CreateContent({ handleClose, open }) {
       if (response.data.error) {
         console.log(response.data.error);
       } else {
-        console.log(response.data.cont);
         setCourse((old) => ({
           ...old,
           course: {
@@ -119,11 +115,6 @@ export default function CreateContent({ handleClose, open }) {
           onChange={(e) => setUrl(e.target.value)}
         />
         <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
-          <Typography>Preview</Typography>
-          <Switch
-            checked={preview}
-            onChange={(e) => setPreivew(e.target.checked)}
-          />
           <Typography>Published</Typography>
           <Switch
             checked={published}

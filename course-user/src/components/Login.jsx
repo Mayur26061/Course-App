@@ -5,17 +5,13 @@ import { Button, TextField, Card, Typography } from "@mui/material";
 import { BASE_URL } from "./config";
 import { userState } from "../stores/atoms/user";
 import { useSetRecoilState } from "recoil";
-import { useRecoilState } from "recoil";
-import { redirectState } from "../stores/atoms/redirect";
 
 function Login() {
-  const [redirect, setRedirect] = useRecoilState(redirectState);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const course = searchParams.get('courseId')
   const handleLogin = async () => {
     const response = await axios.post(
       `${BASE_URL}/users/login`,
@@ -36,8 +32,8 @@ function Login() {
           isLoading: false,
           userEmail: response.data.user,
         });
-        if (searchParams.get('courseId')) {
-          navigate(`/course/${searchParams.get('courseId')}`);
+        if (searchParams.get("courseId")) {
+          navigate(`/course/${searchParams.get("courseId")}`);
         } else {
           navigate("/courses");
         }

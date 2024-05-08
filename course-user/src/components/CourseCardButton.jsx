@@ -2,8 +2,7 @@ import { Button } from "@mui/material";
 import React from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userEmailState } from "../stores/selectors/userEmail";
-import { userLoadingState } from "../stores/selectors/isUserLoading";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { userState } from "../stores/atoms/user";
 import axios from "axios";
 import { BASE_URL } from "./config";
@@ -38,12 +37,10 @@ const CourseCardButton = () => {
       } else {
         setUser({ isLoading: false, userEmail });
       }
-      console.log(res);
     } catch (err) {
       setUser({ isLoading: false, userEmail });
     }
   };
-  console.log(user.userEmail)
 
   return (
     <>

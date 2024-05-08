@@ -84,8 +84,12 @@ router.get("/course/:cid",async(req, res)=>{
 })
 
 router.get("/me", AuthenticateUser, async (req, res) => {
-  console.log(req.user)
-  res.send({ user: req.user })
+  const isExist = await User.findById(req.user._id)
+  if (!isExist){
+    return res.status(404).send({error:"User not found"});
+
+  }
+  res.send({ user: isExist })
 })
 
 module.exports = router

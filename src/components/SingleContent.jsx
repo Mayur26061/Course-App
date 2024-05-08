@@ -15,7 +15,6 @@ const SingleContent = () => {
           authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-      console.log(res.data.cont);
       setContent(res.data.cont);
     }
     fetchContent();

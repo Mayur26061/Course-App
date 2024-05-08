@@ -13,7 +13,6 @@ import {
 } from "../stores/selectors/course";
 import { Loading } from "./Loading";
 import ContentSection from "./ContentSection";
-import { userEmailState } from "../stores/selectors/userEmail";
 
 const SingleCourse = () => {
   let { cid } = useParams();

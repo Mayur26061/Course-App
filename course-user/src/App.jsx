@@ -1,18 +1,18 @@
 import { useState,useEffect } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Notfound from './src/components/Notfound';
-import Appbar from './src/components/Appbar';
-import ShowCourses from './src/components/ShowCourses';
+import Notfound from './components/Notfound';
+import Appbar from './components/Appbar';
+import ShowCourses from './components/ShowCourses';
 import { Navigate } from "react-router-dom";
-import SingleCourse from './src/components/SingleCourse';
-import Register from './src/components/Register';
-import Login from './src/components/Login';
+import SingleCourse from './components/SingleCourse';
+import Register from './components/Register';
+import Login from './components/Login';
 import { useSetRecoilState } from 'recoil';
-import { userState } from './src/stores/atoms/user';
+import { userState } from './stores/atoms/user';
 import axios from 'axios';
 import { BASE_URL } from './config';
-import SingleContent from './src/components/SingleContent';
+import SingleContent from './components/SingleContent';
 function App() {
   const setUser = useSetRecoilState(userState);
   useEffect(() => {
@@ -23,7 +23,6 @@ function App() {
             authorization: "Bearer " + localStorage.getItem("client-token"),
           },  
         });
-        console.log(res.statusText)
         if (res.data.user) {
           setUser({ isLoading: false, userEmail: res.data.user });
         } else {

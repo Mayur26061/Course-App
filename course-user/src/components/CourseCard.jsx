@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Button, Card, Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { useRecoilValue } from "recoil";
 import {
   courseImageState,
@@ -9,7 +9,7 @@ import {
 import CourseCardButton from "./CourseCardButton";
 const CourseCard = () => {
   const title = useRecoilValue(courseTitleState);
- 
+
   const imageLink = useRecoilValue(courseImageState);
   return (
     <div
@@ -38,16 +38,16 @@ const CourseCard = () => {
             Price
           </Typography>
           <Typography variant="subtitle1">
-            <PriceCard/>
+            <PriceCard />
           </Typography>
-        <CourseCardButton/>
+          <CourseCardButton />
         </div>
       </Card>
     </div>
   );
 };
 const PriceCard = () => {
-    const price = useRecoilValue(coursePriceState);
-    return <b>Rs {price}</b>
+  const price = useRecoilValue(coursePriceState);
+  return <b>Rs {price}</b>;
 };
 export default CourseCard;

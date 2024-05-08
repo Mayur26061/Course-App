@@ -30,7 +30,6 @@ const SingleCourse = () => {
         },
       })
       .then((response) => {
-        // console.log(response.data.course)
         setCourse({ isLoading: false, course: response.data.course });
       });
   }, []);

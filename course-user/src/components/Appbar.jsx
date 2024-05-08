@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userState } from "../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userEmailState } from "../stores/selectors/userEmail";
@@ -12,12 +12,18 @@ const Appbar = () => {
   const navigate = useNavigate();
   return (
     <div
-      style={{ display: "flex", justifyContent: "space-between", padding: 10 }}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: 10,
+        position: "sticky",
+        top: "0",
+        background: "#eeeeee",
+        zIndex: 100,
+      }}
     >
-      <div onClick={()=>navigate('/')}>
-          <Typography variant="h6">
-            Coursera
-            </Typography>
+      <div onClick={() => navigate("/")}>
+        <Typography variant="h6">Coursera</Typography>
       </div>
       {!isLoading && (
         <div>
@@ -34,7 +40,7 @@ const Appbar = () => {
                 Sign In
               </Button>
             </div>
-          )} 
+          )}
           {userEmail && (
             <div style={{ display: "flex", alignItems: "center" }}>
               <Button
@@ -51,10 +57,10 @@ const Appbar = () => {
               >
                 Logout
               </Button>
-          </div>
+            </div>
           )}
         </div>
-      )} 
+      )}
     </div>
   );
 };

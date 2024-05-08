@@ -16,7 +16,6 @@ const AuthenticateUser = (req, res, next) => {
             if (err) {
                 return res.status(403).send({ error: "Forbidden" });
             }
-            console.log(data.username)
             req.user = data.username;
             next();
         });

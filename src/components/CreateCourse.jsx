@@ -27,7 +27,6 @@ function CreateCourse() {
         },
       }
     );
-    // console.log(res.data);
     setTitle("");
     setDescription("");
     setPrice(0);
