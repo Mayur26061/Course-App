@@ -26,40 +26,57 @@ const Appbar = () => {
         <Typography variant="h6">Coursera</Typography>
       </div>
       {!isLoading && (
-        <div>
-          {!userEmail && (
+        <>
+          <div>
             <div>
-              <Button
-                size="small"
-                variant="contained"
-                onClick={() => navigate("/signup")}
-              >
-                Sign Up
-              </Button>
-              <Button size="small" onClick={() => navigate("/signin")}>
-                Sign In
-              </Button>
-            </div>
-          )}
-          {userEmail && (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Button
-                size="small"
-                variant="contained"
-                onClick={() => {
-                  localStorage.setItem("client-token", null);
-                  setUser({
-                    isLoading: false,
-                    userEmail: null,
-                  });
-                  navigate("/signin");
+              <a
+                style={{
+                  margin: 20,
+                  padding: "4px 10px",
+                  textDecoration: "none",
+                  fontSize: "1rem",
+                  letterSpacing: "0.1em",
+                  color: "#1976d2",
+                  border: "solid 1px #1976d2",
                 }}
+                href="http://localhost:8000/"
+                target="_blank"
               >
-                Logout
-              </Button>
+                Be an Instrutor
+              </a>
+              {!userEmail && (
+                <>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    onClick={() => navigate("/signup")}
+                  >
+                    Sign Up
+                  </Button>
+                  <Button size="small" onClick={() => navigate("/signin")}>
+                    Sign In
+                  </Button>
+                </>
+              )}
+            {userEmail && (
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => {
+                    localStorage.setItem("client-token", null);
+                    setUser({
+                      isLoading: false,
+                      userEmail: null,
+                    });
+                    navigate("/signin");
+                  }}
+                >
+                  Logout
+                </Button>
+            )}
             </div>
-          )}
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
