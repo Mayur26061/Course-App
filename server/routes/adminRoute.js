@@ -45,6 +45,7 @@ router.post("/courses", AuthenticateUser, async (req, res) => {
         imageLink: req.body.imageLink || "",
         published: req.body.published || false,
     };
+    console.log(req.user)
     const newCourse = await Course.create(course);
 
     res.send({
@@ -98,8 +99,7 @@ router.post("/:courseId/content", AuthenticateUser, async (req, res) => {
         description: req.body.description,
         type: req.body.type,
         url: req.body.url,
-        preview: req.body.preview || false,
-        published: req.body.preview || true,
+        published: req.body.published || true,
         courses: course._id
     }
     const content = await Content.create(co);

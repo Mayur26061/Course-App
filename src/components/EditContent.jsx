@@ -25,7 +25,6 @@ export default function EditContent({ handleClose, open, content }) {
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.url);
-  const [preview, setPreivew] = useState(content.preview);
   const [published, setPublished] = useState(content.published);
 
   const onCloses = (ev) => {
@@ -35,7 +34,6 @@ export default function EditContent({ handleClose, open, content }) {
     setDescription(content.description);
     setType(content.type);
     setUrl(content.url);
-    setPreivew(content.preview);
     setPublished(content.published);
   };
   const editContent = async () => {
@@ -44,7 +42,6 @@ export default function EditContent({ handleClose, open, content }) {
       description,
       type,
       url,
-      preview,
       published,
     };
     if (title && type && url) {
@@ -61,7 +58,6 @@ export default function EditContent({ handleClose, open, content }) {
         console.log(response.data.error);
         handleClose();
       } else {
-        console.log(response.data.cont);
         handleClose();
       }
     }
@@ -69,7 +65,6 @@ export default function EditContent({ handleClose, open, content }) {
     setDescription("");
     setType("");
     setUrl("");
-    setPreivew(true);
     setPublished(true);
     console.log("Please fill the required details");
     handleClose();
@@ -116,13 +111,6 @@ export default function EditContent({ handleClose, open, content }) {
           label="URL"
           onChange={(e) => setUrl(e.target.value)}
         />
-        <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
-          <Typography>Preview</Typography>
-          <Switch
-            checked={preview}
-            onChange={(e) => setPreivew(e.target.checked)}
-          />
-        </div>
         <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
           <Typography>Published</Typography>
           <Switch

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const users = new mongoose.Schema({
     username: String,
     password: String,
-    purchaseCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course', unique: true }]
+    purchaseCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course'}]
 })
 const admins = new mongoose.Schema({
     username: String,
@@ -22,7 +22,6 @@ const content = new mongoose.Schema({
     description:String,
     type: String,
     url: String,
-    preview: Boolean,
     published: Boolean,
     courses: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' }
 

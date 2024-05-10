@@ -13,7 +13,14 @@ const Appbar = () => {
 
   return (
     <div
-      style={{ display: "flex", justifyContent: "space-between", padding: 10 }}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: 10,
+        position: "sticky",
+        top: "0",
+        background: "#eeeeee",
+      }}
     >
       <div>
         <Typography variant="h6">Coursera</Typography>
