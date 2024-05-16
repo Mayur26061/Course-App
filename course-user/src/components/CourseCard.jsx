@@ -15,14 +15,13 @@ const CourseCard = () => {
     <div
       style={{
         display: "flex",
-        marginTop: 50,
+        marginTop: 200,
         justifyContent: "center",
         width: "100%",
       }}
     >
       <Card
         style={{
-          marginTop: 50,
           width: 350,
           minHeight: 200,
           borderRadius: 20,

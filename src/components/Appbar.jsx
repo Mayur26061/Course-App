@@ -23,7 +23,7 @@ const Appbar = () => {
       }}
     >
       <div>
-        <Typography variant="h6">Coursera</Typography>
+        <Typography variant="h6">SmartLearn</Typography>
       </div>
       {!isLoading && (
         <div>

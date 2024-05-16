@@ -61,10 +61,6 @@ function App() {
           path="course/:co/content/:cid"
           element={<SingleContent />}
         />
-
-          {/* <Route index element={} />
-          <Route exact path="createcourse" element={<CreateCourse />} />
-          <Route exact path="*" element={<Notfound />} /> */}
         </Route>
         <Route path="*" element={<Notfound />} />
       </Routes>
