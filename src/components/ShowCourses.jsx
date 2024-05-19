@@ -24,9 +24,7 @@ function ShowCourses() {
 
   return (
     <div>
-      <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "center",backgroundColor: "rgb(238, 238, 238)" }}
-      >
+      <div className="flex justify-center flex-wrap">
         {courses && courses.map((c) => <Course key={c._id} course={c} />)}
       </div>
     </div>

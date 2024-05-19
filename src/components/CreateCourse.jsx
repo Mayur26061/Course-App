@@ -8,7 +8,7 @@ function CreateCourse() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [isPublished, setIsPublished] = useState(true);
-  const [imageLink, setImageLink] = useState("")
+  const [imageLink, setImageLink] = useState("");
 
   const createCourse = async () => {
     let course = {
@@ -16,37 +16,29 @@ function CreateCourse() {
       description,
       price,
       published: isPublished,
-      imageLink
+      imageLink,
     };
-    const res = await axios.post(
-      `${BASE_URL}/admin/courses`,
-      course,
-      {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.post(`${BASE_URL}/admin/courses`, course, {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    });
     setTitle("");
     setDescription("");
     setPrice(0);
     setIsPublished(true);
   };
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
+    <div className="flex flex-col justify-center items-center p-5">
       <Typography variant="h4">Create Course Page</Typography>
-      <Card style={{ width: 500, padding: "20px" }} variant="outlined">
+      <Card
+        className="p-5 w-full sm:w-3/5 md:w-3/5 lg:w-2/5"
+        variant="outlined"
+      >
         <TextField
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           variant="outlined"
           label="Title"
           fullWidth={true}
@@ -55,7 +47,7 @@ function CreateCourse() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           fullWidth={true}
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           variant="outlined"
           label="Description"
         />
@@ -63,7 +55,7 @@ function CreateCourse() {
           fullWidth={true}
           value={price}
           variant="outlined"
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           label="Price"
           onChange={(e) => setPrice(e.target.value)}
         />
@@ -74,7 +66,7 @@ function CreateCourse() {
           label="Image Link"
           onChange={(e) => setImageLink(e.target.value)}
         />
-        <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
+        <div className="flex items-center mt-1.5">
           <Switch
             checked={isPublished}
             onChange={(e) => setIsPublished(e.target.checked)}

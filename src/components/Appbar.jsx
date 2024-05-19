@@ -12,16 +12,7 @@ const Appbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: 10,
-        position: "sticky",
-        top: "0",
-        background: "#eeeeee",
-      }}
-    >
+    <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
       <div>
         <Typography variant="h6">SmartLearn</Typography>
       </div>
@@ -42,8 +33,11 @@ const Appbar = () => {
             </div>
           )}
           {userEmail && (
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <Button onClick={() => navigate("/admin/createcourse")} variant="text">
+            <div className="flex items-center">
+              <Button
+                onClick={() => navigate("/admin/createcourse")}
+                variant="text"
+              >
                 Add Course
               </Button>
               <Button onClick={() => navigate("/admin/courses")} variant="text">

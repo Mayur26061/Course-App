@@ -30,14 +30,14 @@ const UpdateCourse = () => {
     setCourse({ isLoading: false, course: res.data.data });
   };
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card style={{ maxWidth: 600, marginTop: 200 }} variant="outlined">
-        <div style={{ padding: 20 }}>
-          <Typography style={{ marginBottom: 10 }}>Edit Course</Typography>
+    <div className="flex justify-center">
+      <Card className="mt-52 max-w-600" variant="outlined">
+        <div className="p-5">
+          <Typography className="!mb-2.5">Edit Course</Typography>
           <TextField
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            style={{ marginBottom: "10px" }}
+            className="!mb-2.5"
             variant="outlined"
             label="Title"
             fullWidth={true}
@@ -46,7 +46,7 @@ const UpdateCourse = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             fullWidth={true}
-            style={{ marginBottom: "10px" }}
+            className="!mb-2.5"
             variant="outlined"
             label="Description"
           />
@@ -55,16 +55,10 @@ const UpdateCourse = () => {
             value={price}
             variant="outlined"
             label="Price"
-            style={{ marginBottom: "10px" }}
+            className="!mb-2.5"
             onChange={(e) => setPrice(e.target.value)}
           />
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: 5,
-            }}
-          >
+          <div className="flex items-center">
             <Switch
               checked={isPublished}
               onChange={(e) => setIsPublished(e.target.checked)}
@@ -72,7 +66,7 @@ const UpdateCourse = () => {
             <Typography>Published</Typography>
           </div>
           <Button
-            style={{ margin: 5 }}
+            className="!m-1.5"
             onClick={() => {
               update();
             }}

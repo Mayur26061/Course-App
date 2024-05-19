@@ -5,8 +5,8 @@ export const coursesState = atom({
   default: "",
 });
 export const validateContent = (content) => {
-  const checkDocumentAccess = (urlsub)=>{
-    return ['preview', 'view', 'edit'].some((e)=> urlsub.startsWith(e))
+  const checkDocumentAccess = (urlsub) => {
+    return ['preview', 'view', 'edit'].some((e) => urlsub.startsWith(e))
   }
   if (content.type === "video" && content.url.startsWith("https://youtu.be/")) {
     let url = content.url;
@@ -32,4 +32,14 @@ export const validateContent = (content) => {
     return true
   }
   return false;
+};
+export const boxStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  width: 500,
+  transform: "translate(-50%, -50%)",
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 4,
 };

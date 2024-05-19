@@ -14,19 +14,14 @@ const Content = ({ content }) => {
     setOpen(false);
   };
   return (
-    <Card style={{ marginTop: 5 }}>
+    <Card className="mt-1.5">
       <div
-        style={{
-          display: "flex",
-          alignItems: "baseline",
-          justifyContent: "space-between",
-          padding: 2,
-        }}
+        className="flex items-baseline justify-between p-0.5"
         onClick={() => {
           navigate(`content/${content._id}`);
         }}
       >
-        <div style={{ paddingLeft: 5 }}>
+        <div className="pl-1.5">
           <Typography>{content.title}</Typography>
         </div>
         <Button onClick={handleOpen}>Edit</Button>

@@ -12,14 +12,12 @@ const ContentSection = () => {
   const handleClose = () => setOpen(false);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <Card
-        style={{ marginTop: 30, padding: 10, width: "100%", maxWidth: 600 }}
-      >
+    <div className="flex justify-center">
+      <Card className="mt-9 p-2.5 w-full max-w-xl">
         {content && content.map((c) => <Content key={c._id} content={c} />)}
         <Button onClick={handleOpen}>Add a Content</Button>
       </Card>
-      <CreateContent handleClose={handleClose} open={open}/>
+      <CreateContent handleClose={handleClose} open={open} />
     </div>
   );
 };

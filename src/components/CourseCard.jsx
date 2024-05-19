@@ -8,36 +8,19 @@ import {
 } from "../stores/selectors/course";
 const CourseCard = () => {
   const title = useRecoilValue(courseTitleState);
- 
+
   const imageLink = useRecoilValue(courseImageState);
   return (
-    <div
-      style={{
-        display: "flex",
-        marginTop: 50,
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
-      <Card
-        style={{
-          marginTop: 50,
-          width: 350,
-          minHeight: 200,
-          borderRadius: 20,
-          marginRight: 50,
-          paddingBottom: 15,
-          zIndex: 2,
-        }}
-      >
-        <img src={imageLink} style={{ width: 350 }} alt="img" />
-        <div style={{ marginLeft: 10 }}>
+    <div className="flex mt-24 justify-center w-full">
+      <Card className="w-350 min-h-52 z-10 mr-12 !rounded-2xl pb-4">
+        <img src={imageLink} className="w-full" alt="img" />
+        <div className="ml-2.5">
           <Typography variant="h5">{title}</Typography>
-          <Typography variant="subtitle2" style={{ color: "gray" }}>
+          <Typography variant="subtitle2" className="text-gray-500">
             Price
           </Typography>
           <Typography variant="subtitle1">
-            <PriceCard/>
+            <PriceCard />
           </Typography>
         </div>
       </Card>
@@ -45,7 +28,7 @@ const CourseCard = () => {
   );
 };
 const PriceCard = () => {
-    const price = useRecoilValue(coursePriceState);
-    return <b>Rs {price}</b>
+  const price = useRecoilValue(coursePriceState);
+  return <b>Rs {price}</b>;
 };
 export default CourseCard;

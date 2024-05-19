@@ -4,28 +4,25 @@ import image from "../assets/professor.jpeg";
 import { useRecoilValue } from "recoil";
 import { userEmailState } from "../stores/selectors/userEmail";
 import { userLoadingState } from "../stores/selectors/isUserLoading";
-/// This is the landing page. You need to add a link to the login page here.
-/// Maybe also check from the backend if the user is already logged in and then show them a logout button
-/// Logging a user out is as simple as deleting the token from the local storage.
 function Landing() {
   const userEmail = useRecoilValue(userEmailState);
   const isLoading = useRecoilValue(userLoadingState);
   return (
     <div>
-      <Grid container style={{ padding: "5vw" }}>
+      <Grid container className="p-20">
         <Grid item xs={12} md={6} lg={6}>
           {!isLoading && (
-            <div style={{ marginTop: 100 }}>
+            <div className="mt-20">
               <Typography variant={"h2"}>SmartLearn Admin</Typography>
               <Typography variant={"h5"}>
                 A place to learn, earn and grow
               </Typography>
               {!userEmail && (
-                <div style={{ padding: 5 }}>
-                  <Link style={{ margin: 2 }} to={"/admin/signup"}>
+                <div className="p-1">
+                  <Link className="m-1" to={"/admin/signup"}>
                     <Button variant="contained">Signup</Button>
                   </Link>
-                  <Link style={{ margin: 2 }} to={"/admin/signin"}>
+                  <Link className="m-1" to={"/admin/signin"}>
                     <Button variant="contained">Signin</Button>
                   </Link>
                 </div>
@@ -34,7 +31,7 @@ function Landing() {
           )}
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
-          <img src={image} width={"100%"} />
+          <img src={image} className="w-full" />
         </Grid>
       </Grid>
     </div>

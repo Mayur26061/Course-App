@@ -40,15 +40,7 @@ function App() {
   }, []);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#eeeeee",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <div className="flex flex-col w-full">
       <Router>
         <Appbar />
         <Routes>

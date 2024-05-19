@@ -11,16 +11,7 @@ import { BASE_URL } from "../config";
 import { useSetRecoilState } from "recoil";
 import { courseState } from "../stores/atoms/course";
 import { validateContent } from "./utils";
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  width: 500,
-  transform: "translate(-50%, -50%)",
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-};
+import { boxStyle } from "./utils";
 
 export default function CreateContent({ handleClose, open }) {
   const setCourse = useSetRecoilState(courseState);
@@ -73,14 +64,14 @@ export default function CreateContent({ handleClose, open }) {
   };
   return (
     <Modal open={open} onClose={onCloses}>
-      <Box sx={style}>
-        <Typography variant="h5" style={{ marginBottom: 10 }}>
+      <Box sx={boxStyle}>
+        <Typography variant="h5" className="!mb-2.5">
           Create new content
         </Typography>
         <TextField
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           variant="outlined"
           label="Title"
           fullWidth={true}
@@ -89,14 +80,14 @@ export default function CreateContent({ handleClose, open }) {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           fullWidth={true}
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           variant="outlined"
           label="Description"
         />
         <InputLabel id="demo-simple-select-label">Type</InputLabel>
         <Select
           fullWidth={true}
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={type}
@@ -114,21 +105,17 @@ export default function CreateContent({ handleClose, open }) {
           label="URL"
           onChange={(e) => setUrl(e.target.value)}
         />
-        <div style={{ display: "flex", alignItems: "center", marginTop: 5 }}>
+        <div className="flex items-center my-1.5">
           <Typography>Published</Typography>
           <Switch
             checked={published}
             onChange={(e) => setPublished(e.target.checked)}
           />
         </div>
-        <div
-          style={{ display: "flex", alignItems: "center", marginTop: 5 }}
-        ></div>
-        <br />
         <Button variant="contained" onClick={createContent}>
           Create Content
         </Button>
-        <Button variant="outlined" onClick={onCloses} style={{ marginLeft: 5 }}>
+        <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
           Close
         </Button>
       </Box>
