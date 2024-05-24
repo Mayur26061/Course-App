@@ -32,19 +32,12 @@ function Register() {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Typography variant="h6">Register to the website</Typography>
+    <div className="flex flex-col justify-center items-center mt-20">
+      <Typography variant="h6">Sign Up</Typography>
       <br />
-      <Card style={{ width: "275px", padding: "20px" }} variant="outlined">
+      <Card className="p-6 w-72" variant="outlined">
         <TextField
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           fullWidth={true}
           id="email"
           label="Email"
@@ -54,7 +47,7 @@ function Register() {
         />
         <br />
         <TextField
-          style={{ marginBottom: "10px" }}
+          className="!mb-2.5"
           fullWidth={true}
           id="password"
           label="Password"
@@ -63,20 +56,16 @@ function Register() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br />
-        <Button
-          style={{ marginTop: "10px" }}
-          variant="contained"
-          size="small"
-          onClick={handleSign}
-        >
-          Signup
-        </Button>
-        <div style={{ marginTop: "10px" }}>
-          Already a user?{" "}
-          <Button onClick={() => navigate("/signin")} size="small">
-            Signin
+        <div className="mt-3 flex flex-col items-center justify-center">
+          <Button variant="contained" size="small" onClick={handleSign}>
+            Signup
           </Button>
+          <div className="mt-3">
+            Already a user?{" "}
+            <Button onClick={() => navigate("/signin")} size="small">
+              Signin
+            </Button>
+          </div>
         </div>
       </Card>
     </div>

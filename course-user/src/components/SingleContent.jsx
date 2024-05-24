@@ -30,49 +30,35 @@ const SingleContent = () => {
     return <Loading />;
   }
   return (
-    <div style={{ display: "flex", flexDirection: "column", flexGrow: "1" }}>
-      <div
-        style={{
-          display: "flex",
-          height: "auto",
-          padding: 10,
-          width: "auto",
-          flexGrow: 1,
-          overflow: "auto",
-        }}
-      >
-        <div style={{ position: "fixed", top: "60px", left: 0 }}>
-          <Link to={`/course/${co}`}>
-            <Button variant="contained">&lt; Back to Course</Button>
-          </Link>
-        </div>
-        <div style={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-          <div style={{ height: "auto", width: 500 }}>
-            {content?.type == "image" && (
-              <img
-                style={{ height: "100%", width: "100%" }}
-                src={content.url}
-              />
-            )}
-            {content?.type == "document" && (
-              <iframe
-                src={content.url}
-                style={{ height: "100%", width: "100%" }}
-                allow="autoplay"
-              ></iframe>
-            )}
-            {content?.type == "video" && (
-              <iframe
-                style={{ height: "100%", width: "100%" }}
-                src={content.url}
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-              ></iframe>
-            )}
-          </div>
+    <div className="flex flex-col grow">
+      <div className="w-full bg-slate-100">
+        <Link to={`/course/${co}`}>
+          <Button>&lt; Back to Course</Button>
+        </Link>
+      </div>
+      <div className="p-3 h-96">
+        <div className="px-10 h-[600px]">
+          {content?.type == "image" && (
+            <img className="w-full h-full" src={content.url} />
+          )}
+          {content?.type == "document" && (
+            <iframe
+              src={content.url}
+              className="w-full h-full"
+              allow="autoplay"
+            ></iframe>
+          )}
+          {content?.type == "video" && (
+            <iframe
+              className="w-full h-full"
+              src={content.url}
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          )}
         </div>
       </div>
     </div>

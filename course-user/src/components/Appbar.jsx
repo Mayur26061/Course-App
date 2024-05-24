@@ -11,34 +11,16 @@ const Appbar = () => {
   const isLoading = useRecoilValue(userLoadingState);
   const navigate = useNavigate();
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: 10,
-        position: "sticky",
-        top: "0",
-        background: "#eeeeee",
-        zIndex: 100,
-      }}
-    >
+    <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
       <div onClick={() => navigate("/")}>
         <Typography variant="h6">SmartLearn</Typography>
       </div>
       {!isLoading && (
         <>
           <div>
-            <div>
+            <div className="flex items-center gap-2">
               <a
-                style={{
-                  margin: 20,
-                  padding: "4px 10px",
-                  textDecoration: "none",
-                  fontSize: "1rem",
-                  letterSpacing: "0.1em",
-                  color: "#1976d2",
-                  border: "solid 1px #1976d2",
-                }}
+                className="py-1 px-1.5 text-blue-700 border border-blue-700"
                 href="http://localhost:8000/"
                 target="_blank"
               >
@@ -58,7 +40,7 @@ const Appbar = () => {
                   </Button>
                 </>
               )}
-            {userEmail && (
+              {userEmail && (
                 <Button
                   size="small"
                   variant="contained"
@@ -73,7 +55,7 @@ const Appbar = () => {
                 >
                   Logout
                 </Button>
-            )}
+              )}
             </div>
           </div>
         </>

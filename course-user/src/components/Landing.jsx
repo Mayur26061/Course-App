@@ -10,20 +10,20 @@ function Landing() {
   const isLoading = useRecoilValue(userLoadingState);
   return (
     <div>
-      <Grid container style={{ padding: "5vw" }}>
+      <Grid container className="p-20">
         <Grid item xs={12} md={6} lg={6}>
           {!isLoading && (
-            <div style={{ marginTop: 100 }}>
+            <div className="mt-20">
               <Typography variant={"h2"}>SmartLearn</Typography>
               <Typography variant={"h5"}>
                 A place to learn, earn and grow
               </Typography>
               {!userEmail && (
-                <div style={{ padding: 5 }}>
-                  <Link style={{ margin: 2 }} to={"/signup"}>
+                <div className="p-1">
+                  <Link className="m-1" to={"/signup"}>
                     <Button variant="contained">Signup</Button>
                   </Link>
-                  <Link style={{ margin: 2 }} to={"/signin"}>
+                  <Link className="m-1" to={"/signin"}>
                     <Button variant="contained">Signin</Button>
                   </Link>
                 </div>
@@ -32,7 +32,7 @@ function Landing() {
           )}
         </Grid>
         <Grid item xs={12} md={6} lg={6}>
-          <img src={image} width={"100%"} />
+          <img src={image} className="w-full" />
         </Grid>
       </Grid>
     </div>

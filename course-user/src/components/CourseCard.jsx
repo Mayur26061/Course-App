@@ -12,28 +12,12 @@ const CourseCard = () => {
 
   const imageLink = useRecoilValue(courseImageState);
   return (
-    <div
-      style={{
-        display: "flex",
-        marginTop: 200,
-        justifyContent: "center",
-        width: "100%",
-      }}
-    >
-      <Card
-        style={{
-          width: 350,
-          minHeight: 200,
-          borderRadius: 20,
-          marginRight: 50,
-          paddingBottom: 15,
-          zIndex: 2,
-        }}
-      >
-        <img src={imageLink} style={{ width: 350 }} alt="img" />
-        <div style={{ marginLeft: 10 }}>
+    <div className="flex justify-center w-full mt-48 md:mt-36">
+      <Card className="w-350 min-h-52 z-10 mr-12 !rounded-2xl pb-4 ">
+        <img src={imageLink} className="w-full" alt="img" />
+        <div className="ml-2.5">
           <Typography variant="h5">{title}</Typography>
-          <Typography variant="subtitle2" style={{ color: "gray" }}>
+          <Typography variant="subtitle2" className="text-gray-500">
             Price
           </Typography>
           <Typography variant="subtitle1">
