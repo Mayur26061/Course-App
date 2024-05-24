@@ -7,8 +7,7 @@ function Course(props) {
   return (
     <div tabIndex={0}>
       <Card
-        sx={{ width: 280 }}
-        style={{ margin: 10, textAlign: "center" }}
+        className="text-center m-2 w-72 h-64 cursor-pointer"
         onClick={() => {
           navigate(`/course/${props.course._id}`);
         }}
@@ -18,24 +17,20 @@ function Course(props) {
             {props.course.title}
           </Typography>
           <Typography
-            sx={{ height: 20 }}
-            style={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
+            className="truncate h-5"
             variant="body2"
             color="text.secondary"
           >
             {props.course.description}
           </Typography>
-          <CardMedia
-            component="img"
-            alt="courseImage"
-            height="150"
-            image={props.course.imageLink}
-            style={{ marginTop: 5 }}
-          />
+          <div className="p-1 h-40">
+            <CardMedia
+              component="img"
+              alt="courseImage"
+              image={props.course.imageLink}
+              className="h-full w-full"
+            />
+          </div>
         </CardContent>
       </Card>
     </div>

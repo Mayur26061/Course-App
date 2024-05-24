@@ -22,10 +22,11 @@ const SingleCourse = () => {
   useEffect(() => {
     setCourse({ isLoading: true, course: null });
     axios
-    .get(`${BASE_URL}/users/course/${cid}`)
-    .then((response) => {
+      .get(`${BASE_URL}/users/course/${cid}`)
+      .then((response) => {
         setCourse({ isLoading: false, course: response.data.course });
-      }).catch(()=>{
+      })
+      .catch(() => {
         setCourse({ isLoading: false, course: null });
       });
   }, []);
@@ -33,14 +34,14 @@ const SingleCourse = () => {
     return <Loading />;
   }
   return (
-    <div style={{backgroundColor: "rgb(238, 238, 238)"}}>
+    <div>
       <GrayTopper />
       <Grid container>
         <Grid item lg={4} md={4} sm={12}>
           <CourseCard />
         </Grid>
       </Grid>
-      <ContentSection/>
+      <ContentSection />
     </div>
   );
 };
@@ -50,29 +51,13 @@ export default SingleCourse;
 function GrayTopper() {
   const title = useRecoilValue(courseTitleState);
   return (
-    <div
-      style={{
-        height: 250,
-        background: "#212121",
-        top: 0,
-        width: "100%",
-        zIndex: "0",
-        marginBottom: -250,
-      }}
-    >
-      <div
-        style={{
-          height: 250,
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
-        }}
-      >
+    <div className="h-64 w-full -mb-64 bg-stone-900">
+      <div className="h-64 flex flex-col justify-center">
         <div>
           <Typography
-            style={{ color: "white", fontWeight: 600 }}
+            className="text-white text-center"
             variant="h3"
-            textAlign={"center"}
+            fontWeight={600}
           >
             {title}
           </Typography>
