@@ -81,7 +81,7 @@ router.get("/courses", AuthenticateUser, async (req, res) => {
 router.get("/getcourse", AuthenticateUser, async (req, res) => {
     const course = await Course.findById(req.query.courseId).populate('content')
     if (!course) {
-        return res.status(500).send({ error: "Something went wrong" })
+        return res.status(404).send({ error: "Course not found" })
     }
     res.send({ course })
 })
@@ -119,5 +119,16 @@ router.put("/content/:contentId", AuthenticateUser, async (req, res) => {
 router.get("/content/:contentId", AuthenticateUser, async (req, res) => {
     const content = await Content.findById(req.params.contentId);
     res.send({ cont: content })
+})
+
+router.delete("/course/delete/:courseId", AuthenticateUser, async (req, res) => {
+    await Course.findByIdAndDelete(req.params.courseId)
+    res.send({ message: "Course Deleted" })
+})
+
+router.delete("/content/delete/:contentId", AuthenticateUser, async (req, res) => {
+    await Content.findByIdAndDelete(req.params.contentId)
+    res.send({ message: "Content Deleted" })
+
 })
 module.exports = router
