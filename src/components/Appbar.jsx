@@ -12,7 +12,7 @@ const Appbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
+    <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-20">
       <div>
         <Typography variant="h6">SmartLearn</Typography>
       </div>

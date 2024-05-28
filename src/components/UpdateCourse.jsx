@@ -5,8 +5,11 @@ import { useState } from "react";
 import { BASE_URL } from "../config";
 import { courseState } from "../stores/atoms/course";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+
 
 const UpdateCourse = () => {
+const navigate = useNavigate()
   const [course, setCourse] = useRecoilState(courseState);
   const [title, setTitle] = useState(course.course.title);
   const [description, setDescription] = useState(course.course.description);
@@ -29,6 +32,18 @@ const UpdateCourse = () => {
     );
     setCourse({ isLoading: false, course: res.data.data });
   };
+  const deleteCourse = async()=>{
+    const response = await axios.delete(
+      `${BASE_URL}/admin/course/delete/${course.course._id}`,
+      {
+        headers: {
+          authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(response)
+    navigate('/admin/courses')
+  }
   return (
     <div className="flex justify-center">
       <Card className="mt-52 max-w-600" variant="outlined">
@@ -65,15 +80,27 @@ const UpdateCourse = () => {
             />
             <Typography>Published</Typography>
           </div>
+          <div className="flex justify-between">
           <Button
             className="!m-1.5"
             onClick={() => {
               update();
             }}
             variant="contained"
-          >
+            >
             Update
           </Button>
+          <Button
+            className="!m-1.5"
+            onClick={() => {
+              deleteCourse();
+            }}
+            variant="outlined"
+            color="error"
+            >
+            Delete
+          </Button>
+            </div>
         </div>
       </Card>
     </div>
