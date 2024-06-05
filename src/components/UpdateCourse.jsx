@@ -15,6 +15,7 @@ const navigate = useNavigate()
   const [description, setDescription] = useState(course.course.description);
   const [price, setPrice] = useState(course.course.price);
   const [isPublished, setIsPublished] = useState(course.course.published);
+  const [disable, setDisable] = useState(true)
   const update = async () => {
     const res = await axios.put(
       `${BASE_URL}/admin/courses/${course.course._id}`,
@@ -51,7 +52,9 @@ const navigate = useNavigate()
           <Typography className="!mb-2.5">Edit Course</Typography>
           <TextField
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {setTitle(e.target.value)
+              setDisable(false)
+            }}
             className="!mb-2.5"
             variant="outlined"
             label="Title"
@@ -59,7 +62,9 @@ const navigate = useNavigate()
           />
           <TextField
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={(e) => {setDescription(e.target.value)
+              setDisable(false)
+            }}
             fullWidth={true}
             className="!mb-2.5"
             variant="outlined"
@@ -71,12 +76,16 @@ const navigate = useNavigate()
             variant="outlined"
             label="Price"
             className="!mb-2.5"
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => {setPrice(e.target.value)
+              setDisable(false)
+            }}
           />
           <div className="flex items-center">
             <Switch
               checked={isPublished}
-              onChange={(e) => setIsPublished(e.target.checked)}
+              onChange={(e) => {setIsPublished(e.target.checked)
+                setDisable(false)
+              }}
             />
             <Typography>Published</Typography>
           </div>
@@ -85,8 +94,10 @@ const navigate = useNavigate()
             className="!m-1.5"
             onClick={() => {
               update();
+              setDisable(true)
             }}
             variant="contained"
+            disabled={disable}
             >
             Update
           </Button>

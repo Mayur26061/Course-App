@@ -13,7 +13,9 @@ const CourseCard = () => {
   return (
     <div className="flex mt-24 justify-center w-full">
       <Card className="w-350 min-h-52 z-10 mr-12 !rounded-2xl pb-4">
-        <img src={imageLink} className="w-full" alt="img" />
+        <div className="h-52">
+          <img src={imageLink} className="h-full w-full" alt="img" />
+        </div>
         <div className="ml-2.5">
           <Typography variant="h5">{title}</Typography>
           <Typography variant="subtitle2" className="text-gray-500">

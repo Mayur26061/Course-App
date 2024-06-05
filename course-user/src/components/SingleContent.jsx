@@ -36,8 +36,8 @@ const SingleContent = () => {
           <Button>&lt; Back to Course</Button>
         </Link>
       </div>
-      <div className="p-3 h-96">
-        <div className="px-10 h-[600px]">
+      <div className="p-3 flex justify-center items-center">
+        <div className="px-10 w-[800px] h-[560px]">
           {content?.type == "image" && (
             <img className="w-full h-full" src={content.url} />
           )}

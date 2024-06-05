@@ -1,16 +1,19 @@
 import { Button } from "@mui/material";
-import React from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userEmailState } from "../stores/selectors/userEmail";
 import { useNavigate, useParams } from "react-router-dom";
 import { userState } from "../stores/atoms/user";
 import axios from "axios";
 import { BASE_URL } from "./config";
+import { coursePriceState } from "../stores/selectors/course";
+
 const CourseCardButton = () => {
   const navigate = useNavigate();
   const { cid } = useParams();
   const [user, setUser] = useRecoilState(userState);
   const userEmail = useRecoilValue(userEmailState);
+  const price = useRecoilValue(coursePriceState);
+
   const goToSignIn = () => {
     navigate(`/signin?courseId=${cid}`);
   };
@@ -47,7 +50,7 @@ const CourseCardButton = () => {
       {!user.userEmail?.purchaseCourses.includes(cid) &&
         (userEmail ? (
           <Button variant="contained" onClick={buyCourse}>
-            Buys
+            {price>0?"Buy":"Enroll Free"}
           </Button>
         ) : (
           <Button variant="contained" onClick={goToSignIn}>
