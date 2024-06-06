@@ -9,18 +9,19 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../config";
 import { useSetRecoilState } from "recoil";
-import { courseState } from "../stores/atoms/course";
-import { validateContent } from "./utils";
+import { fetchContent, validateContent } from "./utils";
 import { boxStyle } from "./utils";
-
+import { contentState } from "../stores/atoms/content";
 export default function CreateContent({ handleClose, open }) {
-  const setCourse = useSetRecoilState(courseState);
+  const setContent = useSetRecoilState(contentState);
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [url, setUrl] = useState("");
   const [published, setPublished] = useState(true);
   let { cid } = useParams();
+
   const onCloses = () => {
     handleClose();
     setTitle("");
@@ -29,6 +30,7 @@ export default function CreateContent({ handleClose, open }) {
     setUrl("");
     setPublished(true);
   };
+
   const createContent = async () => {
     const contentobj = {
       title,
@@ -50,18 +52,14 @@ export default function CreateContent({ handleClose, open }) {
       if (response.data.error) {
         console.log(response.data.error);
       } else {
-        setCourse((old) => ({
-          ...old,
-          course: {
-            ...old.course,
-            content: [...old.course.content, response.data.cont],
-          },
-        }));
+        const cons = await fetchContent(cid);
+        setContent({ isLoading: false, content: cons });
       }
       onCloses();
     }
     console.log("Please fill the required details");
   };
+
   return (
     <Modal open={open} onClose={onCloses}>
       <Box sx={boxStyle}>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { useEffect } from "react";
@@ -12,14 +13,18 @@ import {
   courseLoadingState,
   courseTitleState,
 } from "../stores/selectors/course";
+import { contentState } from "../stores/atoms/content";
 import { Loading } from "./Loading";
 import ContentSection from "./ContentSection";
 const SingleCourse = () => {
   let { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);
+  const setContent = useSetRecoilState(contentState);
   const isLoading = useRecoilValue(courseLoadingState);
+
   useEffect(() => {
     setCourse({ isLoading: true, course: null });
+    setContent({ isLoading: true, content: null });
     axios
       .get(`${BASE_URL}/admin/getcourse`, {
         headers: {
@@ -30,12 +35,19 @@ const SingleCourse = () => {
         },
       })
       .then((response) => {
+        setContent({ isLoading: false, content: response.data.content });
         setCourse({ isLoading: false, course: response.data.course });
+      })
+      .catch(() => {
+        setCourse({ isLoading: false, course: null });
+        setContent({ isLoading: false, content: [] });
       });
-  }, []);
+  }, [cid]);
+
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <div>
       <GrayTopper />

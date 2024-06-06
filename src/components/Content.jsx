@@ -1,25 +1,32 @@
+/* eslint-disable react/prop-types */
 import { Button, Card, Typography } from "@mui/material";
 import { useState } from "react";
 import EditContent from "./EditContent";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../config";
 import { useSetRecoilState } from "recoil";
-import { courseState } from "../stores/atoms/course";
+import { contentState } from "../stores/atoms/content";
+import { fetchContent } from "./utils";
 const Content = ({ content }) => {
   const navigate = useNavigate();
-  const setCourse = useSetRecoilState(courseState);
+  const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);
+  const {cid} = useParams()
+
   const handleOpen = (ev) => {
     ev.stopPropagation();
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
+
   const deleteContent = async (ev) => {
+    setContent({isLoading:true,content:[]})
     ev.stopPropagation();
-    const response = await axios.delete(
+    await axios.delete(
       `${BASE_URL}/admin/content/delete/${content._id}`,
       {
         headers: {
@@ -27,15 +34,10 @@ const Content = ({ content }) => {
         },
       }
     );
-    setCourse((old) => ({
-      ...old,
-      course: {
-        ...old.course,
-        content: [...old.course.content.filter((c) => c._id !== content._id)],
-      },
-    }));
-    console.log(response);
+    const cons = await fetchContent(cid)
+    setContent({isLoading:false,content:cons})
   };
+
   return (
     <Card className="mt-1.5">
       <div

@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Course from "./Courses";
-import { useRecoilState } from "recoil";
-import { coursesState } from "./utils";
 import { BASE_URL } from "../config";
 function ShowCourses() {
-  const [courses, setCourses] = useRecoilState(coursesState);
+  const [courses, setCourses] = useState([]);
   useEffect(() => {
     axios
       .get(`${BASE_URL}/admin/courses`, {

@@ -7,7 +7,10 @@ import Modal from "@mui/material/Modal";
 import { TextField, Switch, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../config";
-import { boxStyle } from "./utils";
+import { boxStyle, fetchContent } from "./utils";
+import { useSetRecoilState } from "recoil";
+import { contentState } from "../stores/atoms/content";
+import { useParams } from "react-router-dom";
 
 export default function EditContent({ handleClose, open, content }) {
   const [title, setTitle] = useState(content.title);
@@ -15,6 +18,8 @@ export default function EditContent({ handleClose, open, content }) {
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.url);
   const [published, setPublished] = useState(content.published);
+  const setContent = useSetRecoilState(contentState);
+  const { cid } = useParams();
 
   const onCloses = (ev) => {
     ev.stopPropagation();
@@ -45,17 +50,11 @@ export default function EditContent({ handleClose, open, content }) {
       );
       if (response.data.error) {
         console.log(response.data.error);
-        handleClose();
       } else {
-        handleClose();
+        const cons = await fetchContent(cid);
+        setContent({ isLoading: false, content: cons });
       }
     }
-    setTitle("");
-    setDescription("");
-    setType("");
-    setUrl("");
-    setPublished(true);
-    console.log("Please fill the required details");
     handleClose();
   };
   return (
