@@ -1,9 +1,9 @@
 import { Typography, Button, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import image from "../assets/professor.jpeg";
+import image from "../../assets/professor.jpeg";
 import { useRecoilValue } from "recoil";
-import { userEmailState } from "../stores/selectors/userEmail";
-import { userLoadingState } from "../stores/selectors/isUserLoading";
+import { userEmailState } from "../../stores/selectors/userEmail";
+import { userLoadingState } from "../../stores/selectors/isUserLoading";
 function Landing() {
   const userEmail = useRecoilValue(userEmailState);
   const isLoading = useRecoilValue(userLoadingState);

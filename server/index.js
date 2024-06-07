@@ -20,4 +20,13 @@ app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
 
-mongoose.connect(process.env.MONGO_CONNECTION_URI);
+async function connectDB(){
+  try{
+    await mongoose.connect(process.env.MONGO_CONNECTION_URI);
+    console.log("DB Connected")
+  }catch{
+    console.log("Failed to connect DB")
+  }
+}
+
+connectDB()

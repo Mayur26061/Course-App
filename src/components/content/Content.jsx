@@ -4,10 +4,10 @@ import { useState } from "react";
 import EditContent from "./EditContent";
 import { useNavigate,useParams } from "react-router-dom";
 import axios from "axios";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 import { useSetRecoilState } from "recoil";
-import { contentState } from "../stores/atoms/content";
-import { fetchContent } from "./utils";
+import { contentState } from "../../stores/atoms/content";
+import { fetchContent } from "../utils";
 const Content = ({ content }) => {
   const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);

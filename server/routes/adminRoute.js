@@ -1,13 +1,15 @@
 /* eslint-disable no-undef */
 const express = require("express");
-const router = express.Router()
 const { Admin, Course, Content } = require("../db/schema")
 const { generateToken, AuthenticateUser } = require("../middleware/auth")
+
+const router = express.Router()
 
 const getContent = async (query={})=>{
     const content = await Content.find(query)
     return content
 }
+
 router.post("/signup", async (req, res) => {
     let uname = req.body.username;
     let pass = req.body.password;
@@ -41,7 +43,6 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/courses", AuthenticateUser, async (req, res) => {
-    // logic to create a course
     let course = {
         title: req.body.title,
         description: req.body.description,
@@ -77,7 +78,6 @@ router.put("/courses/:courseId", AuthenticateUser, async (req, res) => {
 });
 
 router.get("/courses", AuthenticateUser, async (req, res) => {
-    // logic to get all courses
     const course = await Course.find({});
     res.send({ courses: course });
 });
@@ -94,6 +94,7 @@ router.get("/getcourse", AuthenticateUser, async (req, res) => {
 router.get("/me", AuthenticateUser, async (req, res) => {
     res.send({ user: req.user })
 })
+
 router.post("/:courseId/content", AuthenticateUser, async (req, res) => {
     const course = await Course.findById(req.params.courseId);
     if (!course) {
@@ -112,6 +113,7 @@ router.post("/:courseId/content", AuthenticateUser, async (req, res) => {
     await course.save()
     res.send({ cont: content })
 })
+
 router.put("/content/:contentId", AuthenticateUser, async (req, res) => {
     const content = await Content.findByIdAndUpdate(
         req.params.contentId,
@@ -121,10 +123,12 @@ router.put("/content/:contentId", AuthenticateUser, async (req, res) => {
         });
     res.send({ cont: content })
 })
+
 router.get("/content/:contentId", AuthenticateUser, async (req, res) => {
     const content = await Content.findById(req.params.contentId);
     res.send({ cont: content })
 })
+
 router.get("/content", AuthenticateUser, async (req, res) => {
     const content = await getContent({"courses":req.query.courseId});
     res.send(content)
@@ -140,4 +144,5 @@ router.delete("/content/delete/:contentId", AuthenticateUser, async (req, res) =
     res.send({ message: "Content Deleted" })
 
 })
+
 module.exports = router
