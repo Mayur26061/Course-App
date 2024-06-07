@@ -1,9 +1,5 @@
-import { atom } from "recoil";
-
-export const coursesState = atom({
-  key: "coursesState",
-  default: "",
-});
+import axios from "axios";
+import { BASE_URL } from "../config";
 export const validateContent = (content) => {
   const checkDocumentAccess = (urlsub) => {
     return ['preview', 'view', 'edit'].some((e) => urlsub.startsWith(e))
@@ -43,3 +39,15 @@ export const boxStyle = {
   boxShadow: 24,
   p: 4,
 };
+export const fetchContent = async (cid) => {
+  const response = await axios
+    .get(`${BASE_URL}/admin/content`, {
+      headers: {
+        authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      params: {
+        courseId: cid
+      },
+    })
+  return response.data
+}

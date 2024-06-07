@@ -34,7 +34,7 @@ const navigate = useNavigate()
     setCourse({ isLoading: false, course: res.data.data });
   };
   const deleteCourse = async()=>{
-    const response = await axios.delete(
+    await axios.delete(
       `${BASE_URL}/admin/course/delete/${course.course._id}`,
       {
         headers: {
@@ -42,7 +42,6 @@ const navigate = useNavigate()
         },
       }
     );
-    console.log(response)
     navigate('/admin/courses')
   }
   return (

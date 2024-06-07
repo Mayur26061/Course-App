@@ -4,6 +4,10 @@ const router = express.Router()
 const { Admin, Course, Content } = require("../db/schema")
 const { generateToken, AuthenticateUser } = require("../middleware/auth")
 
+const getContent = async (query={})=>{
+    const content = await Content.find(query)
+    return content
+}
 router.post("/signup", async (req, res) => {
     let uname = req.body.username;
     let pass = req.body.password;
@@ -79,11 +83,12 @@ router.get("/courses", AuthenticateUser, async (req, res) => {
 });
 
 router.get("/getcourse", AuthenticateUser, async (req, res) => {
-    const course = await Course.findById(req.query.courseId).populate('content')
+    const course = await Course.findById(req.query.courseId)
+    const content = await getContent({"courses":course._id})
     if (!course) {
         return res.status(404).send({ error: "Course not found" })
     }
-    res.send({ course })
+    res.send({ course,content })
 })
 
 router.get("/me", AuthenticateUser, async (req, res) => {
@@ -119,6 +124,10 @@ router.put("/content/:contentId", AuthenticateUser, async (req, res) => {
 router.get("/content/:contentId", AuthenticateUser, async (req, res) => {
     const content = await Content.findById(req.params.contentId);
     res.send({ cont: content })
+})
+router.get("/content", AuthenticateUser, async (req, res) => {
+    const content = await getContent({"courses":req.query.courseId});
+    res.send(content)
 })
 
 router.delete("/course/delete/:courseId", AuthenticateUser, async (req, res) => {

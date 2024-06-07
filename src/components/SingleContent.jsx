@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import axios from "axios";
@@ -10,7 +10,7 @@ const SingleContent = () => {
   const [content, setContent] = useState();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
-    async function fetchContent() {
+    async function fetchthisContent() {
       setIsLoading(true);
       try {
         const res = await axios.get(`${BASE_URL}/admin/content/${cid}`, {
@@ -24,7 +24,7 @@ const SingleContent = () => {
         setIsLoading(false);
       }
     }
-    fetchContent();
+    fetchthisContent();
   }, []);
   if (isLoading) {
     return <Loading />;
@@ -43,9 +43,8 @@ const SingleContent = () => {
           )}
           {content?.type == "document" && (
             <iframe
-              src={content.url}
+            src={content.url}
               className="w-full h-full"
-              allow="autoplay"
             ></iframe>
           )}
           {content?.type == "video" && (
@@ -53,9 +52,9 @@ const SingleContent = () => {
               className="w-full h-full"
               src={content.url}
               title="YouTube video player"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowfullscreen
             ></iframe>
           )}

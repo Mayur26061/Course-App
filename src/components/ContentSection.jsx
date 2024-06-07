@@ -1,15 +1,21 @@
 import React from "react";
 import { Button, Card } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import { courseContentState } from "../stores/selectors/course";
+import { contentIsloading, contentsState } from "../stores/selectors/content";
 import Content from "./Content";
 import CreateContent from "./CreateContent";
+import { Loading } from "./Loading";
 
 const ContentSection = () => {
-  const content = useRecoilValue(courseContentState);
+  const content = useRecoilValue(contentsState);
+  const loading = useRecoilValue(contentIsloading);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  if(loading){
+    return <Loading/>
+  }
 
   return (
     <div className="flex justify-center">
