@@ -1,12 +1,11 @@
 /* eslint-disable no-undef */
-
 const express = require("express");
-const router = express.Router()
 const { User, Course } = require("../db/schema")
 const { generateToken, AuthenticateUser } = require("../middleware/auth")
 
+const router = express.Router()
+
 router.post("/signup", async (req, res) => {
-  // logic to sign up user
   const { username, password } = req.body;
   if (username && password) {
     const existUser = await User.findOne({ username });
@@ -23,7 +22,6 @@ router.post("/signup", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  // logic to log in user
   const { username, password } = req.headers;
   let userExist = await User.findOne({ username, password });
   if (userExist) {
@@ -34,13 +32,11 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/courses", async (req, res) => {
-  // logic to list all courses
   const course = await Course.find({ published: true })
   res.send({ courses: course });
 });
 
 router.post("/courses/:courseId", AuthenticateUser, async (req, res) => {
-  // logic to purchase a course
   try {
     const courseId = req.params.courseId;
     let selectedCourse = await Course.findOne({ _id: courseId, published: true });
@@ -64,7 +60,6 @@ catch (err) {
   });
 
 router.get("/purchasedCourses", AuthenticateUser, async (req, res) => {
-  // logic to view purchased courses
   let currentUser = await User.findOne({ username: req.user.username }).populate({
     path: 'purchaseCourses',
     match: { published: true }
@@ -87,7 +82,6 @@ router.get("/me", AuthenticateUser, async (req, res) => {
   const isExist = await User.findById(req.user._id)
   if (!isExist){
     return res.status(404).send({error:"User not found"});
-
   }
   res.send({ user: isExist })
 })

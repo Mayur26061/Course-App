@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CourseCard from "./CourseCard";
 import { Grid, Typography } from "@mui/material";
-import { BASE_URL } from "./config";
-import { courseState } from "../stores/atoms/course";
+import { BASE_URL } from "../config";
+import { courseState } from "../../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   courseLoadingState,
   courseTitleState,
-} from "../stores/selectors/course";
-import { Loading } from "./Loading";
-import ContentSection from "./ContentSection";
+} from "../../stores/selectors/course";
+import { Loading } from "../common/Loading";
+import ContentSection from "../content/ContentSection";
 
 const SingleCourse = () => {
   let { cid } = useParams();

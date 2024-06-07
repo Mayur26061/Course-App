@@ -2,8 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "../config";
-import { userState } from "../stores/atoms/user";
+import { BASE_URL } from "../../config";
+import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState } from "recoil";
 
 function Register() {

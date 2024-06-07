@@ -1,11 +1,11 @@
 import { Button } from "@mui/material";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { userEmailState } from "../stores/selectors/userEmail";
+import { userEmailState } from "../../stores/selectors/userEmail";
 import { useNavigate, useParams } from "react-router-dom";
-import { userState } from "../stores/atoms/user";
+import { userState } from "../../stores/atoms/user";
 import axios from "axios";
-import { BASE_URL } from "./config";
-import { coursePriceState } from "../stores/selectors/course";
+import { BASE_URL } from "../config";
+import { coursePriceState } from "../../stores/selectors/course";
 
 const CourseCardButton = () => {
   const navigate = useNavigate();

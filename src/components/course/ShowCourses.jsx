@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Course from "./Courses";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 function ShowCourses() {
   const [courses, setCourses] = useState([]);
   useEffect(() => {

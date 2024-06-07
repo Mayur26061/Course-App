@@ -5,15 +5,14 @@ import {
   courseImageState,
   coursePriceState,
   courseTitleState,
-} from "../stores/selectors/course";
-import CourseCardButton from "./CourseCardButton";
+} from "../../stores/selectors/course";
 const CourseCard = () => {
   const title = useRecoilValue(courseTitleState);
 
   const imageLink = useRecoilValue(courseImageState);
   return (
-    <div className="flex justify-center w-full mt-48 md:mt-36">
-      <Card className="w-350 min-h-52 z-10 mr-12 !rounded-2xl pb-4 ">
+    <div className="flex mt-24 justify-center w-full">
+      <Card className="w-350 min-h-52 z-10 mr-12 !rounded-2xl pb-4">
         <div className="h-52">
           <img src={imageLink} className="h-full w-full" alt="img" />
         </div>
@@ -25,7 +24,6 @@ const CourseCard = () => {
           <Typography variant="subtitle1">
             <PriceCard />
           </Typography>
-          <CourseCardButton />
         </div>
       </Card>
     </div>

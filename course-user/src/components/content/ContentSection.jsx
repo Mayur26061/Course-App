@@ -1,7 +1,6 @@
-import React from "react";
 import { Card } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import { courseContentState } from "../stores/selectors/course";
+import { courseContentState } from "../../stores/selectors/course";
 import Content from "./Content";
 
 const ContentSection = () => {

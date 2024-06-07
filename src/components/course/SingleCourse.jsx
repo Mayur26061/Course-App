@@ -6,16 +6,16 @@ import { useParams } from "react-router-dom";
 import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
 import { Grid, Typography } from "@mui/material";
-import { BASE_URL } from "../config";
-import { courseState } from "../stores/atoms/course";
+import { BASE_URL } from "../../config";
+import { courseState } from "../../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
   courseLoadingState,
   courseTitleState,
-} from "../stores/selectors/course";
-import { contentState } from "../stores/atoms/content";
-import { Loading } from "./Loading";
-import ContentSection from "./ContentSection";
+} from "../../stores/selectors/course";
+import { contentState } from "../../stores/atoms/content";
+import { Loading } from "../common/Loading";
+import ContentSection from "../content/ContentSection";
 const SingleCourse = () => {
   let { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);

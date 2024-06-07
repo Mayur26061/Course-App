@@ -2,7 +2,7 @@ import { Card, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { userEmailState } from "../stores/selectors/userEmail";
+import { userEmailState } from "../../stores/selectors/userEmail";
 const Content = ({ content }) => {
   const userEmail = useRecoilValue(userEmailState);
   const navigate = useNavigate();

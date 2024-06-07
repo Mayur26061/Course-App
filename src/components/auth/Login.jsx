@@ -1,20 +1,19 @@
 import React from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "./config";
-import { userState } from "../stores/atoms/user";
+import { BASE_URL } from "../../config";
+import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState } from "recoil";
-
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const setUser = useSetRecoilState(userState);
+
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const handleLogin = async () => {
     const response = await axios.post(
-      `${BASE_URL}/users/login`,
+      `${BASE_URL}/admin/login`,
       {},
       {
         headers: {
@@ -27,16 +26,12 @@ function Login() {
       console.log(response.data.error);
     } else {
       if (response.data.token) {
-        localStorage.setItem("client-token", response.data.token);
+        localStorage.setItem("token", response.data.token);
         setUser({
           isLoading: false,
-          userEmail: response.data.user,
+          userEmail: email,
         });
-        if (searchParams.get("courseId")) {
-          navigate(`/course/${searchParams.get("courseId")}`);
-        } else {
-          navigate("/courses");
-        }
+        navigate("/admin/courses");
       }
     }
     setEmail("");
@@ -74,7 +69,7 @@ function Login() {
           </Button>
           <div className="mt-3">
             New user?{" "}
-            <Button onClick={() => navigate("/signup")} size="small">
+            <Button onClick={() => navigate("/admin/signup")} size="small">
               Sign up
             </Button>
           </div>

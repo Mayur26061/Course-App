@@ -1,7 +1,7 @@
 import { Button, Card, Switch, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 
 function CreateCourse() {
   const [title, setTitle] = useState("");

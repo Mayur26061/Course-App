@@ -1,18 +1,23 @@
-import { useEffect } from "react";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Notfound from "./components/Notfound";
-import Appbar from "./components/Appbar";
-import ShowCourses from "./components/ShowCourses";
-import { Navigate } from "react-router-dom";
-import SingleCourse from "./components/SingleCourse";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import { useSetRecoilState } from "recoil";
-import { userState } from "./stores/atoms/user";
 import axios from "axios";
+import { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import Register from "./components/auth/Register";
+import Login from "./components/auth/Login";
+import Notfound from "./components/common/Notfound";
+import Appbar from "./components/common/Appbar";
+import SingleContent from "./components/content/SingleContent";
+import ShowCourses from "./components/course/ShowCourses";
+import SingleCourse from "./components/course/SingleCourse";
+import { userState } from "./stores/atoms/user";
 import { BASE_URL } from "./config";
-import SingleContent from "./components/SingleContent";
+import "./App.css";
+
 function App() {
   const setUser = useSetRecoilState(userState);
   useEffect(() => {
