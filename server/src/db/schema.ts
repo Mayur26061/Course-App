@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const users = new mongoose.Schema({
     username: String,
     password: String,
@@ -26,9 +26,7 @@ const content = new mongoose.Schema({
     courses: { type: mongoose.Schema.Types.ObjectId, ref: 'Course' }
 
 })
-const User = mongoose.model('User', users)
-const Admin = mongoose.model('Admin', admins)
-const Course = mongoose.model('Course', courses)
-const Content = mongoose.model('Content', content)
-
-module.exports = { User, Admin, Course, Content }
+export const User = mongoose.model('User', users)
+export const Admin = mongoose.model('Admin', admins)
+export const Course = mongoose.model('Course', courses)
+export const Content = mongoose.model('Content', content)

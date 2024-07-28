@@ -23,6 +23,7 @@ model user {
   userType     String
   courses      course[]
   user_courses user_course[]
+  @@unique([username,userType])
 }
 
 model course {
