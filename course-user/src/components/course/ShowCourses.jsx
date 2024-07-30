@@ -9,11 +9,14 @@ function ShowCourses() {
   const [courses, setCourses] = useState();
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/users/courses`)
+      .get(`${BASE_URL}/api/learner/courses`,{
+        withCredentials:true
+      })
       .then((resposne) => {
         setCourses(resposne.data.courses);
       })
       .catch((err) => {
+        debugger;
         console.log(err);
       });
   }, []);

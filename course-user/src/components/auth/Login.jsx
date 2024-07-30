@@ -14,20 +14,18 @@ function Login() {
   const [searchParams] = useSearchParams();
   const handleLogin = async () => {
     const response = await axios.post(
-      `${BASE_URL}/users/login`,
-      {},
-      {
-        headers: {
-          username: email,
-          password,
-        },
-      }
+      `${BASE_URL}/api/learner/login`,
+      { username: email,
+        password,},
+{
+  withCredentials:true
+}
     );
     if (response.data.error) {
       console.log(response.data.error);
     } else {
-      if (response.data.token) {
-        localStorage.setItem("client-token", response.data.token);
+      if (response.data.status == "success") {
+        // eslint-disable-next-line no-debugger
         setUser({
           isLoading: false,
           userEmail: response.data.user,

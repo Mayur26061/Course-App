@@ -64,7 +64,7 @@ model user_course {
   course         course         @relation(fields: [course_id], references: [id], onDelete: Cascade)
   user_id        String
   user           user           @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  completed_date DateTime
+  completed_date DateTime?
   joined_date    DateTime       @default(now())
   status         String         @default("joined")
   user_contents  user_content[]

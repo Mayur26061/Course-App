@@ -4,12 +4,26 @@ import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userEmailState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
-
+import axios from "axios";
+import { BASE_URL } from "../config";
 const Appbar = () => {
   const setUser = useSetRecoilState(userState);
   const userEmail = useRecoilValue(userEmailState);
   const isLoading = useRecoilValue(userLoadingState);
   const navigate = useNavigate();
+  const onLogOut = async ()=>{
+    const response = await axios.post(
+      `${BASE_URL}/api/learner/login`,{},
+{
+  withCredentials:true
+}
+);
+    setUser({
+      isLoading: false,
+      userEmail: null,
+    });
+    navigate("/signin");
+  }
   return (
     <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
       <div onClick={() => navigate("/")}>
@@ -44,14 +58,7 @@ const Appbar = () => {
                 <Button
                   size="small"
                   variant="contained"
-                  onClick={() => {
-                    localStorage.setItem("client-token", null);
-                    setUser({
-                      isLoading: false,
-                      userEmail: null,
-                    });
-                    navigate("/signin");
-                  }}
+                  onClick={onLogOut}
                 >
                   Logout
                 </Button>

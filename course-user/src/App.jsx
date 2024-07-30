@@ -23,10 +23,8 @@ function App() {
   useEffect(() => {
     const fetchme = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/users/me`, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("client-token"),
-          },
+        const res = await axios.get(`${BASE_URL}/api/learner/me`, {
+          withCredentials:true
         });
         if (res.data.user) {
           setUser({ isLoading: false, userEmail: res.data.user });
@@ -35,7 +33,7 @@ function App() {
         }
       } catch {
         setUser({ isLoading: false, userEmail: null });
-        console.log("Error");
+        // console.log("Error");
       }
     };
     fetchme();
