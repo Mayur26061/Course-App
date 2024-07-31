@@ -2,7 +2,7 @@
 import express from "express";
 import { User, Course } from "../db/schema";
 import { generateToken, AuthenticateUser } from "../middleware/auth";
-import {getCourses, userLogout, userSignIn, userSignUp, getMe, getSelectedCourse, buyCourse} from "../controllers/userController"
+import {getCourses, userLogout, userSignIn, userSignUp, getMe, getSelectedCourse, buyCourse, getContent} from "../controllers/userController"
 
 
 const router = express.Router()
@@ -24,6 +24,8 @@ router.get("/me", AuthenticateUser, getMe)
 router.get("/courses",AuthenticateUser,getCourses)
 router.get("/course/:cid", getSelectedCourse)
 router.post("/buycourse/:cid", AuthenticateUser, buyCourse)
+router.get("/content/:cid", AuthenticateUser, getContent)
+
 //   let courseId = req.params.cid 
 //   const course = await Course.findById(courseId).populate('content')
 //   res.send({ course })
