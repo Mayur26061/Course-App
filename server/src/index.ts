@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 // import adminRoute from "./routes/adminRoute";
 import userRoute from "./routes/userRoute";
+import instructorRoute from "./routes/instructorRoute";
 
 dotenv.config();
 
@@ -17,12 +18,13 @@ const corsConfig = {
 };
 
 app.use(cors(corsConfig));
-app.options('*', cors(corsConfig))
+app.options("*", cors(corsConfig));
 app.use(express.json());
 app.use(bodyParser.json());
 
 // app.use("/admin", adminRoute);
 app.use("/api/learner", userRoute);
+app.use("/api/instructor", instructorRoute);
 
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
