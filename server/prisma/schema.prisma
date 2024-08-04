@@ -23,7 +23,9 @@ model user {
   userType     String
   courses      course[]
   user_courses user_course[]
-  @@unique([username,userType])
+  isApproved   Boolean       @default(false)
+
+  @@unique([username, userType])
 }
 
 model course {
@@ -32,12 +34,13 @@ model course {
   updatedAt    DateTime      @updatedAt
   title        String
   description  String
-  price        Float
+  price        Float         @default(0)
   published    Boolean       @default(false)
-  image        String
+  image        String // make it optional later
   duration     DateTime?     @db.Time()
   author       user          @relation(fields: [author_id], references: [id], onDelete: SetDefault, onUpdate: Cascade)
   author_id    String        @default("anonymous")
+  category     String?
   contents     content[]
   user_courses user_course[]
 }
