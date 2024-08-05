@@ -46,7 +46,7 @@ export const instrutorSignUp = asyncHandler(async (req, res, next) => {
     return;
   }
 
-  const record = await prisma.user.create({
+  await prisma.user.create({
     data: {
       username,
       name,
@@ -199,6 +199,7 @@ export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
   }
   res.json({ error: false, course });
 });
+
 export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
   const courseId: string = req.body.courseId;
   const content = await prisma.content.findUnique({
@@ -212,13 +213,27 @@ export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
   });
   res.json({ error: false, content });
 });
+
+// Logout logic
 export const instructorSignout = asyncHandler(async (req, res) => {
   res.setHeader("set-Cookie", "token=; HttpOnly; Max-Age=;");
   res.json({ error: false, message: "Log out successfull" });
 });
-// export const instrutorSignIn3 = asyncHandler(async(req:reqObj,res)=>{
-// })
-// export const instrutorSisgnIn = asyncHandler(async(req:reqObj,res)=>{
-// })
-// export const instrutorSigdnIn = asyncHandler(async(req:reqObj,res)=>{
-// })
+
+// function name say it all
+export const getMe = asyncHandler(async (req: reqObj, res) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: req.headers.uid,
+    },
+    include: {
+      courses: true,
+    },
+  });
+  if (user) {
+    const { password: pwd, ...userData } = user;
+    res.json({ error: false, user: userData });
+    return;
+  }
+  res.json({ error: true, message: "couldn't find" });
+});

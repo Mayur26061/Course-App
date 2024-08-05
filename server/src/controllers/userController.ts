@@ -199,7 +199,7 @@ export const buyCourse = asyncHandler(async (req, res) => {
       return;
     }
   }
-  res.json({ error: true, message: "couldn't find" });
+  res.json({ error: false, message:"Course bought" });
 });
 
 // get content by id and creates user_content record to determine user had visited the content
@@ -210,44 +210,6 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
     res.json({ error: true, message: "Please provide courseId" });
     return;
   }
-
-  const userCourse = await prisma.user_course.findFirst({
-    where: {
-      course_id: courseId,
-      user_id: uid,
-    },
-    include: {
-      user_contents: {
-        where: {
-          content_id: req.params.cid,
-        },
-        select: {
-          id: true,
-        },
-      },
-    },
-  });
-
-  if (!userCourse) {
-    res.json({ error: true, message: "Please purchase course" });
-    return;
-  }
-
-  if (!userCourse.user_contents) {
-    await prisma.user_course.update({
-      where: {
-        id: userCourse?.id,
-      },
-      data: {
-        user_contents: {
-          create: {
-            content_id: req.params.cid,
-          },
-        },
-      },
-    });
-  }
-
   const content = await prisma.content.findUnique({
     where: {
       id: req.params.cid,
@@ -271,6 +233,47 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
       },
     },
   });
+  console.log(content)
+  if (!content){
+    res.json({ error: true, message: "Couldn't find content" });
+    return
+  }
+  const userCourse = await prisma.user_course.findFirst({
+    where: {
+      course_id: courseId,
+      user_id: uid,
+    },
+    include: {
+      user_contents: {
+        where: {
+          content_id: content.id,
+        },
+        select: {
+          id: true,
+        },
+      },
+    },
+  });
+
+  if (!userCourse) {
+    res.json({ error: true, message: "Please purchase course" });
+    return;
+  }
+  console.log(userCourse.user_contents)
+  if (!userCourse.user_contents.length) {
+    const data = await prisma.user_course.update({
+      where: {
+        id: userCourse.id,
+      },
+      data: {
+        user_contents: {
+          create: {
+            content_id: req.params.cid,
+          },
+        },
+      },
+    });
+  }
 
   res.json({ error: false, content: content });
 });

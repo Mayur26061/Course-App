@@ -9,6 +9,7 @@ import {
   instructorSignout,
   getSelectContent,
   getSelectedCourse,
+  getMe,
 } from "../controllers/InstructorController";
 
 const router = express.Router();
@@ -22,5 +23,6 @@ router.post("/:cid/addcontent", AuthenticateInstructor, addContent);
 router.post("/signout", AuthenticateInstructor, instructorSignout);
 router.get("/content/:cid", AuthenticateInstructor, getSelectContent);
 router.get("/course/:cid", AuthenticateInstructor, getSelectedCourse);
+router.get("/me", AuthenticateInstructor, getMe);
 
 export default router;
