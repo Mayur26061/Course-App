@@ -10,6 +10,7 @@ import {
   getSelectContent,
   getSelectedCourse,
   getMe,
+  deleteContent,
 } from "../controllers/InstructorController";
 
 const router = express.Router();
@@ -19,10 +20,12 @@ router.post("/signin", instrutorSignIn);
 router.post("/signup", instrutorSignUp);
 router.get("/courses", AuthenticateInstructor, getCourses);
 router.post("/addcourse", AuthenticateInstructor, addCourse);
-router.post("/:cid/addcontent", AuthenticateInstructor, addContent);
+router.post("/:courseId/addcontent", AuthenticateInstructor, addContent);
 router.post("/signout", AuthenticateInstructor, instructorSignout);
-router.get("/content/:cid", AuthenticateInstructor, getSelectContent);
-router.get("/course/:cid", AuthenticateInstructor, getSelectedCourse);
+router.get("/content/:contentId", AuthenticateInstructor, getSelectContent);
+router.get("/course/:courseId", AuthenticateInstructor, getSelectedCourse);
+router.delete("/delete/content/:contentId", AuthenticateInstructor, deleteContent);
+router.delete("/delete/content/:courseId", AuthenticateInstructor, deleteContent);
 router.get("/me", AuthenticateInstructor, getMe);
 
 export default router;

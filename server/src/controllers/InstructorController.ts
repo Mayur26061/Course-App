@@ -6,6 +6,7 @@ import prisma from "../utils/client";
 import { signUpCheck, signCheck } from "../utils/utils";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../middleware/auth";
+import { count, error } from "console";
 
 const courseInp = z.object({
   title: z.string().min(3),
@@ -150,10 +151,10 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
     });
     return;
   }
-  const cid = req.params.cid;
+  const courseId = req.params.courseId;
   const course = await prisma.course.count({
     where: {
-      id: cid,
+      id: courseId,
       author_id: req.headers.uid,
     },
   });
@@ -173,7 +174,7 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
       content_url,
       course: {
         connect: {
-          id: cid,
+          id: courseId,
         },
       },
     },
@@ -183,10 +184,9 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
 });
 
 export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
-  let courseId = req.params.cid;
   const course = await prisma.course.findUnique({
     where: {
-      id: courseId,
+      id: req.params.courseId,
       author_id: req.headers.uid,
     },
     include: {
@@ -204,14 +204,14 @@ export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
   const courseId: string = req.body.courseId;
   const content = await prisma.content.findUnique({
     where: {
-      id: req.params.cid,
+      id: req.params.contentId,
       course_id: courseId,
       course: {
         author_id: req.headers.uid,
       },
     },
   });
-  res.json({ error: false, content });
+  res.json({ error: false, content: content || [] });
 });
 
 // Logout logic
@@ -236,4 +236,33 @@ export const getMe = asyncHandler(async (req: reqObj, res) => {
     return;
   }
   res.json({ error: true, message: "couldn't find" });
+});
+
+export const deleteContent = asyncHandler(async (req: reqObj, res) => {
+  const courseId: string = req.body.courseId;
+  const { count } = await prisma.content.deleteMany({
+    where: {
+      id: req.params.contentId,
+      course_id: courseId,
+    },
+  });
+  if (count) {
+    res.json({ error: false, message: "Content Deleted successfully" });
+    return;
+  }
+  res.json({ error: true, message: "Couldn't find content" });
+});
+
+export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
+  const { count } = await prisma.course.deleteMany({
+    where: {
+      id: req.params.courseId,
+      author_id: req.headers.uid,
+    },
+  });
+  if (count) {
+    res.json({ error: false, message: "Course Deleted successfully" });
+    return;
+  }
+  res.json({ error: true, message: "Couldn't find course" });
 });
