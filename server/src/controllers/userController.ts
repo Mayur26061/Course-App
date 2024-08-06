@@ -153,10 +153,9 @@ export const getMe = asyncHandler(async (req: reqObj, res) => {
 
 // get id specific course
 export const getSelectedCourse = asyncHandler(async (req, res) => {
-  let courseId = req.params.cid;
   const course = await prisma.course.findUnique({
     where: {
-      id: courseId,
+      id: req.params.courseId,
       published: true,
     },
     include: {
@@ -177,14 +176,13 @@ export const getSelectedCourse = asyncHandler(async (req, res) => {
 // buy course logic
 export const buyCourse = asyncHandler(async (req, res) => {
   if (typeof req.headers.uid == "string") {
-    const { cid } = req.params;
     try {
       // make sure course is publish
       await prisma.user_course.create({
         data: {
           course: {
             connect: {
-              id: cid,
+              id: req.params.courseId,
             },
           },
           user: {
@@ -199,12 +197,13 @@ export const buyCourse = asyncHandler(async (req, res) => {
       return;
     }
   }
-  res.json({ error: false, message:"Course bought" });
+  res.json({ error: false, message: "Course bought" });
 });
 
 // get content by id and creates user_content record to determine user had visited the content
 export const getContent = asyncHandler(async (req: reqObj, res) => {
   const courseId: string = req.body.courseId;
+  const contentId = req.params.contentId;
   const uid = req.headers.uid || "";
   if (!courseId) {
     res.json({ error: true, message: "Please provide courseId" });
@@ -212,7 +211,7 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
   }
   const content = await prisma.content.findUnique({
     where: {
-      id: req.params.cid,
+      id: contentId,
       published: true,
       course: {
         user_courses: {
@@ -233,10 +232,10 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
       },
     },
   });
-  console.log(content)
-  if (!content){
+  console.log(content);
+  if (!content) {
     res.json({ error: true, message: "Couldn't find content" });
-    return
+    return;
   }
   const userCourse = await prisma.user_course.findFirst({
     where: {
@@ -259,7 +258,7 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
     res.json({ error: true, message: "Please purchase course" });
     return;
   }
-  console.log(userCourse.user_contents)
+  console.log(userCourse.user_contents);
   if (!userCourse.user_contents.length) {
     const data = await prisma.user_course.update({
       where: {
@@ -268,7 +267,7 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
       data: {
         user_contents: {
           create: {
-            content_id: req.params.cid,
+            content_id: contentId,
           },
         },
       },

@@ -46,7 +46,7 @@ export const AuthenticateUser = (
 export const AuthenticateInstructor = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   const token = getCookieToken(req.headers.cookie);
   if (token) {

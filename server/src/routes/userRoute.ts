@@ -20,8 +20,8 @@ router.post("/signin", userSignIn);
 router.post("/signout", AuthenticateUser, userSignout);
 router.get("/me", AuthenticateUser, getMe);
 router.get("/courses", AuthenticateUser, getCourses);
-router.get("/course/:cid", getSelectedCourse);
-router.post("/buycourse/:cid", AuthenticateUser, buyCourse);
-router.get("/content/:cid", AuthenticateUser, getContent);
+router.get("/course/:courseId", getSelectedCourse);
+router.post("/buycourse/:courseId", AuthenticateUser, buyCourse);
+router.get("/content/:contentId", AuthenticateUser, getContent);
 
 export default router;
