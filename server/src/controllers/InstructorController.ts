@@ -14,6 +14,12 @@ const courseInp = z.object({
   price: z.number().positive().finite().default(0),
   image: z.string().url().min(1),
 });
+const courseOptional = z.object({
+  title: z.string().min(3).optional(),
+  description: z.string().min(1).optional(),
+  price: z.number().positive().finite().default(0).optional(),
+  image: z.string().url().min(1).optional(),
+});
 
 const contentValidator = z.object({
   title: z.string().trim().min(3),
@@ -23,6 +29,13 @@ const contentValidator = z.object({
   duration: z.string().time().optional(),
 });
 
+const contentOptional = z.object({
+  title: z.string().trim().min(3),
+  description: z.string().trim(),
+  type: z.enum(["image", "document", "video"]),
+  content_url: z.string().url(),
+  duration: z.string().time().optional(),
+});
 // Sign Up for instructor
 export const instrutorSignUp = asyncHandler(async (req, res, next) => {
   const result = signUpCheck.safeParse(req.body);
@@ -265,4 +278,44 @@ export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
     return;
   }
   res.json({ error: true, message: "Couldn't find course" });
+});
+
+export const updateCourse = asyncHandler(async (req: reqObj, res) => {
+  const result = courseOptional.safeParse(req.body);
+  if (result.error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const course = await prisma.course.update({
+    where: {
+      id: req.params.courseId,
+    },
+    data: {
+      ...req.body,
+    },
+  });
+  res.json({ error: false, course: course });
+});
+
+export const updateContent = asyncHandler(async (req: reqObj, res) => {
+  const result = contentOptional.safeParse(req.body);
+  if (result.error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const content = await prisma.content.update({
+    data: {
+      ...req.body,
+    },
+    where: {
+      id: req.params.contentId,
+    },
+  });
+  res.json({ error: false, content: content });
 });
