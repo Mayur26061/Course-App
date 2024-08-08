@@ -25,15 +25,13 @@ function App() {
   useEffect(() => {
     const fetchme = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/admin/me`, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
+        const res = await axios.get(`${BASE_URL}/api/instructor/me`, {
+          withCredentials:true
         });
-        if (res.data.user) {
-          setUser({ isLoading: false, userEmail: res.data.user });
-        } else {
+        if (res.data.error) {
           setUser({ isLoading: false, userEmail: null });
+        } else {
+          setUser({ isLoading: false, userEmail: res.data.user });
         }
       } catch {
         setUser({ isLoading: false, userEmail: null });
