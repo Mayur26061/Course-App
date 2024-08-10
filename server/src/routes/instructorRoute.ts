@@ -13,6 +13,7 @@ import {
   deleteContent,
   updateCourse,
   updateContent,
+  deleteCourse,
 } from "../controllers/InstructorController";
 
 const router = express.Router();
@@ -26,10 +27,10 @@ router.post("/:courseId/addcontent", AuthenticateInstructor, addContent);
 router.post("/signout", AuthenticateInstructor, instructorSignout);
 router.get("/content/:contentId", AuthenticateInstructor, getSelectContent);
 router.get("/course/:courseId", AuthenticateInstructor, getSelectedCourse);
-router.delete("/delete/course/:courseId", AuthenticateInstructor, deleteContent);
+router.delete("/delete/course/:courseId", AuthenticateInstructor, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateInstructor, deleteContent);
-router.delete("/update/course/:courseId", AuthenticateInstructor, updateCourse);
-router.delete("/update/content/:contentId", AuthenticateInstructor, updateContent);
+router.put("/update/course/:courseId", AuthenticateInstructor, updateCourse);
+router.put("/update/content/:contentId", AuthenticateInstructor, updateContent);
 router.get("/me", AuthenticateInstructor, getMe);
 
 export default router;
