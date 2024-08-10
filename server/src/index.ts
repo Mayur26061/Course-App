@@ -13,12 +13,10 @@ dotenv.config();
 const app = express();
 
 const corsConfig = {
-  origin: true,
+  origin:'http://localhost:5173',
   credentials: true,
 };
-
 app.use(cors(corsConfig));
-app.options("*", cors(corsConfig));
 app.use(express.json());
 app.use(bodyParser.json());
 

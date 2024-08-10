@@ -115,7 +115,7 @@ export const instrutorSignIn = asyncHandler(async (req, res, next) => {
     "instructor"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `token=${token}; HttpOnly; Max-Age=60*60*24*2`);
+  res.setHeader("set-cookie", `itoken=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user });
 });
 
@@ -125,7 +125,7 @@ export const getCourses = asyncHandler(async (req: reqObj, res) => {
       author_id: req.headers.uid,
     },
   });
-  res.json({ error: false, course });
+  res.json({ error: false, course:course });
 });
 
 export const addCourse = asyncHandler(async (req: reqObj, res) => {
@@ -229,7 +229,7 @@ export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
 
 // Logout logic
 export const instructorSignout = asyncHandler(async (req, res) => {
-  res.setHeader("set-Cookie", "token=; HttpOnly; Max-Age=;");
+  res.setHeader("set-Cookie", "itoken=; HttpOnly; Max-Age=;");
   res.json({ error: false, message: "Log out successfull" });
 });
 
@@ -281,6 +281,7 @@ export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
 });
 
 export const updateCourse = asyncHandler(async (req: reqObj, res) => {
+  console.log(req.body)
   const result = courseOptional.safeParse(req.body);
   if (result.error) {
     res.json({
@@ -296,6 +297,9 @@ export const updateCourse = asyncHandler(async (req: reqObj, res) => {
     data: {
       ...req.body,
     },
+    include:{
+      contents:true
+    }
   });
   res.json({ error: false, course: course });
 });

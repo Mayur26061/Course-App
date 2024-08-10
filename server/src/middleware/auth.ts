@@ -20,13 +20,15 @@ export const AuthenticateUser = (
   res: Response,
   next: NextFunction
 ) => {
-  const token = getCookieToken(req.headers.cookie);
+  const token = getCookieToken(req.headers.cookie, "ltoken");
   if (token) {
     jwt.verify(
       token,
       process.env.LEARNER_TOKEN_SECRET_KEY,
       (err, data: any) => {
         if (err) {
+          res.setHeader("set-Cookie", "ltoken=; HttpOnly; Max-Age=;");
+
           res.status(403).json({
             status: "error",
             message: "Forbidden Invalid Token",
@@ -46,15 +48,16 @@ export const AuthenticateUser = (
 export const AuthenticateInstructor = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
-  const token = getCookieToken(req.headers.cookie);
+  const token = getCookieToken(req.headers.cookie, "itoken");
   if (token) {
     jwt.verify(
       token,
       process.env.INSTRUCTOR_TOKEN_SECRET_KEY,
       (err, data: any) => {
         if (err) {
+          res.setHeader("set-Cookie", "itoken=; HttpOnly; Max-Age=;");
           res.status(403).json({
             status: "error",
             message: "Forbidden Invalid Token",
@@ -71,12 +74,12 @@ export const AuthenticateInstructor = (
   }
 };
 
-const getCookieToken = (cookie: string | undefined) => {
+const getCookieToken = (cookie: string | undefined, cname: string) => {
   if (cookie) {
     const cookies = cookie.split("; ");
     for (let cookie of cookies) {
       const [name, value] = cookie.split("=");
-      if (name === "token") {
+      if (name === cname) {
         return value;
       }
     }
