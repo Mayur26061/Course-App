@@ -16,12 +16,10 @@ function CreateCourse() {
       description,
       price,
       published: isPublished,
-      imageLink,
+      image:imageLink,
     };
-    await axios.post(`${BASE_URL}/admin/courses`, course, {
-      headers: {
-        authorization: "Bearer " + localStorage.getItem("token"),
-      },
+    await axios.post(`${BASE_URL}//addcourse`, course, {
+      withCredentials:true,
     });
     setTitle("");
     setDescription("");

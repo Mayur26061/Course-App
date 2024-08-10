@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -16,12 +15,12 @@ export default function EditContent({ handleClose, open, content }) {
   const [title, setTitle] = useState(content.title);
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
-  const [url, setUrl] = useState(content.url);
+  const [url, setUrl] = useState(content.content_url);
   const [published, setPublished] = useState(content.published);
   const setContent = useSetRecoilState(contentState);
   const { cid } = useParams();
 
-  const onCloses = (ev) => {
+  const onCloses = (ev: { stopPropagation: () => void; }) => {
     ev.stopPropagation();
     handleClose();
     setTitle(content.title);

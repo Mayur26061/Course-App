@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
-import { Grid, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 import { BASE_URL } from "../../config";
 import { courseState } from "../../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -25,16 +25,13 @@ const SingleCourse = () => {
     setCourse({ isLoading: true, course: null });
     setContent({ isLoading: true, content: null });
     axios
-      .get(`${BASE_URL}/admin/getcourse`, {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
-        params: {
-          courseId: cid,
-        },
+      .get(`${BASE_URL}/course/${cid}`, {
+        withCredentials:true
       })
       .then((response) => {
-        setContent({ isLoading: false, content: response.data.content });
+        console.log(response.data)
+        setContent({ isLoading: false, content: response.data.course.contents
+        });
         setCourse({ isLoading: false, course: response.data.course });
       })
       .catch(() => {
@@ -48,16 +45,10 @@ const SingleCourse = () => {
   }
 
   return (
-    <div>
+    <div className="relative text-left">
       <GrayTopper />
-      <Grid container>
-        <Grid item lg={8} md={12} sm={12}>
-          <UpdateCourse />
-        </Grid>
-        <Grid item lg={4} md={12} sm={12}>
-          <CourseCard />
-        </Grid>
-      </Grid>
+      <CourseCard />
+      <UpdateCourse/>
       <ContentSection />
     </div>
   );
@@ -68,7 +59,7 @@ export default SingleCourse;
 function GrayTopper() {
   const title = useRecoilValue(courseTitleState);
   return (
-    <div className="h-64 w-full -mb-64 bg-stone-900">
+    <div className="h-64 bg-stone-900">
       <div className="h-64 flex flex-col justify-center">
         <div>
           <Typography
@@ -76,7 +67,7 @@ function GrayTopper() {
             variant="h3"
             fontWeight={600}
           >
-            {title}
+            {title || ''}
           </Typography>
         </div>
       </div>

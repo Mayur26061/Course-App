@@ -5,7 +5,7 @@ export const validateContent = (content) => {
     return ['preview', 'view', 'edit'].some((e) => urlsub.startsWith(e))
   }
   if (content.type === "video" && content.url.startsWith("https://youtu.be/")) {
-    let url = content.url;
+    const url = content.url;
     content.url = url.replace(
       "https://youtu.be",
       "https://www.youtube.com/embed/"

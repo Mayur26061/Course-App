@@ -2,10 +2,10 @@ import { Typography, Button, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import image from "../../assets/professor.jpeg";
 import { useRecoilValue } from "recoil";
-import { userEmailState } from "../../stores/selectors/userEmail";
+import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
 function Landing() {
-  const userEmail = useRecoilValue(userEmailState);
+  const userEmail = useRecoilValue(userOnlyState);
   const isLoading = useRecoilValue(userLoadingState);
   return (
     <div>
@@ -19,10 +19,10 @@ function Landing() {
               </Typography>
               {!userEmail && (
                 <div className="p-1">
-                  <Link className="m-1" to={"/admin/signup"}>
+                  <Link className="m-1" to={"/signup"}>
                     <Button variant="contained">Signup</Button>
                   </Link>
-                  <Link className="m-1" to={"/admin/signin"}>
+                  <Link className="m-1" to={"/signin"}>
                     <Button variant="contained">Signin</Button>
                   </Link>
                 </div>

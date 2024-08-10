@@ -20,7 +20,7 @@ export default function CreateContent({ handleClose, open }) {
   const [type, setType] = useState("");
   const [url, setUrl] = useState("");
   const [published, setPublished] = useState(true);
-  let { cid } = useParams();
+  const { cid } = useParams();
 
   const onCloses = () => {
     handleClose();
@@ -36,7 +36,7 @@ export default function CreateContent({ handleClose, open }) {
       title,
       description,
       type,
-      url,
+      content_url:url,
       published,
     };
     if (title && type && url && validateContent(contentobj)) {

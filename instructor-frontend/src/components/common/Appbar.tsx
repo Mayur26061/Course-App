@@ -2,15 +2,24 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { userEmailState } from "../../stores/selectors/userEmail";
+import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
+import { BASE_URL } from "../../config";
+import axios from "axios";
 
 const Appbar = () => {
+  // useRecoilState
   const setUser = useSetRecoilState(userState);
-  const userEmail = useRecoilValue(userEmailState);
+  const userEmail = useRecoilValue(userOnlyState);
   const isLoading = useRecoilValue(userLoadingState);
   const navigate = useNavigate();
-
+  const logout = async ()=>{
+    await axios.post(`${BASE_URL}/signout`, {},{withCredentials:true})
+    setUser({
+      isLoading:false,
+      user:null
+    })
+  }
   return (
     <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-20">
       <div>
@@ -23,11 +32,11 @@ const Appbar = () => {
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => navigate("/admin/signup")}
+                onClick={() => navigate("/signup")}
               >
                 Sign Up
               </Button>
-              <Button size="small" onClick={() => navigate("/admin/signin")}>
+              <Button size="small" onClick={() => navigate("/signin")}>
                 Sign In
               </Button>
             </div>
@@ -35,25 +44,18 @@ const Appbar = () => {
           {userEmail && (
             <div className="flex items-center">
               <Button
-                onClick={() => navigate("/admin/createcourse")}
+                onClick={() => navigate("/createcourse")}
                 variant="text"
               >
                 Add Course
               </Button>
-              <Button onClick={() => navigate("/admin/courses")} variant="text">
+              <Button onClick={() => navigate("/courses")} variant="text">
                 Courses
               </Button>
               <Button
                 size="small"
                 variant="contained"
-                onClick={() => {
-                  localStorage.setItem("token", null);
-                  setUser({
-                    isLoading: false,
-                    userEmail: null,
-                  });
-                  navigate("/admin/signin");
-                }}
+                onClick={logout}
               >
                 Logout
               </Button>
