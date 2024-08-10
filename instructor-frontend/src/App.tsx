@@ -25,16 +25,16 @@ function App() {
   useEffect(() => {
     const fetchme = async () => {
       try {
-        const res = await axios.get(`${BASE_URL}/api/instructor/me`, {
+        const res = await axios.get(`${BASE_URL}/me`, {
           withCredentials:true
         });
         if (res.data.error) {
-          setUser({ isLoading: false, userEmail: null });
+          setUser({ isLoading: false, user: null });
         } else {
-          setUser({ isLoading: false, userEmail: res.data.user });
+          setUser({ isLoading: false, user: res.data.user });
         }
       } catch {
-        setUser({ isLoading: false, userEmail: null });
+        setUser({ isLoading: false, user: null });
         console.log("Error");
       }
     };
@@ -46,20 +46,17 @@ function App() {
       <Router>
         <Appbar />
         <Routes>
-          <Route path="/admin">
             <Route index element={<Landing />} />
-            <Route exact path="signin" element={<Login />} />
-            <Route exact path="signup" element={<Register />} />
-            <Route exact path="createcourse" element={<CreateCourse />} />
-            <Route exact path="courses" element={<ShowCourses />} />
-            <Route exact path="course/:cid" element={<SingleCourse />} />
+            <Route path="signin" element={<Login />} />
+            <Route path="signup" element={<Register />} />
+            <Route path="createcourse" element={<CreateCourse />} />
+            <Route path="courses" element={<ShowCourses />} />
+            <Route path="course/:cid" element={<SingleCourse />} />
             <Route
-              exact
               path="course/:co/content/:cid"
               element={<SingleContent />}
             />
-            <Route exact path="*" element={<Notfound />} />
-          </Route>
+            <Route path="*" element={<Notfound />} />
           <Route index element={<Navigate to="/admin" replace />} />
           <Route path="*" element={<Notfound />} />
         </Routes>

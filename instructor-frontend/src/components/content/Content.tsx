@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Button, Card, Typography } from "@mui/material";
 import { useState } from "react";
 import EditContent from "./EditContent";
@@ -27,11 +26,9 @@ const Content = ({ content }) => {
     setContent({isLoading:true,content:[]})
     ev.stopPropagation();
     await axios.delete(
-      `${BASE_URL}/admin/content/delete/${content._id}`,
+      `${BASE_URL}/delete/content/${content.id}`,
       {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
+       withCredentials:true
       }
     );
     const cons = await fetchContent(cid)
@@ -43,7 +40,7 @@ const Content = ({ content }) => {
       <div
         className="flex items-baseline justify-between p-0.5"
         onClick={() => {
-          navigate(`content/${content._id}`);
+          navigate(`content/${content.id}`);
         }}
       >
         <div className="pl-1.5">

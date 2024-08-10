@@ -12,30 +12,22 @@ function Login() {
 
   const navigate = useNavigate();
   const handleLogin = async () => {
-    const response = await axios.post(
-      `${BASE_URL}/admin/login`,
-      {},
-      {
-        headers: {
-          username: email,
-          password,
-        },
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/signin`, {
+      username: email,
+      password,
+    },
+  {
+    withCredentials: true,
+  });
     if (response.data.error) {
-      console.log(response.data.error);
-    } else {
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        setUser({
-          isLoading: false,
-          userEmail: email,
-        });
-        navigate("/admin/courses");
-      }
+      console.log(response.data.message);
+      return;
     }
-    setEmail("");
-    setPassword("");
+    setUser({
+      isLoading: false,
+      user: response.data.user,
+    });
+    navigate("/courses");
   };
 
   return (

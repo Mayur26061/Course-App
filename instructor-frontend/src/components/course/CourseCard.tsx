@@ -10,8 +10,9 @@ const CourseCard = () => {
 
   const imageLink = useRecoilValue(courseImageState);
   return (
-    <div className="flex mt-24 justify-center w-full">
-      <Card className="w-350 min-h-52 z-10 mr-12 !rounded-2xl pb-4">
+    // use absolute with media query
+    <div className="flex justify-center mt-5 lg:justify-end lg:-mt-48">
+      <Card className="w-350 min-h-52 z-10 !rounded-2xl pb-4">
         <div className="h-52">
           <img src={imageLink} className="h-full w-full" alt="img" />
         </div>

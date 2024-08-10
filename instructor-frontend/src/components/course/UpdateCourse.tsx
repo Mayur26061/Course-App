@@ -6,7 +6,6 @@ import { courseState } from "../../stores/atoms/course";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 
-
 const UpdateCourse = () => {
 const navigate = useNavigate()
   const [course, setCourse] = useRecoilState(courseState);
@@ -17,35 +16,31 @@ const navigate = useNavigate()
   const [disable, setDisable] = useState(true)
   const update = async () => {
     const res = await axios.put(
-      `${BASE_URL}/admin/courses/${course.course._id}`,
+      `${BASE_URL}/update/course/${course.course.id}`,
       {
         title,
         description,
-        price,
-        published: isPublished,
+        price:parseInt(price),
       },
       {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
+        withCredentials:true
       }
     );
-    setCourse({ isLoading: false, course: res.data.data });
+    console.log(res)
+    setCourse({ isLoading: false, course: res.data.course });
   };
   const deleteCourse = async()=>{
     await axios.delete(
-      `${BASE_URL}/admin/course/delete/${course.course._id}`,
+      `${BASE_URL}/delete/course/${course.course.id}`,
       {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
+        withCredentials:true
       }
     );
-    navigate('/admin/courses')
+    navigate('/courses')
   }
   return (
-    <div className="flex justify-center">
-      <Card className="mt-52 max-w-600" variant="outlined">
+    <div className="flex justify-center mt-5">
+      <Card variant="outlined">
         <div className="p-5">
           <Typography className="!mb-2.5">Edit Course</Typography>
           <TextField
@@ -116,4 +111,4 @@ const navigate = useNavigate()
   );
 };
 
-export default UpdateCourse;
+export default UpdateCourse

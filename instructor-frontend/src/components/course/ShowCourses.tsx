@@ -6,13 +6,12 @@ function ShowCourses() {
   const [courses, setCourses] = useState([]);
   useEffect(() => {
     axios
-      .get(`${BASE_URL}/admin/courses`, {
-        headers: {
-          authorization: "Bearer " + localStorage.getItem("token"),
-        },
+      .get(`${BASE_URL}/courses`, {
+        withCredentials:true,
       })
       .then((resposne) => {
-        setCourses(resposne.data.courses);
+        console.log(resposne.data.course)
+        setCourses(resposne.data.course);
       })
       .catch((err) => {
         console.log(err);
@@ -22,7 +21,7 @@ function ShowCourses() {
   return (
     <div>
       <div className="flex justify-center flex-wrap">
-        {courses && courses.map((c) => <Course key={c._id} course={c} />)}
+        {courses && courses.map((c) => <Course key={c.id} course={c} />)}
       </div>
     </div>
   );

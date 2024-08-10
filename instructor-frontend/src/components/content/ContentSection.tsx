@@ -20,7 +20,7 @@ const ContentSection = () => {
   return (
     <div className="flex justify-center">
       <Card className="mt-9 p-2.5 w-full max-w-xl">
-        {content && content.map((c) => <Content key={c._id} content={c} />)}
+        {content && content.map((c: { id: React.Key; }) => <Content key={c.id} content={c} />)}
         <Button onClick={handleOpen}>Add a Content</Button>
       </Card>
       <CreateContent handleClose={handleClose} open={open} />
