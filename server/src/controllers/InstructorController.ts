@@ -36,6 +36,20 @@ const contentOptional = z.object({
   content_url: z.string().url(),
   duration: z.string().time().optional(),
 });
+
+const _getCourse = async (courseId:string, req:reqObj)=>{
+  const course = await prisma.course.findUnique({
+    where: {
+      id: courseId,
+      author_id: req.headers.uid,
+    },
+    include: {
+      contents: true,
+    },
+  });
+  return course
+}
+
 // Sign Up for instructor
 export const instrutorSignUp = asyncHandler(async (req, res, next) => {
   const result = signUpCheck.safeParse(req.body);
@@ -321,5 +335,6 @@ export const updateContent = asyncHandler(async (req: reqObj, res) => {
       id: req.params.contentId,
     },
   });
-  res.json({ error: false, content: content });
+  
+  res.json({ error: false, course: await _getCourse(content.course_id,req) });
 });

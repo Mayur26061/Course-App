@@ -6,10 +6,10 @@ import Modal from "@mui/material/Modal";
 import { TextField, Switch, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../config";
-import { boxStyle, fetchContent } from "../utils";
+import { boxStyle } from "../utils";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../stores/atoms/content";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 
 export default function EditContent({ handleClose, open, content }) {
   const [title, setTitle] = useState(content.title);
@@ -18,7 +18,7 @@ export default function EditContent({ handleClose, open, content }) {
   const [url, setUrl] = useState(content.content_url);
   const [published, setPublished] = useState(content.published);
   const setContent = useSetRecoilState(contentState);
-  const { cid } = useParams();
+  // const { cid } = useParams();
 
   const onCloses = (ev: { stopPropagation: () => void; }) => {
     ev.stopPropagation();
@@ -26,7 +26,7 @@ export default function EditContent({ handleClose, open, content }) {
     setTitle(content.title);
     setDescription(content.description);
     setType(content.type);
-    setUrl(content.url);
+    setUrl(content.content_url);
     setPublished(content.published);
   };
   const editContent = async () => {
@@ -34,24 +34,23 @@ export default function EditContent({ handleClose, open, content }) {
       title,
       description,
       type,
-      url,
-      published,
+      content_url:url,
     };
     if (title && type && url) {
       const response = await axios.put(
-        `${BASE_URL}/admin/content/${content._id}`,
+        `${BASE_URL}//update/content/${content.id}`,
         contentobj,
         {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
+          withCredentials:true
         }
       );
       if (response.data.error) {
         console.log(response.data.error);
       } else {
-        const cons = await fetchContent(cid);
-        setContent({ isLoading: false, content: cons });
+        console.log(response.data)
+        // const contents = 
+        // const cons = await fetchContent(cid);
+        setContent({ isLoading: false, content:response.data.course.contents  });
       }
     }
     handleClose();
