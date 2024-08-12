@@ -39,7 +39,7 @@ export const boxStyle = {
   boxShadow: 24,
   p: 4,
 };
-export const fetchContent = async (cid) => {
+export const fetchContent = async (cid: string) => {
   const response = await axios
     .get(`${BASE_URL}/admin/content`, {
       headers: {
