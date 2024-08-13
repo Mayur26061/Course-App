@@ -31,8 +31,8 @@ const Content = ({ content }) => {
        withCredentials:true
       }
     );
-    const cons = await fetchContent(cid)
-    setContent({isLoading:false,content:cons})
+    // const cons = await fetchContent(cid)
+    // setContent({isLoading:false,content:cons})
   };
 
   return (

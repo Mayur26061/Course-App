@@ -37,24 +37,22 @@ export default function CreateContent({ handleClose, open }) {
       description,
       type,
       content_url:url,
-      published,
     };
     if (title && type && url && validateContent(contentobj)) {
       const response = await axios.post(
-        `${BASE_URL}/admin/${cid}/content`,
+        `${BASE_URL}/${cid}/addcontent`,
         contentobj,
         {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
-          },
+         withCredentials:true
         }
       );
       if (response.data.error) {
         console.log(response.data.error);
-      } else {
-        const cons = await fetchContent(cid);
-        setContent({ isLoading: false, content: cons });
       }
+      //  else {
+      //   const cons = await fetchContent(cid);
+      //   setContent({ isLoading: false, content: cons });
+      // }
       onCloses();
     }
     console.log("Please fill the required details");
@@ -62,7 +60,7 @@ export default function CreateContent({ handleClose, open }) {
 
   return (
     <Modal open={open} onClose={onCloses}>
-      <Box sx={boxStyle}>
+      <Box sx={boxStyle} className="w-full max-w-lg p-2">
         <Typography variant="h5" className="!mb-2.5">
           Create new content
         </Typography>

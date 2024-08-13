@@ -13,13 +13,14 @@ const SingleContent = () => {
     async function fetchthisContent() {
       setIsLoading(true);
       try {
-        const res = await axios.get(`${BASE_URL}/admin/content/${cid}`, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("token"),
+        const res = await axios.get(`${BASE_URL}/content/${cid}`, {
+          data:{
+            courseId:co
           },
+          withCredentials:true
         });
         setIsLoading(false);
-        setContent(res.data.cont);
+        setContent(res.data.content);
       } catch {
         setIsLoading(false);
       }
@@ -32,25 +33,25 @@ const SingleContent = () => {
   return (
     <div className="flex flex-col grow">
       <div className="w-full bg-slate-100 h-4/5">
-        <Link to={`/admin/course/${co}`}>
+        <Link to={`/course/${co}`}>
           <Button>&lt; Back to Course</Button>
         </Link>
       </div>
       <div className="p-3 flex justify-center items-center">
         <div className="px-10 w-[800px] h-[560px]">
           {content?.type == "image" && (
-            <img className="w-full h-full" src={content.url} />
+            <img className="w-full h-full" src={content.content_url} />
           )}
           {content?.type == "document" && (
             <iframe
-            src={content.url}
+            src={content.content_url}
               className="w-full h-full"
             ></iframe>
           )}
           {content?.type == "video" && (
             <iframe
               className="w-full h-full"
-              src={content.url}
+              src={content.content_url}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

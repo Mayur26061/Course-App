@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { TextField, Switch, Select, MenuItem } from "@mui/material";
+import { TextField, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import { boxStyle } from "../utils";
@@ -16,7 +16,6 @@ export default function EditContent({ handleClose, open, content }) {
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.content_url);
-  const [published, setPublished] = useState(content.published);
   const setContent = useSetRecoilState(contentState);
   // const { cid } = useParams();
 
@@ -27,7 +26,6 @@ export default function EditContent({ handleClose, open, content }) {
     setDescription(content.description);
     setType(content.type);
     setUrl(content.content_url);
-    setPublished(content.published);
   };
   const editContent = async () => {
     const contentobj = {
@@ -38,7 +36,7 @@ export default function EditContent({ handleClose, open, content }) {
     };
     if (title && type && url) {
       const response = await axios.put(
-        `${BASE_URL}//update/content/${content.id}`,
+        `${BASE_URL}/update/content/${content.id}`,
         contentobj,
         {
           withCredentials:true
@@ -57,7 +55,7 @@ export default function EditContent({ handleClose, open, content }) {
   };
   return (
     <Modal open={open} onClose={onCloses}>
-      <Box sx={boxStyle}>
+      <Box sx={boxStyle} className="w-full max-w-lg">
         <Typography variant="h5" className="!mb-2.5">
           Edit content
         </Typography>
@@ -97,20 +95,14 @@ export default function EditContent({ handleClose, open, content }) {
           label="URL"
           onChange={(e) => setUrl(e.target.value)}
         />
-        <div className="flex items-center mt-1.5">
-          <Typography>Published</Typography>
-          <Switch
-            checked={published}
-            onChange={(e) => setPublished(e.target.checked)}
-          />
-        </div>
-        <br />
+        <div className="mt-3">
         <Button variant="contained" onClick={editContent}>
           Edit Content
         </Button>
         <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
           Close
         </Button>
+        </div>
       </Box>
     </Modal>
   );
