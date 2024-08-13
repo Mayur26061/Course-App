@@ -6,7 +6,6 @@ import prisma from "../utils/client";
 import { signUpCheck, signCheck } from "../utils/utils";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../middleware/auth";
-import { count, error } from "console";
 
 const courseInp = z.object({
   title: z.string().min(3),
@@ -295,7 +294,6 @@ export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
 });
 
 export const updateCourse = asyncHandler(async (req: reqObj, res) => {
-  console.log(req.body)
   const result = courseOptional.safeParse(req.body);
   if (result.error) {
     res.json({
