@@ -1,32 +1,38 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import { Loading } from "../common/Loading";
+import { contentType } from "../utils";
 
 const SingleContent = () => {
   const { co, cid } = useParams();
-  const [content, setContent] = useState();
+  const [content, setContent] = useState<contentType>();
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function fetchthisContent() {
       setIsLoading(true);
       try {
         const res = await axios.get(`${BASE_URL}/content/${cid}`, {
-          data:{
-            courseId:co
+          data: {
+            courseId: co,
           },
-          withCredentials:true
+          withCredentials: true,
         });
         setIsLoading(false);
+        if (res.data.error) {
+          console.log(res.data.message);
+          return;
+        }
         setContent(res.data.content);
       } catch {
         setIsLoading(false);
+        console.log("Something went wrong");
       }
     }
     fetchthisContent();
-  }, []);
+  }, [cid, co]);
   if (isLoading) {
     return <Loading />;
   }
@@ -37,30 +43,34 @@ const SingleContent = () => {
           <Button>&lt; Back to Course</Button>
         </Link>
       </div>
-      <div className="p-3 flex justify-center items-center">
-        <div className="px-10 w-[800px] h-[560px]">
-          {content?.type == "image" && (
-            <img className="w-full h-full" src={content.content_url} />
-          )}
-          {content?.type == "document" && (
-            <iframe
-            src={content.content_url}
-              className="w-full h-full"
-            ></iframe>
-          )}
-          {content?.type == "video" && (
-            <iframe
-              className="w-full h-full"
-              src={content.content_url}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          )}
+      {content ? (
+        <div className="p-3 flex justify-center items-center">
+          <div className="px-10 w-[800px] h-[560px]">
+            {content.type == "image" && (
+              <img className="w-full h-full" src={content.content_url} />
+            )}
+            {content.type == "document" && (
+              <iframe
+                src={content.content_url}
+                className="w-full h-full"
+              ></iframe>
+            )}
+            {content.type == "video" && (
+              <iframe
+                className="w-full h-full"
+                src={content.content_url}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, Card, Switch, TextField, Typography } from "@mui/material";
+import { Button, Card, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { BASE_URL } from "../../config";
@@ -12,8 +12,8 @@ const navigate = useNavigate()
   const [title, setTitle] = useState(course.course.title);
   const [description, setDescription] = useState(course.course.description);
   const [price, setPrice] = useState(course.course.price);
-  const [isPublished, setIsPublished] = useState(course.course.published);
   const [disable, setDisable] = useState(true)
+
   const update = async () => {
     const res = await axios.put(
       `${BASE_URL}/update/course/${course.course.id}`,
@@ -73,15 +73,6 @@ const navigate = useNavigate()
               setDisable(false)
             }}
           />
-          <div className="flex items-center">
-            <Switch
-              checked={isPublished}
-              onChange={(e) => {setIsPublished(e.target.checked)
-                setDisable(false)
-              }}
-            />
-            <Typography>Published</Typography>
-          </div>
           <div className="flex justify-between">
           <Button
             className="!m-1.5"
@@ -102,7 +93,8 @@ const navigate = useNavigate()
             variant="outlined"
             color="error"
             >
-            Delete
+              {/* replace with icon */}
+            Delete 
           </Button>
             </div>
         </div>

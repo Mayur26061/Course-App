@@ -2,17 +2,16 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { userOnlyState } from "../../stores/selectors/userEmail";
-import { userLoadingState } from "../../stores/selectors/isUserLoading";
 import { BASE_URL } from "../../config";
 import axios from "axios";
 
 const Appbar = () => {
   // useRecoilState
   const setUser = useSetRecoilState(userState);
-  const userEmail = useRecoilValue(userOnlyState);
-  const isLoading = useRecoilValue(userLoadingState);
+  const userCurrent = useRecoilValue(userState);
   const navigate = useNavigate();
+
+  // move this logic to somewhere else
   const logout = async ()=>{
     await axios.post(`${BASE_URL}/signout`, {},{withCredentials:true})
     setUser({
@@ -25,9 +24,9 @@ const Appbar = () => {
       <div>
         <Typography variant="h6">SmartLearn</Typography>
       </div>
-      {!isLoading && (
+      {!userCurrent.isLoading && (
         <div>
-          {!userEmail && (
+          {!userCurrent.user && (
             <div>
               <Button
                 size="small"
@@ -41,7 +40,7 @@ const Appbar = () => {
               </Button>
             </div>
           )}
-          {userEmail && (
+          {userCurrent.user && (
             <div className="flex items-center">
               <Button
                 onClick={() => navigate("/createcourse")}

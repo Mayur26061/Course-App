@@ -1,4 +1,4 @@
-import { Button, Card, Switch, TextField, Typography } from "@mui/material";
+import { Button, Card, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
 import { BASE_URL } from "../../config";
@@ -7,7 +7,6 @@ function CreateCourse() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [isPublished, setIsPublished] = useState(true);
   const [imageLink, setImageLink] = useState("");
 
   const createCourse = async () => {
@@ -15,16 +14,14 @@ function CreateCourse() {
       title,
       description,
       price,
-      published: isPublished,
-      image:imageLink,
+      image: imageLink,
     };
     await axios.post(`${BASE_URL}//addcourse`, course, {
-      withCredentials:true,
+      withCredentials: true,
     });
     setTitle("");
     setDescription("");
     setPrice(0);
-    setIsPublished(true);
   };
   return (
     <div className="flex flex-col justify-center items-center p-5">
@@ -64,17 +61,11 @@ function CreateCourse() {
           label="Image Link"
           onChange={(e) => setImageLink(e.target.value)}
         />
-        <div className="flex items-center mt-1.5">
-          <Switch
-            checked={isPublished}
-            onChange={(e) => setIsPublished(e.target.checked)}
-          />
-          <Typography>Published</Typography>
+        <div className="mt-3">
+          <Button variant="contained" onClick={createCourse}>
+            Create Course
+          </Button>
         </div>
-        <br />
-        <Button variant="contained" onClick={createCourse}>
-          Create Course
-        </Button>
       </Card>
     </div>
   );
