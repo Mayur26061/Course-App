@@ -36,19 +36,6 @@ const contentOptional = z.object({
   duration: z.string().time().optional(),
 });
 
-const _getCourse = async (courseId:string, req:reqObj)=>{
-  const course = await prisma.course.findUnique({
-    where: {
-      id: courseId,
-      author_id: req.headers.uid,
-    },
-    include: {
-      contents: true,
-    },
-  });
-  return course
-}
-
 // Sign Up for instructor
 export const instrutorSignUp = asyncHandler(async (req, res, next) => {
   const result = signUpCheck.safeParse(req.body);
@@ -138,9 +125,10 @@ export const getCourses = asyncHandler(async (req: reqObj, res) => {
       author_id: req.headers.uid,
     },
   });
-  res.json({ error: false, course:course });
+  res.json({ error: false, course: course });
 });
 
+// add new course
 export const addCourse = asyncHandler(async (req: reqObj, res) => {
   const result = courseInp.safeParse(req.body);
   if (result.error) {
@@ -168,6 +156,7 @@ export const addCourse = asyncHandler(async (req: reqObj, res) => {
   res.json({ error: false, course });
 });
 
+// add new content
 export const addContent = asyncHandler(async (req: reqObj, res) => {
   const result = contentValidator.safeParse(req.body);
   if (result.error) {
@@ -209,6 +198,7 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
   res.json({ error: false, content });
 });
 
+// get course with ID created by him
 export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
   const course = await prisma.course.findUnique({
     where: {
@@ -226,6 +216,7 @@ export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
   res.json({ error: false, course });
 });
 
+// get content with ID
 export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
   const courseId: string = req.body.courseId;
   const content = await prisma.content.findUnique({
@@ -237,7 +228,11 @@ export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
       },
     },
   });
-  res.json({ error: false, content: content || [] });
+  if (!content) {
+    res.json({ error: true, message: "couldn't find" });
+    return;
+  }
+  res.json({ error: false, content });
 });
 
 // Logout logic
@@ -309,9 +304,9 @@ export const updateCourse = asyncHandler(async (req: reqObj, res) => {
     data: {
       ...req.body,
     },
-    include:{
-      contents:true
-    }
+    include: {
+      contents: true,
+    },
   });
   res.json({ error: false, course: course });
 });
@@ -333,6 +328,6 @@ export const updateContent = asyncHandler(async (req: reqObj, res) => {
       id: req.params.contentId,
     },
   });
-  
-  res.json({ error: false, course: await _getCourse(content.course_id,req) });
+
+  res.json({ error: false, content: content });
 });
