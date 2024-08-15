@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
 import { BASE_URL } from "../../config";
 import { userState } from "../../stores/atoms/user";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
   const handleLogin = async () => {
-    const response = await axios.post(`${BASE_URL}/signin`, {
-      username: email,
-      password,
-    },
-  {
-    withCredentials: true,
-  });
+    const response = await axios.post(
+      `${BASE_URL}/signin`,
+      {
+        username: email,
+        password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     if (response.data.error) {
       console.log(response.data.message);
       return;
@@ -29,6 +32,11 @@ function Login() {
     });
     navigate("/courses");
   };
+  useEffect(() => {
+    if (user) {
+      navigate("/courses");
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col justify-center items-center mt-20">

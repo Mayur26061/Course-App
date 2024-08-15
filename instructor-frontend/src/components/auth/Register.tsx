@@ -1,33 +1,40 @@
 import axios from "axios";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
 import { BASE_URL } from "../../config";
+import { userOnlyState } from "../../stores/selectors/user";
+import { useRecoilValue } from "recoil";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-
+  const user = useRecoilValue(userOnlyState)
   const navigate = useNavigate();
-  const handleSign = async () => {
+  const handleSignUp = async () => {
     const response = await axios.post(`${BASE_URL}/signup`, {
       username: email,
       password,
-      name
+      name,
     });
     if (response.data.error) {
-      console.log(response.data.message)
-      return
+      console.log(response.data.message);
+      return;
     }
   };
+  useEffect(() => {
+    if (user) {
+      navigate("/courses");
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col justify-center items-center mt-20">
       <Typography variant="h6">Sign Up</Typography>
       <br />
       <Card className="p-6 w-72" variant="outlined">
-      <TextField
+        <TextField
           className="!mb-2.5"
           fullWidth={true}
           id="name"
@@ -57,7 +64,7 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="mt-3 flex flex-col items-center justify-center">
-          <Button variant="contained" size="small" onClick={handleSign}>
+          <Button variant="contained" size="small" onClick={handleSignUp}>
             Signup
           </Button>
           <div className="mt-3">

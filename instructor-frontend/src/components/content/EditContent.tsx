@@ -6,7 +6,7 @@ import Modal from "@mui/material/Modal";
 import { TextField, Select, MenuItem } from "@mui/material";
 import axios from "axios";
 import { BASE_URL } from "../../config";
-import { boxStyle } from "../utils";
+import { boxStyle, validateContent } from "../utils";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../stores/atoms/content";
 // import { useParams } from "react-router-dom";
@@ -19,7 +19,7 @@ export default function EditContent({ handleClose, open, content }) {
   const setContent = useSetRecoilState(contentState);
   // const { cid } = useParams();
 
-  const onCloses = (ev: { stopPropagation: () => void; }) => {
+  const onCloses = (ev: { stopPropagation: () => void }) => {
     ev.stopPropagation();
     handleClose();
     setTitle(content.title);
@@ -32,23 +32,31 @@ export default function EditContent({ handleClose, open, content }) {
       title,
       description,
       type,
-      content_url:url,
+      content_url: url,
     };
-    if (title && type && url) {
+    if (title && type && url && validateContent({ type, url })) {
       const response = await axios.put(
         `${BASE_URL}/update/content/${content.id}`,
         contentobj,
         {
-          withCredentials:true
+          withCredentials: true,
         }
       );
       if (response.data.error) {
         console.log(response.data.error);
       } else {
-        console.log(response.data)
-        // const contents = 
-        // const cons = await fetchContent(cid);
-        setContent({ isLoading: false, content:response.data.course.contents  });
+        console.log(response.data);
+        setContent((contents) => {
+          return {
+            isLoading: false,
+            content: contents.content.map((d) => {
+              if (d.id === response.data.content.id) {
+                return response.data.content;
+              }
+              return d;
+            }),
+          };
+        });
       }
     }
     handleClose();
@@ -96,12 +104,12 @@ export default function EditContent({ handleClose, open, content }) {
           onChange={(e) => setUrl(e.target.value)}
         />
         <div className="mt-3">
-        <Button variant="contained" onClick={editContent}>
-          Edit Content
-        </Button>
-        <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
-          Close
-        </Button>
+          <Button variant="contained" onClick={editContent}>
+            Edit Content
+          </Button>
+          <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
+            Close
+          </Button>
         </div>
       </Box>
     </Modal>

@@ -1,15 +1,14 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { TextField, Switch, Select, MenuItem, InputLabel } from "@mui/material";
+import { TextField, Select, MenuItem, InputLabel } from "@mui/material";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "../../config";
 import { useSetRecoilState } from "recoil";
-import { fetchContent, validateContent } from "../utils";
+import { validateContent } from "../utils";
 import { boxStyle } from "../utils";
 import { contentState } from "../../stores/atoms/content";
 export default function CreateContent({ handleClose, open }) {
@@ -19,7 +18,6 @@ export default function CreateContent({ handleClose, open }) {
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [url, setUrl] = useState("");
-  const [published, setPublished] = useState(true);
   const { cid } = useParams();
 
   const onCloses = () => {
@@ -28,7 +26,6 @@ export default function CreateContent({ handleClose, open }) {
     setDescription("");
     setType("");
     setUrl("");
-    setPublished(true);
   };
 
   const createContent = async () => {
@@ -36,23 +33,26 @@ export default function CreateContent({ handleClose, open }) {
       title,
       description,
       type,
-      content_url:url,
+      content_url: url,
     };
-    if (title && type && url && validateContent(contentobj)) {
+    if (title && type && url && validateContent({ type, url })) {
       const response = await axios.post(
         `${BASE_URL}/${cid}/addcontent`,
         contentobj,
         {
-         withCredentials:true
+          withCredentials: true,
         }
       );
       if (response.data.error) {
         console.log(response.data.error);
+      } else {
+        setContent((data) => {
+          return {
+            isLoading: false,
+            content: [...data.content, response.data.content],
+          };
+        });
       }
-      //  else {
-      //   const cons = await fetchContent(cid);
-      //   setContent({ isLoading: false, content: cons });
-      // }
       onCloses();
     }
     console.log("Please fill the required details");
@@ -101,19 +101,15 @@ export default function CreateContent({ handleClose, open }) {
           label="URL"
           onChange={(e) => setUrl(e.target.value)}
         />
-        <div className="flex items-center my-1.5">
-          <Typography>Published</Typography>
-          <Switch
-            checked={published}
-            onChange={(e) => setPublished(e.target.checked)}
-          />
-        </div>
+        <div className="mt-3">
+
         <Button variant="contained" onClick={createContent}>
           Create Content
         </Button>
         <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
           Close
         </Button>
+        </div>
       </Box>
     </Modal>
   );
