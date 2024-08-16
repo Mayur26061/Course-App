@@ -1,27 +1,28 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "../../config";
+import { Button, TextField, Card, Typography, Alert } from "@mui/material";
 import { userOnlyState } from "../../stores/selectors/user";
 import { useRecoilValue } from "recoil";
+import { registerCall } from "./fetch";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const user = useRecoilValue(userOnlyState)
+  const [message, setMessage] = useState({ error: false, message: null });
+  const user = useRecoilValue(userOnlyState);
   const navigate = useNavigate();
   const handleSignUp = async () => {
-    const response = await axios.post(`${BASE_URL}/signup`, {
+    setMessage({ error: false, message: null });
+    const rep = await registerCall({
       username: email,
       password,
       name,
     });
-    if (response.data.error) {
-      console.log(response.data.message);
-      return;
-    }
+    setMessage({ error: rep.error, message: rep.message });
+    setEmail("");
+    setName("");
+    setPassword("");
   };
   useEffect(() => {
     if (user) {
@@ -34,6 +35,17 @@ function Register() {
       <Typography variant="h6">Sign Up</Typography>
       <br />
       <Card className="p-6 w-72" variant="outlined">
+        {message.message && (
+          <Alert
+            severity={message.error ? "error" : "info"}
+            className="my-2.5"
+            onClose={() => {
+              setMessage({ error: false, message: null });
+            }}
+          >
+            {message.message}
+          </Alert>
+        )}{" "}
         <TextField
           className="!mb-2.5"
           fullWidth={true}

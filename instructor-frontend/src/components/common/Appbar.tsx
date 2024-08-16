@@ -2,8 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { BASE_URL } from "../../config";
-import axios from "axios";
+import { logOutCall } from "./fetch";
 
 const Appbar = () => {
   // useRecoilState
@@ -13,7 +12,7 @@ const Appbar = () => {
 
   // move this logic to somewhere else
   const logout = async ()=>{
-    await axios.post(`${BASE_URL}/signout`, {},{withCredentials:true})
+    await logOutCall()
     setUser({
       isLoading:false,
       user:null

@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "../../config";
 import { userState } from "../../stores/atoms/user";
 import { useRecoilState } from "recoil";
+import { loginCall } from "./fetch";
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -12,28 +11,21 @@ function Login() {
 
   const navigate = useNavigate();
   const handleLogin = async () => {
-    const response = await axios.post(
-      `${BASE_URL}/signin`,
-      {
-        username: email,
-        password,
-      },
-      {
-        withCredentials: true,
-      }
-    );
-    if (response.data.error) {
-      console.log(response.data.message);
-      return;
+    const userData = await loginCall({
+      username: email,
+      password,
+    })
+    if (!userData){
+      return
     }
     setUser({
       isLoading: false,
-      user: response.data.user,
+      user: userData,
     });
     navigate("/courses");
   };
   useEffect(() => {
-    if (user) {
+    if (user.user) {
       navigate("/courses");
     }
   }, [user]);

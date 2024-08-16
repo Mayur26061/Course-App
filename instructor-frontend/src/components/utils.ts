@@ -1,5 +1,3 @@
-import axios from "axios";
-import { BASE_URL } from "../config";
 interface validationContent {
   type: string;
   url: string;
@@ -58,15 +56,4 @@ export const boxStyle = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 4,
-};
-export const fetchContent = async (cid: string) => {
-  const response = await axios.get(`${BASE_URL}/admin/content`, {
-    headers: {
-      authorization: "Bearer " + localStorage.getItem("token"),
-    },
-    params: {
-      courseId: cid,
-    },
-  });
-  return response.data;
 };
