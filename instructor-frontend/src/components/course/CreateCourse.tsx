@@ -16,7 +16,7 @@ function CreateCourse() {
       price,
       image: imageLink,
     };
-    await axios.post(`${BASE_URL}//addcourse`, course, {
+    await axios.post(`${BASE_URL}/addcourse`, course, {
       withCredentials: true,
     });
     setTitle("");
