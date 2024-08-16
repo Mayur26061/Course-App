@@ -13,11 +13,14 @@ const courseInp = z.object({
   price: z.number().positive().finite().default(0),
   image: z.string().url().min(1),
 });
+
 const courseOptional = z.object({
   title: z.string().min(3).optional(),
   description: z.string().min(1).optional(),
   price: z.number().positive().finite().default(0).optional(),
   image: z.string().url().min(1).optional(),
+}).refine(data=> Object.values(data).some(value=> value!== undefined),{
+  message:"Empty Object"
 });
 
 const contentValidator = z.object({
@@ -26,15 +29,17 @@ const contentValidator = z.object({
   type: z.enum(["image", "document", "video"]),
   content_url: z.string().url(),
   duration: z.string().time().optional(),
-});
+})
 
 const contentOptional = z.object({
-  title: z.string().trim().min(3),
-  description: z.string().trim(),
-  type: z.enum(["image", "document", "video"]),
-  content_url: z.string().url(),
+  title: z.string().trim().min(3).optional(),
+  description: z.string().trim().optional(),
+  type: z.enum(["image", "document", "video"]).optional(),
+  content_url: z.string().url().optional(),
   duration: z.string().time().optional(),
-});
+}).refine(data=> Object.values(data).some(value=> value!== undefined),{
+  message:"Empty Object"
+});;
 
 // Sign Up for instructor
 export const instrutorSignUp = asyncHandler(async (req, res, next) => {
