@@ -1,7 +1,6 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import { useState } from "react";
-import { BASE_URL } from "../../config";
+import { createCourseCall } from "./fetch";
 
 function CreateCourse() {
   const [title, setTitle] = useState("");
@@ -16,9 +15,7 @@ function CreateCourse() {
       price,
       image: imageLink,
     };
-    await axios.post(`${BASE_URL}/addcourse`, course, {
-      withCredentials: true,
-    });
+    await createCourseCall(course)
     setTitle("");
     setDescription("");
     setPrice(0);

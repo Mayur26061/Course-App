@@ -2,10 +2,10 @@ import { Button, Card, Typography } from "@mui/material";
 import { useState } from "react";
 import EditContent from "./EditContent";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../stores/atoms/content";
+import { deleteContentCall } from "./fetch";
+
 const Content = ({ content }) => {
   const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);
@@ -24,9 +24,7 @@ const Content = ({ content }) => {
   const deleteContent = async (ev) => {
     // setContent({isLoading:true,content:[]})
     ev.stopPropagation();
-    await axios.delete(`${BASE_URL}/delete/content/${content.id}`, {
-      withCredentials: true,
-    });
+    await deleteContentCall(content.id)
     // const cons = await fetchContent(cid)
     setContent((contents) => {
       return {
