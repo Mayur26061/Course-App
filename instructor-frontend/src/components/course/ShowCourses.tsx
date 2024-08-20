@@ -1,21 +1,15 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import Course from "./Courses";
-import { BASE_URL } from "../../config";
+import { fetchAllCourses } from "./fetch";
+
 function ShowCourses() {
   const [courses, setCourses] = useState([]);
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/courses`, {
-        withCredentials:true,
-      })
-      .then((resposne) => {
-        console.log(resposne.data.course)
-        setCourses(resposne.data.course);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    async function fetchCourses(){
+      const courses = await fetchAllCourses()
+      setCourses(courses)
+    }
+    fetchCourses()
   }, []);
 
   return (

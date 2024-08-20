@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
-import {  Typography } from "@mui/material";
-import { BASE_URL } from "../../config";
+import { Typography } from "@mui/material";
 import { courseState } from "../../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -15,6 +13,8 @@ import {
 import { contentState } from "../../stores/atoms/content";
 import { Loading } from "../common/Loading";
 import ContentSection from "../content/ContentSection";
+import { fetchSingleCourse } from "./fetch";
+
 const SingleCourse = () => {
   const { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);
@@ -22,22 +22,12 @@ const SingleCourse = () => {
   const isLoading = useRecoilValue(courseLoadingState);
 
   useEffect(() => {
-    setCourse({ isLoading: true, course: null });
-    setContent({ isLoading: true, content: null });
-    axios
-      .get(`${BASE_URL}/course/${cid}`, {
-        withCredentials:true
-      })
-      .then((response) => {
-        console.log(response.data)
-        setContent({ isLoading: false, content: response.data.course.contents
-        });
-        setCourse({ isLoading: false, course: response.data.course });
-      })
-      .catch(() => {
-        setCourse({ isLoading: false, course: null });
-        setContent({ isLoading: false, content: [] });
-      });
+    const fetchCourse = async () => {
+      const [contents, course] = await fetchSingleCourse(cid);
+      setCourse({ isLoading: true, course: course });
+      setContent({ isLoading: true, content: contents });
+    };
+    fetchCourse();
   }, [cid]);
 
   if (isLoading) {
@@ -48,7 +38,7 @@ const SingleCourse = () => {
     <div className="relative text-left">
       <GrayTopper />
       <CourseCard />
-      <UpdateCourse/>
+      <UpdateCourse />
       <ContentSection />
     </div>
   );
@@ -67,7 +57,7 @@ function GrayTopper() {
             variant="h3"
             fontWeight={600}
           >
-            {title || ''}
+            {title || ""}
           </Typography>
         </div>
       </div>

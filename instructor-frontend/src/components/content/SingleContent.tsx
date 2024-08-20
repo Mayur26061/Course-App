@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import { Loading } from "../common/Loading";
 import { contentType } from "../utils";
+import { fetchSingleContent } from "./fetch";
 
 const SingleContent = () => {
   const { co, cid } = useParams();
@@ -14,12 +13,7 @@ const SingleContent = () => {
     async function fetchthisContent() {
       setIsLoading(true);
       try {
-        const res = await axios.get(`${BASE_URL}/content/${cid}`, {
-          data: {
-            courseId: co,
-          },
-          withCredentials: true,
-        });
+        const res = await fetchSingleContent(cid, co)
         setIsLoading(false);
         if (res.data.error) {
           console.log(res.data.message);
@@ -27,9 +21,9 @@ const SingleContent = () => {
         }
         setContent(res.data.content);
       } catch {
-        setIsLoading(false);
         console.log("Something went wrong");
       }
+      setIsLoading(false);
     }
     fetchthisContent();
   }, [cid, co]);

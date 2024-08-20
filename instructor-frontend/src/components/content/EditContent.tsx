@@ -4,11 +4,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField, Select, MenuItem } from "@mui/material";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import { boxStyle, validateContent } from "../utils";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../stores/atoms/content";
+import { editContentCall } from "./fetch";
 // import { useParams } from "react-router-dom";
 
 export default function EditContent({ handleClose, open, content }) {
@@ -35,17 +34,10 @@ export default function EditContent({ handleClose, open, content }) {
       content_url: url,
     };
     if (title && type && url && validateContent({ type, url })) {
-      const response = await axios.put(
-        `${BASE_URL}/update/content/${content.id}`,
-        contentobj,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await editContentCall(content.id,contentobj)
       if (response.data.error) {
         console.log(response.data.error);
       } else {
-        console.log(response.data);
         setContent((contents) => {
           return {
             isLoading: false,

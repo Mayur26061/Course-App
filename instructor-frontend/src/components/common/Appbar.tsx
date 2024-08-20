@@ -17,6 +17,7 @@ const Appbar = () => {
       isLoading:false,
       user:null
     })
+    navigate('/')
   }
   return (
     <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-20">

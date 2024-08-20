@@ -5,15 +5,14 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { TextField, Select, MenuItem, InputLabel } from "@mui/material";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import { useSetRecoilState } from "recoil";
 import { validateContent } from "../utils";
 import { boxStyle } from "../utils";
 import { contentState } from "../../stores/atoms/content";
+import { createContentCall } from "./fetch";
+
 export default function CreateContent({ handleClose, open }) {
   const setContent = useSetRecoilState(contentState);
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
@@ -36,15 +35,9 @@ export default function CreateContent({ handleClose, open }) {
       content_url: url,
     };
     if (title && type && url && validateContent({ type, url })) {
-      const response = await axios.post(
-        `${BASE_URL}/${cid}/addcontent`,
-        contentobj,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await createContentCall(cid,contentobj)
       if (response.data.error) {
-        console.log(response.data.error);
+        console.log(response.data.message);
       } else {
         setContent((data) => {
           return {
