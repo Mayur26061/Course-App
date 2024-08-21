@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 

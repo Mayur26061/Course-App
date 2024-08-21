@@ -1,12 +1,11 @@
-/* eslint-disable react/prop-types */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Course from "./Courses";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 import Landing from "../common/Landing";
 
 function ShowCourses() {
-  const [courses, setCourses] = useState();
+  const [courses, setCourses] = useState([]);
   useEffect(() => {
     axios
       .get(`${BASE_URL}/api/learner/courses`,{
@@ -16,7 +15,6 @@ function ShowCourses() {
         setCourses(resposne.data.courses);
       })
       .catch((err) => {
-        debugger;
         console.log(err);
       });
   }, []);

@@ -2,7 +2,7 @@ import  { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import axios from "axios";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 import { Loading } from "../common/Loading";
 
 const SingleContent = () => {
@@ -53,10 +53,10 @@ const SingleContent = () => {
               className="w-full h-full"
               src={content.url}
               title="YouTube video player"
-              frameborder="0"
+              frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             ></iframe>
           )}
         </div>

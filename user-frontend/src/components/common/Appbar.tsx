@@ -5,7 +5,7 @@ import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userEmailState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
 import axios from "axios";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 const Appbar = () => {
   const setUser = useSetRecoilState(userState);
   const userEmail = useRecoilValue(userEmailState);
