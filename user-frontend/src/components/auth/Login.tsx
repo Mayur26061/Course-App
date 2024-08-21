@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState } from "recoil";
 

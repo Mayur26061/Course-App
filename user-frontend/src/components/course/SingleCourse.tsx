@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CourseCard from "./CourseCard";
 import { Grid, Typography } from "@mui/material";
-import { BASE_URL } from "../config";
+import { BASE_URL } from "../../config";
 import { courseState } from "../../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {

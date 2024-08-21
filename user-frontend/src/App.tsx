@@ -44,18 +44,15 @@ function App() {
       <Router>
         <Appbar />
         <Routes>
-          <Route path="/">
-            <Route exact path="/courses" element={<ShowCourses />} />
             <Route index element={<Navigate to="/courses" replace />} />
-            <Route exact path="course/:cid" element={<SingleCourse />} />
-            <Route exact path="signin" element={<Login />} />
-            <Route exact path="signup" element={<Register />} />
+            <Route path="/courses" element={<ShowCourses />} />
+            <Route path="course/:cid" element={<SingleCourse />} />
+            <Route path="signin" element={<Login />} />
+            <Route path="signup" element={<Register />} />
             <Route
-              exact
               path="course/:co/content/:cid"
               element={<SingleContent />}
             />
-          </Route>
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
