@@ -52,7 +52,7 @@ export const userSignUp = asyncHandler(async (req, res) => {
     },
   });
   const token = generateToken({ id: record.id, username: username }, "learner");
-  res.setHeader("set-cookie", `ltoken=${token}; HttpOnly;`);
+  res.setHeader("set-cookie", `ltoken=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false });
 });
 
@@ -97,7 +97,7 @@ export const userSignIn = asyncHandler(async (req, res) => {
     "learner"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `ltoken=${token}; HttpOnly; Max-Age=60*60*24*2`);
+  res.setHeader("set-cookie", `ltoken=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user });
 });
 
