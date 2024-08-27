@@ -2,28 +2,23 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { userEmailState } from "../../stores/selectors/userEmail";
+import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
-import axios from "axios";
-import { BASE_URL } from "../../config";
+import { logOutAction } from "./fetch";
+
 const Appbar = () => {
   const setUser = useSetRecoilState(userState);
-  const userEmail = useRecoilValue(userEmailState);
+  const userEmail = useRecoilValue(userOnlyState);
   const isLoading = useRecoilValue(userLoadingState);
   const navigate = useNavigate();
-  const onLogOut = async ()=>{
-    const response = await axios.post(
-      `${BASE_URL}/api/learner/login`,{},
-{
-  withCredentials:true
-}
-);
+  const onLogOut = async () => {
+    await logOutAction();
     setUser({
       isLoading: false,
-      userEmail: null,
+      user: null,
     });
     navigate("/signin");
-  }
+  };
   return (
     <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
       <div onClick={() => navigate("/")}>
@@ -55,11 +50,7 @@ const Appbar = () => {
                 </>
               )}
               {userEmail && (
-                <Button
-                  size="small"
-                  variant="contained"
-                  onClick={onLogOut}
-                >
+                <Button size="small" variant="contained" onClick={onLogOut}>
                   Logout
                 </Button>
               )}

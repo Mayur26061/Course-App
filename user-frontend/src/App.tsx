@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 import {
   BrowserRouter as Router,
@@ -15,28 +14,16 @@ import SingleContent from "./components/content/SingleContent";
 import ShowCourses from "./components/course/ShowCourses";
 import SingleCourse from "./components/course/SingleCourse";
 import { userState } from "./stores/atoms/user";
-import { BASE_URL } from "./config";
+import { fetchMe } from "./fetch";
 import "./App.css";
 
 function App() {
   const setUser = useSetRecoilState(userState);
   useEffect(() => {
-    const fetchme = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/api/learner/me`, {
-          withCredentials:true
-        });
-        if (res.data.user) {
-          setUser({ isLoading: false, userEmail: res.data.user });
-        } else {
-          setUser({ isLoading: false, userEmail: null });
-        }
-      } catch {
-        setUser({ isLoading: false, userEmail: null });
-        // console.log("Error");
-      }
+    const fetchUser = async () => {
+      setUser({ isLoading: false, user: await fetchMe() });
     };
-    fetchme();
+    fetchUser();
   }, []);
 
   return (
@@ -44,15 +31,12 @@ function App() {
       <Router>
         <Appbar />
         <Routes>
-            <Route index element={<Navigate to="/courses" replace />} />
-            <Route path="/courses" element={<ShowCourses />} />
-            <Route path="course/:cid" element={<SingleCourse />} />
-            <Route path="signin" element={<Login />} />
-            <Route path="signup" element={<Register />} />
-            <Route
-              path="course/:co/content/:cid"
-              element={<SingleContent />}
-            />
+          <Route index element={<Navigate to="/courses" replace />} />
+          <Route path="/courses" element={<ShowCourses />} />
+          <Route path="course/:cid" element={<SingleCourse />} />
+          <Route path="signin" element={<Login />} />
+          <Route path="signup" element={<Register />} />
+          <Route path="course/:co/content/:cid" element={<SingleContent />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>

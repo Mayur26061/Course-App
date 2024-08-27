@@ -1,12 +1,11 @@
 import { Card, Typography } from "@mui/material";
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { userEmailState } from "../../stores/selectors/userEmail";
+import { userOnlyState } from "../../stores/selectors/userEmail";
 const Content = ({ content }) => {
-  const userEmail = useRecoilValue(userEmailState);
+  const userEmail = useRecoilValue(userOnlyState);
   const navigate = useNavigate();
-  const custom = !userEmail?.purchaseCourses.includes(content.courses)
+  const custom = !userEmail?.user_courses.includes(content.courses)
     ? "pointer-events-none"
     : "pointer-events-auto";
   return (
@@ -14,7 +13,7 @@ const Content = ({ content }) => {
       <div
         className={"flex items-baseline justify-between p-0.5 " + custom}
         onClick={() => {
-          navigate(`content/${content._id}`);
+          navigate(`content/${content.id}`);
         }}
       >
         <div className="pl-1.5 select-none">
