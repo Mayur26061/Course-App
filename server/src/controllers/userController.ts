@@ -53,7 +53,7 @@ export const userSignUp = asyncHandler(async (req, res) => {
   });
   const token = generateToken({ id: record.id, username: username }, "learner");
   res.setHeader("set-cookie", `ltoken=${token};Max-Age=172800;HttpOnly;`);
-  res.send({ error: false });
+  res.send({ error: false, user: record });
 });
 
 // Signin logic
@@ -167,7 +167,7 @@ export const getSelectedCourse = asyncHandler(async (req, res) => {
     },
   });
   if (!course) {
-    res.json({ error: true, message: "couldn't find" });
+    res.json({ error: true, course: null, message: "couldn't find" });
     return;
   }
   res.json({ error: false, course });
