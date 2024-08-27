@@ -1,24 +1,24 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import axios from "axios";
-import { BASE_URL } from "../../config";
 import { Loading } from "../common/Loading";
+import { fetchSingleContent } from "./fetch";
+import Notfound from "../common/Notfound";
 
 const SingleContent = () => {
   const { co, cid } = useParams();
   const [content, setContent] = useState(null);
-  const [isLoading, setIsloading] = useState(true);
+  const [isLoading, setIsloading] = useState(false);
   useEffect(() => {
     async function fetchContent() {
       try {
-        const res = await axios.get(`${BASE_URL}/admin/content/${cid}`, {
-          headers: {
-            authorization: "Bearer " + localStorage.getItem("client-token"),
-          },
-        });
+        const res = await fetchSingleContent(cid, co);
+        if (res.data.error) {
+          console.log(res.data.message);
+          return;
+        }
+        setContent(res.data.content);
         setIsloading(false);
-        setContent(res.data.cont);
       } catch {
         setIsloading(false);
         console.log("Error");
@@ -28,6 +28,9 @@ const SingleContent = () => {
   }, []);
   if (isLoading) {
     return <Loading />;
+  }
+  if (!content) {
+    return <Notfound title={"Content not found"} />;
   }
   return (
     <div className="flex flex-col grow">

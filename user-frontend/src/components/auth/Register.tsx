@@ -1,34 +1,32 @@
-import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "../../config";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState } from "recoil";
+import { signUpAction } from "./fetch";
 
 function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [name, setName] = React.useState("");
   const setUser = useSetRecoilState(userState);
 
   const navigate = useNavigate();
   const handleSign = async () => {
-    const response = await axios.post(`${BASE_URL}/users/signup`, {
-      username: email,
-      password,
-    });
-    if (response.data.token) {
-      localStorage.setItem("client-token", response.data.token);
-      setUser({ isLoading: false, userEmail: response.data.user });
+    const response = await signUpAction({ username: email, password, name });
+    if (response.user) {
+      setUser({ isLoading: false, user: response.user });
       navigate("/courses");
     } else {
+      console.log(response.message);
       setUser({
         isLoading: false,
-        userEmail: null,
+        user: null,
       });
     }
     setEmail("");
     setPassword("");
+    setName("");
   };
 
   return (
@@ -44,6 +42,16 @@ function Register() {
           variant="outlined"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+        />
+        <br />
+        <TextField
+          className="!mb-2.5"
+          fullWidth={true}
+          id="name"
+          label="Name"
+          variant="outlined"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
         <br />
         <TextField

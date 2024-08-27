@@ -1,10 +1,9 @@
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { BASE_URL } from "../../config";
 import { userState } from "../../stores/atoms/user";
 import { useSetRecoilState } from "recoil";
+import { loginAction } from "./fetch";
 
 function Login() {
   const [email, setEmail] = React.useState("");
@@ -13,22 +12,14 @@ function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const handleLogin = async () => {
-    const response = await axios.post(
-      `${BASE_URL}/api/learner/login`,
-      { username: email,
-        password,},
-{
-  withCredentials:true
-}
-    );
-    if (response.data.error) {
-      console.log(response.data.error);
+    const response = await loginAction(email, password);
+    if (response.error) {
+      console.log(response.message);
     } else {
-      if (response.data.status == "success") {
-        // eslint-disable-next-line no-debugger
+      if (response.user) {
         setUser({
           isLoading: false,
-          userEmail: response.data.user,
+          user: response.user,
         });
         if (searchParams.get("courseId")) {
           navigate(`/course/${searchParams.get("courseId")}`);

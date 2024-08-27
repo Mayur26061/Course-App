@@ -33,18 +33,18 @@ export const courseImageState = selector({
   get: ({ get }) => {
     const state = get(courseState);
     if (state.course) {
-      return state.course.imageLink;
+      return state.course.image;
     }
     return "";
   },
 });
 export const courseContentState = selector({
   key: "courseContentState",
-  get: ({ get })=>{
-    const state = get(courseState)
-    if(state.course){
-      return state.course.content
+  get: ({ get }) => {
+    const state = get(courseState);
+    if (state.course) {
+      return state.course.content;
     }
-    return ""
-  }
-})
+    return "";
+  },
+});

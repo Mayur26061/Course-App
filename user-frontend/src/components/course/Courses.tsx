@@ -8,7 +8,7 @@ function Course(props) {
       <Card
         className="text-center m-2 w-72 h-64 cursor-pointer"
         onClick={() => {
-          navigate(`/course/${props.course._id}`);
+          navigate(`/course/${props.course.id}`);
         }}
       >
         <CardContent>
@@ -26,7 +26,7 @@ function Course(props) {
             <CardMedia
               component="img"
               alt="courseImage"
-              image={props.course.imageLink}
+              image={props.course.image}
               className="h-full w-full"
             />
           </div>

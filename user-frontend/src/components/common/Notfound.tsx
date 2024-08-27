@@ -1,5 +1,9 @@
-const Notfound = () => {
-  return <div>Page Not Found</div>;
+import React from "react";
+interface OptionalProps {
+  title?: string;
+}
+const Notfound = ({ title }: OptionalProps) => {
+  return <div>{title || "Page Not Found"}</div>;
 };
 
 export default Notfound;
