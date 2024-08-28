@@ -81,7 +81,7 @@ function Register() {
           </Button>
           <div className="mt-3">
             Already a user?{" "}
-            <Button onClick={() => navigate("/admin/signin")} size="small">
+            <Button onClick={() => navigate("/signin")} size="small">
               Signin
             </Button>
           </div>

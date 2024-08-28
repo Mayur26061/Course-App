@@ -1,12 +1,14 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { createCourseCall } from "./fetch";
-
+import { useNavigate } from "react-router-dom";
 function CreateCourse() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [imageLink, setImageLink] = useState("");
+  const navigate = useNavigate()
+
 
   const createCourse = async () => {
     const course = {
@@ -15,10 +17,15 @@ function CreateCourse() {
       price,
       image: imageLink,
     };
-    await createCourseCall(course)
+    const res = await createCourseCall(course)
+    if (res.error){
+      return
+    }
     setTitle("");
     setDescription("");
     setPrice(0);
+    setImageLink('');
+    navigate("/courses")
   };
   return (
     <div className="flex flex-col justify-center items-center p-5">

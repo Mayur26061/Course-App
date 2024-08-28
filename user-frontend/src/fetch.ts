@@ -8,8 +8,8 @@ export const fetchMe = async () => {
     if (res.data.user) {
       return res.data.user;
     }
-  } catch (e) {
-    console.log(e.response.data.error);
+  } catch {
+    console.log("Something went wrong");
+    return null;
   }
-  return null;
 };
