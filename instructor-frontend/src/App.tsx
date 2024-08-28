@@ -2,7 +2,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -34,8 +33,6 @@ function App() {
               element={<SingleContent />}
             />
             <Route path="*" element={<Notfound />} />
-          <Route index element={<Navigate to="/admin" replace />} />
-          <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
     </div>

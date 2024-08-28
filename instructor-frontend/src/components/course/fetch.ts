@@ -33,9 +33,7 @@ export const createCourseCall = async (courseData) => {
   const res = await axios.post(`${BASE_URL}/addcourse`, courseData, {
     withCredentials: true,
   });
-  if (res.data.error) {
-    console.log(res.data.message);
-  }
+  return res.data
 };
 
 export const deleteCourseCall = async (courseId: string) => {

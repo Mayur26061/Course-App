@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
@@ -7,7 +7,6 @@ import { Typography } from "@mui/material";
 import { courseState } from "../../stores/atoms/course";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import {
-  courseLoadingState,
   courseTitleState,
 } from "../../stores/selectors/course";
 import { contentState } from "../../stores/atoms/content";
@@ -19,13 +18,15 @@ const SingleCourse = () => {
   const { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);
   const setContent = useSetRecoilState(contentState);
-  const isLoading = useRecoilValue(courseLoadingState);
+  const [isLoading,setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourse = async () => {
+      setIsLoading(true)
       const [contents, course] = await fetchSingleCourse(cid);
-      setCourse({ isLoading: true, course: course });
-      setContent({ isLoading: true, content: contents });
+      setCourse({ isLoading: false, course: course });
+      setContent({ isLoading: false, content: contents });
+      setIsLoading(false)
     };
     fetchCourse();
   }, [cid]);

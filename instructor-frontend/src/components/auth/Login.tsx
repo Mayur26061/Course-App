@@ -61,7 +61,7 @@ function Login() {
           </Button>
           <div className="mt-3">
             New user?{" "}
-            <Button onClick={() => navigate("/admin/signup")} size="small">
+            <Button onClick={() => navigate("/signup")} size="small">
               Sign up
             </Button>
           </div>
