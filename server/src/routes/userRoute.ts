@@ -19,7 +19,7 @@ router.post("/signup", userSignUp);
 router.post("/signin", userSignIn);
 router.post("/signout", AuthenticateUser, userSignout);
 router.get("/me", AuthenticateUser, getMe);
-router.get("/courses", AuthenticateUser, getCourses);
+router.get("/courses", getCourses);
 router.get("/course/:courseId", getSelectedCourse);
 router.post("/buycourse/:courseId", AuthenticateUser, buyCourse);
 router.get("/content/:contentId", AuthenticateUser, getContent);
