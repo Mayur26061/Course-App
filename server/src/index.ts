@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
-// import adminRoute from "./routes/adminRoute";
+import adminRoute from "./routes/adminRoute";
 import userRoute from "./routes/userRoute";
 import instructorRoute from "./routes/instructorRoute";
 
@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 // app.use("/admin", adminRoute);
 app.use("/api/learner", userRoute);
 app.use("/api/instructor", instructorRoute);
+app.use("/api/admin", adminRoute);
 
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
