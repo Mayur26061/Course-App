@@ -121,7 +121,7 @@ export const instrutorSignIn = asyncHandler(async (req, res, next) => {
     "instructor"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `itoken=${token};Max-Age=172800;HttpOnly;`);
+  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user });
 });
 

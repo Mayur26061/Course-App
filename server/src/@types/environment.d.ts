@@ -4,6 +4,7 @@ declare global {
       INSTRUCTOR_TOKEN_SECRET_KEY: string;
       NODE_ENV: "development" | "production";
       LEARNER_TOKEN_SECRET_KEY: string;
+      ADMIN_TOKEN_SECRET_KEY: string;
     }
   }
 }

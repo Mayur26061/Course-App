@@ -6,7 +6,7 @@ export type userType = "admin" | "instructor" | "learner";
 // return secret key for different user
 export function getSecretKey(type: userType): string {
   const secreteKeyObject = {
-    admin: "",
+    admin: process.env.ADMIN_TOKEN_SECRET_KEY,
     instructor: process.env.INSTRUCTOR_TOKEN_SECRET_KEY,
     learner: process.env.LEARNER_TOKEN_SECRET_KEY,
   };

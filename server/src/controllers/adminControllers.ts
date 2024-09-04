@@ -85,6 +85,30 @@ export const adminSignIn = asyncHandler(async (req, res, next) => {
     "admin"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `atoken=${token};Max-Age=172800;HttpOnly;`);
+  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user });
+});
+
+export const getAllCourses = asyncHandler(async (req, res) => {
+  const courses = await prisma.course.findMany({});
+  res.send({ error: false, courses });
+});
+
+export const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await prisma.user.findMany({});
+  res.send({ error: false, users });
+});
+
+export const getAllCourseEnroll = asyncHandler(async (req, res) => {
+  const course_partner = await prisma.user_course.findMany({});
+  res.send({ error: false, course_partner });
+});
+
+export const getAdmin = asyncHandler(async (req: reqObj, res) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: req.headers.uid,
+    },
+  });
+  res.send({ error: true, user });
 });
