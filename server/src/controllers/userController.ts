@@ -52,7 +52,7 @@ export const userSignUp = asyncHandler(async (req, res) => {
     },
   });
   const token = generateToken({ id: record.id, username: username }, "learner");
-  res.setHeader("set-cookie", `ltoken=${token};Max-Age=172800;HttpOnly;`);
+  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user: record });
 });
 
@@ -97,7 +97,7 @@ export const userSignIn = asyncHandler(async (req, res) => {
     "learner"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `ltoken=${token};Max-Age=172800;HttpOnly;`);
+  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user });
 });
 
@@ -113,7 +113,7 @@ export const getCourses = asyncHandler(async (req, res) => {
 
 // Sign out  logic
 export const userSignout = asyncHandler(async (req, res) => {
-  res.setHeader("set-Cookie", "ltoken=; HttpOnly; Max-Age=;");
+  res.setHeader("set-Cookie", "token=; HttpOnly; Max-Age=;");
   res.json({ error: false, message: "Log out successfull" });
 });
 
