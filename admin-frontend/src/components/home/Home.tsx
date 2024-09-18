@@ -43,8 +43,9 @@ const Home = () => {
       </div>
       <div className="p-2">
         <Routes>
-          <Route path="/" element={<UserPage/>}/>
+          <Route path="/user" element={<UserPage/>}/>
           <Route path="/course" element={<CoursePage/>}/>
+          <Route path="/enroll" element={<CoursePage/>}/>
           {/* <Route index element={<UserPage/>}/> */}
         </Routes>
       </div>
