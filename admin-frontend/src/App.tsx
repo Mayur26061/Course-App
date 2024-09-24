@@ -22,8 +22,8 @@ function App() {
   }, []);
   return (
     <>
-      <Navbar/>
       <Router>
+      <Navbar/>
         <Routes>
           {/* <Route path="/courses" element={<ShowCourses />} /> */}
           {/* <Route path="course/:cid" element={<SingleCourse />} /> */}

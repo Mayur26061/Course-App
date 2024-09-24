@@ -12,12 +12,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Button } from "@mui/material";
 import { userState } from "../../store/atoms/user";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [show, setShow] = useRecoilState(navState);
   const auth = useRecoilValue(userState);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate()
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -102,11 +103,9 @@ export default function Navbar() {
               </div>
             </>
           )}
-          {!auth.user && !auth.isLoading && (
+          {(!auth.user && !auth.isLoading) && (
             <div className="absolute right-1">
-              <Link className="m-1" to={"/signin"}>
-              <Button color="inherit">Sign In</Button>
-              </Link>
+              <Button onClick={()=>navigate("/signin")} color="inherit">Sign In</Button>
             </div>
           )}
         </Toolbar>
