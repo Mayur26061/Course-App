@@ -41,7 +41,7 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className="p-2">
+      <div className="p-2 w-full overflow-hidden">
         <Routes>
           <Route path="/user" element={<UserPage/>}/>
           <Route path="/course" element={<CoursePage/>}/>
