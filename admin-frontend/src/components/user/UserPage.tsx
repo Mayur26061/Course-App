@@ -6,7 +6,7 @@ const UserPage:FC = () => {
 
   // const users = useFetchUser()
   return (
-    <div>
+    <div className="max-w-3xl">
       <UserList/>
     </div>
   );
