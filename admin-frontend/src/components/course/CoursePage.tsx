@@ -1,11 +1,11 @@
-import React from 'react'
+import CourseList from "./CourseList";
 
 const CoursePage = () => {
   return (
-    <div>
-      Course
+    <div className="max-w-3xl">
+      <CourseList />
     </div>
-  )
-}
+  );
+};
 
-export default CoursePage
+export default CoursePage;
