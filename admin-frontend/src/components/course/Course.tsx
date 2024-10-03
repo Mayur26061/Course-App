@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { TableCell,TableRow } from '@mui/material'
 import { courseType } from './CourseList'
 
-type courseprop = {
+export interface courseprop {
     course:courseType
 }
 const Course:FC<courseprop> = ({course}) => {

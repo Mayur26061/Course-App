@@ -26,9 +26,10 @@ const UserList: FC = () => {
       setUsers(result);
     }
     fetchApi();
-  });
+  }, []);
+
   return (
-    <TableContainer component={Paper} >
+    <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -40,7 +41,7 @@ const UserList: FC = () => {
         </TableHead>
         <TableBody>
           {users.map((row) => (
-            <User key={row.id} user={row}/>
+            <User key={row.id} user={row} />
           ))}
         </TableBody>
       </Table>

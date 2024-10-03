@@ -100,7 +100,14 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 });
 
 export const getAllCourseEnroll = asyncHandler(async (req, res) => {
-  const course_partner = await prisma.user_course.findMany({});
+  const course_partner = await prisma.user_course.findMany({
+    include:{
+      user:{
+        select:{id:true,name:true,username:true}
+      },
+      course:true,
+    }
+  });
   res.send({ error: false, course_partner });
 });
 
