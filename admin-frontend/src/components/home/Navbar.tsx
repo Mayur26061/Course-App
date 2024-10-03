@@ -10,7 +10,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { navState } from "../../store/atoms/sidebar";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { userState } from "../../store/atoms/user";
 import { useNavigate } from "react-router-dom";
 
@@ -32,6 +32,7 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar className="bg-black flex">
+          <Typography variant="h5">Smart Learn</Typography>
           {auth.user && !auth.isLoading && (
             <>
               {!show && (

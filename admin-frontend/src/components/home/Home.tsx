@@ -11,6 +11,7 @@ import { navState } from "../../store/atoms/sidebar";
 import UserPage from "../user/UserPage";
 import CoursePage from "../course/CoursePage";
 import { userState } from "../../store/atoms/user";
+import Enrolled from "../enrolled/Enrolled";
 
 const Home = () => {
   const [show, setShow] = useRecoilState(navState)
@@ -20,7 +21,7 @@ const Home = () => {
     if (!userStates.user && !userStates.isLoading) {
       navigate("/signin");
     }
-  });
+  },[]);
   return (
     <div className="flex h-screen bg-slate-300">
       <div className="hidden md:flex h-screen flex-initial bg-white">
@@ -41,12 +42,11 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className="p-2 w-full overflow-hidden">
+      <div className="p-2 w-full overflow-hidden max-w-3xl">
         <Routes>
           <Route path="/user" element={<UserPage/>}/>
           <Route path="/course" element={<CoursePage/>}/>
-          <Route path="/enroll" element={<CoursePage/>}/>
-          {/* <Route index element={<UserPage/>}/> */}
+          <Route path="/enroll" element={<Enrolled/>}/>
         </Routes>
       </div>
     </div>
