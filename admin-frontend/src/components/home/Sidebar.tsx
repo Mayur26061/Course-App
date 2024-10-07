@@ -1,5 +1,7 @@
 import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
+import { navState } from "../../store/atoms/sidebar";
+import { useRecoilState } from "recoil";
 interface OptionalProps {
   setShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -34,9 +36,12 @@ interface items {
   title: string;
 }
 const SidebarItems: FC<items> = ({ route, title }) => {
+  const [show,setShow] = useRecoilState(navState)
+
   return (
     <div className="w-full flex justify-center">
       <NavLink
+      onClick={()=>{if (show) setShow(false)}}
         to={"/" + route}
         className={(({ isActive }) => isActive?'font-bold':'')}>
         <h1

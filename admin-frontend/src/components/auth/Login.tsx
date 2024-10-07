@@ -15,7 +15,7 @@ function Login() {
     if(userSt.user && !userSt.isLoading){
       navigate('/')
     }
-  },[])
+  },[userSt])
 
 
   const handleLogin = async () => {

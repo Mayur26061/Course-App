@@ -32,22 +32,23 @@ export default function Navbar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar className="bg-black flex">
+          
+          {!show && (
+            <div className="flex md:hidden flex-row">
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+                onClick={() => setShow(true)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </div>
+          )}
           <Typography variant="h5">Smart Learn</Typography>
           {auth.user && !auth.isLoading && (
             <>
-              {!show && (
-                <div className="flex md:hidden flex-row">
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                    onClick={() => setShow(true)}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </div>
-              )}
               <div className="absolute right-1">
                 <IconButton
                   size="large"
