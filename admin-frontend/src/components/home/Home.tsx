@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Sidebar from "./Sidebar";
 import {
   Route,
@@ -10,18 +8,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { navState } from "../../store/atoms/sidebar";
 import UserPage from "../user/UserPage";
 import CoursePage from "../course/CoursePage";
-import { userState } from "../../store/atoms/user";
 import Enrolled from "../enrolled/Enrolled";
 
 const Home = () => {
   const [show, setShow] = useRecoilState(navState)
-  const userStates = useRecoilValue(userState)
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!userStates.user && !userStates.isLoading) {
-      navigate("/signin");
-    }
-  },[]);
   return (
     <div className="flex h-screen bg-slate-300">
       <div className="hidden md:flex h-screen flex-initial bg-white">
@@ -35,7 +25,7 @@ const Home = () => {
                 className="absolute right-1 cursor-pointer text-white"
                 onClick={() => setShow(false)}
               >
-                <CloseIcon />
+                <CloseIcon color="action" />
               </div>
               <Sidebar setShow={setShow} />
             </div>
