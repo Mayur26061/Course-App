@@ -15,7 +15,7 @@ export interface courseType {
     updatedAt: Date;
     title: string;
     description: string;
-    price: number;
+    price: string;
     published: boolean;
     image: string;
     duration: Date | null;
@@ -49,7 +49,7 @@ const CourseList = () => {
           </TableHead>
           <TableBody>
             {courses.map((row) => (
-                <Course  key={row.id} course={row}/>
+                <Course key={row.id} course={row}/>
             ))}
           </TableBody>
         </Table>
