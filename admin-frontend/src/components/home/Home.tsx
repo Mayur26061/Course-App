@@ -9,6 +9,7 @@ import { navState } from "../../store/atoms/sidebar";
 import UserPage from "../user/UserPage";
 import CoursePage from "../course/CoursePage";
 import Enrolled from "../enrolled/Enrolled";
+import SingleCourse from "../course/course/SingleCourse";
 
 const Home = () => {
   const [show, setShow] = useRecoilState(navState)
@@ -37,6 +38,7 @@ const Home = () => {
           <Route path="/user" element={<UserPage/>}/>
           <Route path="/course" element={<CoursePage/>}/>
           <Route path="/enroll" element={<Enrolled/>}/>
+          <Route path="/course/:cid" element={<SingleCourse/>}/>
         </Routes>
       </div>
     </div>

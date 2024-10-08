@@ -15,7 +15,7 @@ const courseInp = z.object({
   published:z.boolean().optional(),
 });
 
-const courseOptional = z.object({
+export const courseOptional = z.object({
   title: z.string().min(3).optional(),
   description: z.string().min(1).optional(),
   price: z.number().positive().finite().default(0).optional(),
@@ -32,7 +32,7 @@ const contentValidator = z.object({
   duration: z.string().time().optional(),
 })
 
-const contentOptional = z.object({
+export const contentOptional = z.object({
   title: z.string().trim().min(3).optional(),
   description: z.string().trim().optional(),
   type: z.enum(["image", "document", "video"]).optional(),
