@@ -6,6 +6,7 @@ import prisma from "../utils/client";
 import { signUpCheck, signCheck } from "../utils/utils";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../middleware/auth";
+import { contentOptional, courseOptional } from "./InstructorController";
 
 // Sign Up for admin
 export const adminSignUp = asyncHandler(async (req, res, next) => {
@@ -101,14 +102,100 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 
 export const getAllCourseEnroll = asyncHandler(async (req, res) => {
   const course_partner = await prisma.user_course.findMany({
-    include:{
-      user:{
-        select:{id:true,name:true,username:true}
+    include: {
+      user: {
+        select: { id: true, name: true, username: true },
       },
-      course:true,
-    }
+      course: true,
+    },
   });
   res.send({ error: false, course_partner });
+});
+
+export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
+  const course = await prisma.course.findUnique({
+    where: {
+      id: req.params.courseId,
+    },
+    include: {
+      contents: true,
+    },
+  });
+  if (!course) {
+    res.json({ error: true, message: "couldn't find" });
+    return;
+  }
+  res.json({ error: false, course });
+});
+
+export const deleteContent = asyncHandler(async (req: reqObj, res) => {
+  const courseId: string = req.body.courseId;
+  const { count } = await prisma.content.deleteMany({
+    where: {
+      id: req.params.contentId,
+      course_id: courseId,
+    },
+  });
+  if (count) {
+    res.json({ error: false, message: "Content Deleted successfully" });
+    return;
+  }
+  res.json({ error: true, message: "Couldn't find content" });
+});
+
+export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
+  const { count } = await prisma.course.deleteMany({
+    where: {
+      id: req.params.courseId,
+    },
+  });
+  if (count) {
+    res.json({ error: false, message: "Course Deleted successfully" });
+    return;
+  }
+  res.json({ error: true, message: "Couldn't find course" });
+});
+
+export const updateCourse = asyncHandler(async (req: reqObj, res) => {
+  const result = courseOptional.safeParse(req.body);
+  if (result.error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const course = await prisma.course.update({
+    where: {
+      id: req.params.courseId,
+    },
+    data: {
+      ...req.body,
+    },
+    include: {
+      contents: true,
+    },
+  });
+  res.json({ error: false, course: course });
+});
+
+export const updateContent = asyncHandler(async (req: reqObj, res) => {
+  const result = contentOptional.safeParse(req.body);
+  if (result.error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const content = await prisma.content.update({
+    data: {
+      ...req.body,
+    },
+    where: {
+      id: req.params.contentId,
+    },
+  });
 });
 
 export const getAdmin = asyncHandler(async (req: reqObj, res) => {
