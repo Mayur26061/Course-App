@@ -4,7 +4,7 @@ import {
   courseImageState,
   coursePriceState,
   courseTitleState,
-} from "../../stores/selectors/course";
+} from "../../../store/selectors/course";
 const CourseCard = () => {
   const title = useRecoilValue(courseTitleState);
 

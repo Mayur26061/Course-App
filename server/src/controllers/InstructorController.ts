@@ -12,6 +12,7 @@ const courseInp = z.object({
   description: z.string().min(1),
   price: z.number().positive().finite().default(0),
   image: z.string().url().min(1),
+  published:z.boolean().optional(),
 });
 
 const courseOptional = z.object({
@@ -51,7 +52,7 @@ export const instrutorSignUp = asyncHandler(async (req, res, next) => {
     });
     return;
   }
-  const { username, password, name } = req.body;
+  const { username, password, name } = result.data;
   const existUser = await prisma.user.findFirst({
     where: {
       username: username,
@@ -120,7 +121,7 @@ export const instrutorSignIn = asyncHandler(async (req, res, next) => {
     "instructor"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `itoken=${token};Max-Age=172800;HttpOnly;`);
+  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
   res.send({ error: false, user });
 });
 
