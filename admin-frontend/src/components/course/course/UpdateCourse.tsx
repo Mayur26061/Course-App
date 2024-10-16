@@ -34,7 +34,7 @@ const UpdateCourse = () => {
 
   const deleteCourse = async () => {
     await deleteCourseCall(course.course?.id || '');
-    navigate("/courses");
+    navigate("/course");
   };
   return (
     <div className="flex justify-center mt-5">
