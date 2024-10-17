@@ -37,7 +37,7 @@ const SingleCourse = () => {
   }
 
   return (
-    <div className="relative text-left">
+    <div className="relative text-left mb-28">
       <GrayTopper />
       <CourseCard />
       <UpdateCourse />

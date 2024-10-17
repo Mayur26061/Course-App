@@ -31,18 +31,19 @@ function App() {
 
   return (
     <>
+    <div className="flex flex-col h-full">
       <Navbar />
+      <div className="flex-grow">
       <Routes>
-        {/* <Route path="/courses" element={<ShowCourses />} /> */}
-        {/* <Route path="course/:cid" element={<SingleCourse />} /> */}
         <Route path="/signin" element={<Login />} />
         <Route path="/signup" element={<Register />} />
         <Route path="*" element={<Home />} />
-        {/* <Route path="course/:co/content/:cid" element={<SingleContent />} /> */}
         {/* <Route path="*" element={<Notfound />} /> */}
         <Route />
         <Route />
       </Routes>
+      </div>
+    </div>
     </>
   );
 }
