@@ -11,8 +11,8 @@ import SingleCourse from "../course/course/SingleCourse";
 const Home = () => {
   const [show, setShow] = useRecoilState(navState);
   return (
-    <div className="flex bg-slate-300 h-full flex-row ">
-      <div className="hidden md:flex h-370 flex-initial bg-slate-300">
+    <div className="flex bg-slate-300 h-full flex-row flex-grow overflow-hidden">
+      <div className="hidden md:flex h-screen flex-initial bg-slate-300">
           <Sidebar />
       </div>
       <div className="flex md:hidden flex-row z-20">
@@ -30,7 +30,7 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className="p-2 w-full max-h-screen overflow-auto">
+      <div className="p-2 w-full overflow-auto h-screen">
         <Routes>
           <Route path="/user" element={<UserPage />} />
           <Route path="/course" element={<CoursePage />} />
