@@ -1,12 +1,25 @@
 import { TableCell, TableRow } from '@mui/material'
-import React, {FC} from 'react'
+import React, {FC, useState} from 'react'
 import { userType } from './UserList'
+import UserModal from './UserModal'
 type usrr = {
   user: userType
 }
 const User:FC<usrr> = ({user}) => {
+  const [open, setOpen] = useState(false);
+  // const {cid} = useParams()
+
+  const handleOpen = (ev: { stopPropagation: () => void; }) => {
+    ev.stopPropagation();
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <TableRow
+    onClick={handleOpen}
     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
   >
     <TableCell component="th" scope="user">
@@ -17,6 +30,9 @@ const User:FC<usrr> = ({user}) => {
     <TableCell align="center">
       {user.isApproved ? "Active" : "inActive"}
     </TableCell>
+    { open &&
+      <UserModal handleClose={handleClose} open={open} user={user}/>
+    }
   </TableRow>
   )
 }

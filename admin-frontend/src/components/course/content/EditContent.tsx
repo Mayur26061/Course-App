@@ -19,7 +19,6 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.content_url);
   const setContent = useSetRecoilState(contentState);
-  // const { cid } = useParams();
 
   const onCloses = (ev: { stopPropagation: () => void }) => {
     ev.stopPropagation();
