@@ -27,3 +27,11 @@ interface CustomHeaders {
 export interface reqObj extends Request {
   headers: CustomHeaders & Request["headers"];
 }
+
+export const updateUserVals = z.object({
+  name: z.string().trim().min(1).optional(),
+  username: z.string().email().optional(),
+  password: z.string().min(6).optional(),
+  userType: z.enum(["admin", "instructor", "learner"]).optional(),
+  isApproved: z.boolean().optional(),
+});
