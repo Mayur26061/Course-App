@@ -9,29 +9,25 @@ import {
 } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { boxStyle } from "../../config";
-import { userType } from "./UserList";
+import { userType, checktype } from "./UserList";
+import { updateUser } from "./fetch";
+import { useSetRecoilState } from "recoil";
 interface userModalProps {
   handleClose: () => void;
   open: boolean;
   user: userType;
 }
-type checktype = {
-  username: string;
-  password: string;
-  userType: string;
-  name: string;
-};
-const checkChanges = (obj1: checktype, obj2: userType):boolean => {
+const checkChanges = (obj1: checktype, obj2: userType): boolean => {
   for (const key in obj1) {
-    if (key != "password"){
-        if (obj1[key] !== obj2[key]){
-            return true
-        }
-    } else if(obj1[key] != ''){
-        return true
+    if (key != "password") {
+      if (obj1[key] !== obj2[key]) {
+        return true;
+      }
+    } else if (obj1[key] != "") {
+      return true;
     }
-}
-return false
+  }
+  return false;
 };
 const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
   const [userType, setUserType] = useState(user.userType);
@@ -39,14 +35,40 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
   const [username, setUsername] = useState(user.username);
   const [enablePass, setEnablePass] = useState(false);
   const [canSave, setCanSave] = useState(false);
-  const [password, setPassword] = useState<string>('');
-  useEffect(
-    () => {
-        const val = checkChanges({name, username, password, userType},user)
-        setCanSave(val)
-    },
-    [name, username, password, userType]
-  );
+  const [password, setPassword] = useState<string>("");
+  const onSave = async () => {
+    const obj: {
+      name?: string;
+      username?: string;
+      userType?: string;
+      password?: string;
+    } = { name, username, userType, password };
+
+    if (obj.name == user.name) {
+      delete obj["name"];
+    }
+    if (obj.username == user.username) {
+      delete obj["username"];
+    }
+    if (obj.userType == user.userType) {
+      delete obj["userType"];
+    }
+    if (obj.password == "") {
+      delete obj["password"];
+    }
+
+    const response = await updateUser(user.id, obj);
+    if (!response.error){
+      console.log(response.user)
+    }
+  };
+
+  useEffect(() => {
+    const val = checkChanges({ name, username, password, userType }, user);
+    setCanSave(val);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, username, password, userType]);
+
   const onCloses = (ev: { stopPropagation: () => void }) => {
     ev.stopPropagation();
     setPassword("");
@@ -71,7 +93,7 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
           fullWidth={true}
           className="!mb-2.5"
           variant="outlined"
-          label="Description"
+          label="Username"
         />
         <Select
           fullWidth={true}
@@ -92,8 +114,7 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
             value={password}
             variant="outlined"
             label="Enter Password"
-          onChange={(e) => setPassword(e.target.value)}
-            
+            onChange={(e) => setPassword(e.target.value)}
           />
         ) : (
           <Button onClick={() => setEnablePass(true)}>Set Password</Button>
@@ -111,8 +132,12 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
         </div>
         <div className="flex justify-between m-2">
           <div>
-            <Button variant="contained" disabled={!canSave}>Save</Button>
-            <Button variant="contained" onClick={onCloses}>Close</Button>
+            <Button variant="contained" disabled={!canSave} onClick={onSave}>
+              Save
+            </Button>
+            <Button variant="contained" onClick={onCloses}>
+              Close
+            </Button>
           </div>
           <div>
             <Button variant="outlined" color="error">

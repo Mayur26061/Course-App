@@ -1,7 +1,7 @@
 import asyncHandler from "express-async-handler";
 import { z } from "zod";
 
-import { reqObj } from "../utils/utils";
+import { reqObj, updateUserVals } from "../utils/utils";
 import prisma from "../utils/client";
 import { signUpCheck, signCheck } from "../utils/utils";
 import bcrypt from "bcryptjs";
@@ -196,6 +196,7 @@ export const updateContent = asyncHandler(async (req: reqObj, res) => {
       id: req.params.contentId,
     },
   });
+  res.json({ error: false, content });
 });
 
 export const getAdmin = asyncHandler(async (req: reqObj, res) => {
@@ -205,4 +206,25 @@ export const getAdmin = asyncHandler(async (req: reqObj, res) => {
     },
   });
   res.send({ error: true, user });
+});
+
+export const updateUser = asyncHandler(async (req: reqObj, res) => {
+  const result = updateUserVals.safeParse(req.body);
+  if (result.error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const user = await prisma.user.update({
+    data: {
+      ...result.data,
+    },
+    where: {
+      id: req.params.userId,
+    },
+  });
+  res.json({ error: false, user });
+  // res.json({ error: false, user });
 });

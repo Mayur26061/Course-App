@@ -8,14 +8,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-export interface userType {
-  id: string;
-  name: string;
+export interface checktype {
   username: string;
   password: string;
+  userType: string;
+  name: string;
+};
+export interface userType  extends checktype{
+  id: string;
   image: string | null;
   createAt: string;
-  userType: string;
   isApproved: boolean;
 }
 const UserList: FC = () => {

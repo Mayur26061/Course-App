@@ -11,6 +11,7 @@ import {
   deleteContent,
   updateCourse,
   updateContent,
+  updateUser,
 } from "../controllers/adminControllers";
 import { AuthenticateAdmin } from "../middleware/auth";
 
@@ -26,8 +27,8 @@ router.delete("/delete/course/:courseId", AuthenticateAdmin, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateAdmin, deleteContent);
 router.put("/update/course/:courseId", AuthenticateAdmin, updateCourse);
 router.put("/update/content/:contentId", AuthenticateAdmin, updateContent);
+router.put("/update/user/:userId", AuthenticateAdmin, updateUser);
 router.get("/subscriber", AuthenticateAdmin, getAllCourseEnroll);
 router.get("/me", AuthenticateAdmin, getAdmin);
-
 
 export default router;
