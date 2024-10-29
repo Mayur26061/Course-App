@@ -9,15 +9,19 @@ import {
 } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { boxStyle } from "../../config";
-import { userType, checktype } from "./UserList";
 import { updateUser } from "./fetch";
+import { checktype, usersDataState, userType } from "../../store/atoms/user";
 import { useSetRecoilState } from "recoil";
+
 interface userModalProps {
   handleClose: () => void;
   open: boolean;
   user: userType;
 }
-const checkChanges = (obj1: checktype, obj2: userType): boolean => {
+interface checktypeinp extends checktype {
+  password: string;
+}
+const checkChanges = (obj1: checktypeinp, obj2: userType): boolean => {
   for (const key in obj1) {
     if (key != "password") {
       if (obj1[key] !== obj2[key]) {
@@ -36,7 +40,9 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
   const [enablePass, setEnablePass] = useState(false);
   const [canSave, setCanSave] = useState(false);
   const [password, setPassword] = useState<string>("");
-  const onSave = async () => {
+  const setUser = useSetRecoilState(usersDataState);
+
+  const onSave = async (ev: { stopPropagation: () => void }) => {
     const obj: {
       name?: string;
       username?: string;
@@ -58,9 +64,31 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
     }
 
     const response = await updateUser(user.id, obj);
-    if (!response.error){
-      console.log(response.user)
+    if (!response.error) {
+      console.log(response.user);
+      setUser((pre) => {
+        return {
+          ...pre,
+          user: pre.user.map((data) => {
+            if (data === user) {
+              return response.user;
+            } else {
+              return data;
+            }
+          }),
+        };
+      });
     }
+    onCloses(ev);
+  };
+  const onDelete = async (ev: { stopPropagation: () => void }) => {
+   
+    setUser((pre) => {
+      return {
+        ...pre,
+        user: pre.user.filter(data=>data!==user),
+      };
+    });
   };
 
   useEffect(() => {
@@ -140,7 +168,7 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
             </Button>
           </div>
           <div>
-            <Button variant="outlined" color="error">
+            <Button variant="outlined" color="error" onClick={onDelete}>
               Delete
             </Button>
           </div>

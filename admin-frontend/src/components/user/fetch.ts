@@ -13,6 +13,7 @@ interface updateTypes {
   userType?: string;
   isApproved?: boolean;
 }
+
 export const updateUser = async (userId: string, userVals: updateTypes) => {
   try {
     const response = await axios.put(

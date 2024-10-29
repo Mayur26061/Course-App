@@ -96,7 +96,11 @@ export const getAllCourses = asyncHandler(async (req, res) => {
 });
 
 export const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await prisma.user.findMany({});
+  const users = await prisma.user.findMany({
+    orderBy: {
+      name: "asc",
+    },
+  });
   res.send({ error: false, users });
 });
 
@@ -225,6 +229,7 @@ export const updateUser = asyncHandler(async (req: reqObj, res) => {
       id: req.params.userId,
     },
   });
-  res.json({ error: false, user });
+  const { password, ...fuser } = user;
+  res.json({ error: false, user: fuser });
   // res.json({ error: false, user });
 });

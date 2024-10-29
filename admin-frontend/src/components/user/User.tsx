@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from '@mui/material'
 import React, {FC, useState} from 'react'
-import { userType } from './UserList'
+import { userType } from "../../store/atoms/user";
 import UserModal from './UserModal'
 type usrr = {
   user: userType

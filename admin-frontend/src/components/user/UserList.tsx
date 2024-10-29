@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { fetchUsers } from "./fetch";
 import User from "./User";
 import Table from "@mui/material/Table";
@@ -8,24 +8,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-export interface checktype {
-  username: string;
-  password: string;
-  userType: string;
-  name: string;
-};
-export interface userType  extends checktype{
-  id: string;
-  image: string | null;
-  createAt: string;
-  isApproved: boolean;
-}
+import { usersDataState } from "../../store/atoms/user";
+import { useRecoilState } from "recoil";
+
 const UserList: FC = () => {
-  const [users, setUsers] = useState<userType[]>([]);
+  const [users, setUsers] = useRecoilState(usersDataState);
+
   useEffect(() => {
     async function fetchApi() {
+      setUsers({ isLoading: true, user: [] });
       const result = await fetchUsers();
-      setUsers(result);
+      setUsers({ isLoading: false, user: result });
     }
     fetchApi();
   }, []);
@@ -42,7 +35,7 @@ const UserList: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((row) => (
+          {users.user.map((row) => (
             <User key={row.id} user={row} />
           ))}
         </TableBody>
