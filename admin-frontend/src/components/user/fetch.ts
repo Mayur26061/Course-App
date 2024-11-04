@@ -34,3 +34,18 @@ export const updateUser = async (userId: string, userVals: updateTypes) => {
     return { error: true, e };
   }
 };
+
+export const deleteUserRoute = async (userId: string) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/delete/user/${userId}`,{
+      withCredentials:true,
+    });
+    if (response.data.error) {
+      throw new Error(response.data.message);
+    }
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return { error: true, e };
+  }
+};

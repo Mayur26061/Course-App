@@ -3,11 +3,10 @@ import axios from "axios";
 
 interface contentType {
   title: string;
-  description: string|null;
+  description: string | null;
   type: string;
   content_url: string;
 }
-
 
 export const editContentCall = async (
   contentId: string,
@@ -23,8 +22,14 @@ export const editContentCall = async (
   return response;
 };
 
-export const deleteContentCall = async (contentId: string) => {
+export const deleteContentCall = async (
+  contentId: string,
+  courseId: string
+) => {
   await axios.delete(`${BASE_URL}/delete/content/${contentId}`, {
+    data: {
+      courseId: courseId,
+    },
     withCredentials: true,
   });
 };

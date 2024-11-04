@@ -1,12 +1,16 @@
 import { Button, Card, Typography } from "@mui/material";
-import { useState } from "react";
+import { FC, useState } from "react";
 import EditContent from "./EditContent";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../stores/atoms/content";
 import { deleteContentCall } from "./fetch";
+import { contentType } from "../utils";
 
-const Content = ({ content }) => {
+type contentProps = {
+  content: contentType;
+};
+const Content: FC<contentProps> = ({ content }) => {
   const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);
@@ -24,7 +28,7 @@ const Content = ({ content }) => {
   const deleteContent = async (ev) => {
     // setContent({isLoading:true,content:[]})
     ev.stopPropagation();
-    await deleteContentCall(content.id)
+    await deleteContentCall(content.id, content.course_id);
     // const cons = await fetchContent(cid)
     setContent((contents) => {
       return {

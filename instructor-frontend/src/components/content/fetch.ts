@@ -36,8 +36,14 @@ export const editContentCall = async (
   return response;
 };
 
-export const deleteContentCall = async (contentId: string) => {
+export const deleteContentCall = async (
+  contentId: string,
+  courseId: string
+) => {
   await axios.delete(`${BASE_URL}/delete/content/${contentId}`, {
+    data: {
+      courseId: courseId,
+    },
     withCredentials: true,
   });
 };
