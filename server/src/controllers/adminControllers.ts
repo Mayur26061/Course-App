@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { z } from "zod";
+import { boolean, z } from "zod";
 
 import { reqObj, updateUserVals } from "../utils/utils";
 import prisma from "../utils/client";
@@ -235,7 +235,7 @@ export const updateUser = asyncHandler(async (req: reqObj, res) => {
 });
 
 export const deleteUser = asyncHandler(async (req: reqObj, res) => {
-  const {count} = await prisma.user.deleteMany({
+  const { count } = await prisma.user.deleteMany({
     where: {
       id: req.params.userId,
     },
@@ -245,4 +245,42 @@ export const deleteUser = asyncHandler(async (req: reqObj, res) => {
     return;
   }
   res.json({ error: true, message: "Couldn't find User" });
+});
+
+export const updateSubcriber = asyncHandler(async (req: reqObj, res) => {
+  const { data, error } = z
+    .object({
+      completed: z.boolean(),
+    })
+    .safeParse(req.body);
+  if (error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const date = new Date().toISOString();
+  const updateVals = data.completed
+    ? {
+      completed_date: date,
+        status: "completed",
+      }
+    : {
+      completed_date: null,
+        status: "joined",
+      };
+  const user_partner = await prisma.user_course.update({
+    where: {
+      id: req.params.subId,
+    },
+    data: updateVals,
+    include: {
+      user: {
+        select: { id: true, name: true, username: true },
+      },
+      course: true,
+    },
+  });
+  res.json({ error: false, user_partner });
 });
