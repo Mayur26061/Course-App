@@ -1,28 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { courseprop } from "../course/Course";
+import React, { useEffect } from "react";
 import { fetchEnrolled } from "./fetch";
 import { Table, TableContainer, TableHead, TableRow,TableCell,TableBody, Paper } from "@mui/material";
 import EnrollData from "./EnrollData";
+import { useRecoilState } from "recoil";
+import { userEnrollState } from "../../store/atoms/user_course";
 
-export interface courseUserType extends courseprop {
-  id: string;
-  course_id: string;
-  user_id: string;
-  completed_date: string | null;
-  joined_date: string;
-  status: string;
-  user: {
-    id: string;
-    name: string;
-    username: string;
-  };
-}
+
 const Enrolled = () => {
-  const [enroll, setEnroll] = useState<courseUserType[]>([]);
+  const [enroll, setEnroll] = useRecoilState(userEnrollState);
   useEffect(() => {
     async function fetchData() {
       const res = await fetchEnrolled();
-      setEnroll(res);
+      setEnroll({isLoading:false,course_users:res});
     }
     fetchData();
   }, []);
@@ -37,12 +26,13 @@ const Enrolled = () => {
               {/* <TableCell>Category</TableCell> */}
               <TableCell>Status</TableCell>
               <TableCell>Completion Date</TableCell>
+              <TableCell></TableCell>
               {/* <TableCell align="center">User Type</TableCell>
               <TableCell align="center">Status</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {enroll.map((data)=>(<EnrollData key={data.id} userCourse={data}/>))}
+            {enroll.course_users.map((data)=>(<EnrollData key={data.id} userCourse={data}/>))}
           </TableBody>
         </Table>
       </TableContainer>
