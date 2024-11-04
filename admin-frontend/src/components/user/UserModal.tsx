@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { FC, useEffect, useState } from "react";
 import { boxStyle } from "../../config";
-import { updateUser } from "./fetch";
+import { deleteUserRoute, updateUser } from "./fetch";
 import { checktype, usersDataState, userType } from "../../store/atoms/user";
 import { useSetRecoilState } from "recoil";
 
@@ -66,30 +66,46 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
     const response = await updateUser(user.id, obj);
     if (!response.error) {
       console.log(response.user);
-      setUser((pre) => {
-        return {
-          ...pre,
-          user: pre.user.map((data) => {
-            if (data === user) {
-              return response.user;
-            } else {
-              return data;
-            }
-          }),
-        };
-      });
+      setStates(response.user);
     }
     onCloses(ev);
   };
-  const onDelete = async (ev: { stopPropagation: () => void }) => {
-   
+
+  const setStates = (updatedUser: userType) => {
     setUser((pre) => {
       return {
         ...pre,
-        user: pre.user.filter(data=>data!==user),
+        user: pre.user.map((data) => {
+          if (data === user) {
+            return updatedUser;
+          } else {
+            return data;
+          }
+        }),
       };
     });
   };
+
+  const onDelete = async () => {
+    const response = await deleteUserRoute(user.id);
+    if (!response.error) {
+      setUser((pre) => {
+        return {
+          ...pre,
+          user: pre.user.filter((data) => data !== user),
+        };
+      });
+    }
+  };
+  
+  const togglePublish = async ()=>{
+    const response = await updateUser(user.id,{ isApproved:!user.isApproved});
+    if (!response.error) {
+      console.log(response.user);
+      setStates(response.user);
+    }
+
+  }
 
   useEffect(() => {
     const val = checkChanges({ name, username, password, userType }, user);
@@ -149,17 +165,17 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
         )}
         <div className="m-2">
           {user.isApproved ? (
-            <Button variant="outlined" color="error">
-              Unpublished
+            <Button onClick={togglePublish} variant="outlined" color="error">
+              Unpublish
             </Button>
           ) : (
-            <Button variant="contained" color="success">
-              Published
+            <Button onClick={togglePublish} variant="contained" color="success">
+              Publish
             </Button>
           )}
         </div>
         <div className="flex justify-between m-2">
-          <div>
+          <div className="flex gap-3">
             <Button variant="contained" disabled={!canSave} onClick={onSave}>
               Save
             </Button>

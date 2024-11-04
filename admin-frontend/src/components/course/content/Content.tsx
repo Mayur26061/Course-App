@@ -6,16 +6,16 @@ import { useSetRecoilState } from "recoil";
 import { contentState } from "../../../store/atoms/content";
 import { deleteContentCall } from "./fetch";
 import { contentType } from "../../../store/atoms/content";
-interface sigletype{
-  content:contentType
+interface sigletype {
+  content: contentType;
 }
-const Content:FC<sigletype> = ({ content }) => {
+const Content: FC<sigletype> = ({ content }) => {
   // const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);
   // const {cid} = useParams()
 
-  const handleOpen = (ev: { stopPropagation: () => void; }) => {
+  const handleOpen = (ev: { stopPropagation: () => void }) => {
     ev.stopPropagation();
     setOpen(true);
   };
@@ -24,10 +24,10 @@ const Content:FC<sigletype> = ({ content }) => {
     setOpen(false);
   };
 
-  const deleteContent = async (ev: { stopPropagation: () => void; }) => {
+  const deleteContent = async (ev: { stopPropagation: () => void }) => {
     // setContent({isLoading:true,content:[]})
     ev.stopPropagation();
-    await deleteContentCall(content.id)
+    await deleteContentCall(content.id, content.course_id);
     // const cons = await fetchContent(cid)
     setContent((contents) => {
       return {
@@ -39,9 +39,7 @@ const Content:FC<sigletype> = ({ content }) => {
 
   return (
     <Card className="mt-1.5">
-      <div
-        className="flex items-baseline justify-between p-0.5"
-      >
+      <div className="flex items-baseline justify-between p-0.5">
         <div className="pl-1.5">
           <Typography>{content.title}</Typography>
         </div>

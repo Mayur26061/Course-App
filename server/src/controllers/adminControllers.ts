@@ -233,3 +233,16 @@ export const updateUser = asyncHandler(async (req: reqObj, res) => {
   res.json({ error: false, user: fuser });
   // res.json({ error: false, user });
 });
+
+export const deleteUser = asyncHandler(async (req: reqObj, res) => {
+  const {count} = await prisma.user.deleteMany({
+    where: {
+      id: req.params.userId,
+    },
+  });
+  if (count) {
+    res.json({ error: false, message: "User Deleted successfully" });
+    return;
+  }
+  res.json({ error: true, message: "Couldn't find User" });
+});
