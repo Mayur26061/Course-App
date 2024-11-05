@@ -32,7 +32,7 @@ const Enrolled = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {enroll.course_users.map((data)=>(<EnrollData key={data.id} userCourse={data}/>))}
+            {enroll.course_users.map((data)=>(<EnrollData key={data.id} userCourse={data}/> ))}
           </TableBody>
         </Table>
       </TableContainer>

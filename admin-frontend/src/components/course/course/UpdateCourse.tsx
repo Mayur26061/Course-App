@@ -4,6 +4,7 @@ import { courseState } from "../../../store/atoms/course";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { deleteCourseCall, updateCourseCall } from "./fetch";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const UpdateCourse = () => {
   const navigate = useNavigate();
@@ -95,8 +96,7 @@ const UpdateCourse = () => {
               variant="outlined"
               color="error"
             >
-              {/* replace with icon */}
-              Delete
+              <DeleteIcon/>
             </Button>
           </div>
         </div>

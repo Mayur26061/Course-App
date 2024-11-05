@@ -27,3 +27,16 @@ export const actionComplete = async (subId: string, completed: boolean) => {
     return { error: true, e };
   }
 };
+
+export const deleteSubs = async(subId:string)=>{
+  try {
+    const response = await axios.delete(`${BASE_URL}/delete/subscriber/${subId}`,{
+    withCredentials:true
+  })
+
+  return response.data
+}  catch (e) {
+  console.error(e);
+  return { error: true, e };
+}
+}
