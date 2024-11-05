@@ -263,11 +263,11 @@ export const updateSubcriber = asyncHandler(async (req: reqObj, res) => {
   const date = new Date().toISOString();
   const updateVals = data.completed
     ? {
-      completed_date: date,
+        completed_date: date,
         status: "completed",
       }
     : {
-      completed_date: null,
+        completed_date: null,
         status: "joined",
       };
   const user_partner = await prisma.user_course.update({
@@ -283,4 +283,17 @@ export const updateSubcriber = asyncHandler(async (req: reqObj, res) => {
     },
   });
   res.json({ error: false, user_partner });
+});
+
+export const deleteSubsriber = asyncHandler(async (req: reqObj, res) => {
+  const { count } = await prisma.user_course.deleteMany({
+    where: {
+      id: req.params.subId,
+    },
+  });
+  if (count) {
+    res.json({ error: false, message: "Revoked course access successfully" });
+    return;
+  }
+  res.json({ error: true, message: "Couldn't find User" });
 });
