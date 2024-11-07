@@ -25,7 +25,7 @@ router.get("/courses", AuthenticateInstructor, getCourses);
 router.post("/addcourse", AuthenticateInstructor, addCourse);
 router.post("/:courseId/addcontent", AuthenticateInstructor, addContent);
 router.post("/signout", AuthenticateInstructor, instructorSignout);
-router.get("/content/:contentId", AuthenticateInstructor, getSelectContent);
+router.post("/content/:contentId", AuthenticateInstructor, getSelectContent);
 router.get("/course/:courseId", AuthenticateInstructor, getSelectedCourse);
 router.delete("/delete/course/:courseId", AuthenticateInstructor, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateInstructor, deleteContent);

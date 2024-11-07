@@ -20,6 +20,7 @@ export const courseOptional = z.object({
   description: z.string().min(1).optional(),
   price: z.number().positive().finite().default(0).optional(),
   image: z.string().url().min(1).optional(),
+  published:z.boolean().optional(),
 }).refine(data=> Object.values(data).some(value=> value!== undefined),{
   message:"Empty Object"
 });
@@ -38,6 +39,7 @@ export const contentOptional = z.object({
   type: z.enum(["image", "document", "video"]).optional(),
   content_url: z.string().url().optional(),
   duration: z.string().time().optional(),
+  published:z.boolean().optional(),
 }).refine(data=> Object.values(data).some(value=> value!== undefined),{
   message:"Empty Object"
 });;

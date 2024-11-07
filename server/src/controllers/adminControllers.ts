@@ -214,6 +214,9 @@ export const getAdmin = asyncHandler(async (req: reqObj, res) => {
 
 export const updateUser = asyncHandler(async (req: reqObj, res) => {
   const result = updateUserVals.safeParse(req.body);
+  if (result.data?.password){
+    result.data.password = bcrypt.hashSync(result.data.password, 8)
+  }
   if (result.error) {
     res.json({
       error: true,

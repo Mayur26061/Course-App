@@ -55,6 +55,24 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
     }
     handleClose();
   };
+  const togglePublish = async()=>{
+    const response = await editContentCall(content.id, {published:!content.published});
+      if (response.data.error) {
+        console.log(response.data.error);
+      } else {
+        setContent((contents) => {
+          return {
+            isLoading: false,
+            content: contents.content.map((d) => {
+              if (d.id === response.data.content.id) {
+                return response.data.content;
+              }
+              return d;
+            }),
+          };
+        });
+      }
+  }
   return (
     <Modal open={open} onClose={onCloses}>
       <Box sx={boxStyle} className="w-full max-w-lg">
@@ -97,6 +115,17 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
           label="URL"
           onChange={(e) => setUrl(e.target.value)}
         />
+        <div className="m-2">
+          {content.published ? (
+            <Button onClick={togglePublish} variant="outlined" color="error">
+              Unpublish
+            </Button>
+          ) : (
+            <Button onClick={togglePublish} variant="contained" color="success">
+              Publish
+            </Button>
+          )}
+        </div>
         <div className="mt-3">
           <Button variant="contained" onClick={editContent}>
             Edit Content

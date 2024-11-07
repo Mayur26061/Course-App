@@ -12,14 +12,13 @@ dotenv.config();
 const app = express();
 
 const corsConfig = {
-  origin:['http://localhost:5173','http://localhost:5174'],
+  origin:['http://localhost:5173','http://localhost:5174','http://localhost:5175'],
   credentials: true,
 };
 app.use(cors(corsConfig));
 app.use(express.json());
 app.use(bodyParser.json());
 
-// app.use("/admin", adminRoute);
 app.use("/api/learner", userRoute);
 app.use("/api/instructor", instructorRoute);
 app.use("/api/admin", adminRoute);

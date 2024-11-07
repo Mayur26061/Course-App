@@ -42,11 +42,11 @@ const SingleContent = () => {
       <div className="p-3 flex justify-center items-center">
         <div className="px-10 w-[800px] h-[560px]">
           {content?.type == "image" && (
-            <img className="w-full h-full" src={content.url} />
+            <img className="w-full h-full" src={content.content_url} />
           )}
           {content?.type == "document" && (
             <iframe
-              src={content.url}
+              src={content.content_url}
               className="w-full h-full"
               allow="autoplay"
             ></iframe>
@@ -54,7 +54,7 @@ const SingleContent = () => {
           {content?.type == "video" && (
             <iframe
               className="w-full h-full"
-              src={content.url}
+              src={content.content_url}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

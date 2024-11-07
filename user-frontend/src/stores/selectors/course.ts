@@ -43,7 +43,7 @@ export const courseContentState = selector({
   get: ({ get }) => {
     const state = get(courseState);
     if (state.course) {
-      return state.course.content;
+      return state.course.contents;
     }
     return "";
   },

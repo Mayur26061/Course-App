@@ -5,7 +5,7 @@ import { userOnlyState } from "../../stores/selectors/userEmail";
 const Content = ({ content }) => {
   const userEmail = useRecoilValue(userOnlyState);
   const navigate = useNavigate();
-  const custom = !userEmail?.user_courses.includes(content.courses)
+  const custom = !userEmail?.user_courses.filter((data)=>data.course_id == content.course_id)
     ? "pointer-events-none"
     : "pointer-events-auto";
   return (

@@ -2,10 +2,11 @@ import { BASE_URL } from "../../../config";
 import axios from "axios";
 
 interface contentType {
-  title: string;
-  description: string | null;
-  type: string;
-  content_url: string;
+  title?: string;
+  description?: string | null;
+  type?: string;
+  content_url?: string;
+  published?: boolean;
 }
 
 export const editContentCall = async (

@@ -4,11 +4,14 @@ export const fetchSingleContent = async (
   contentId: string,
   courseId: string
 ) => {
-  const res = await axios.get(`${BASE_URL}/content/${contentId}`, {
-    data: {
-      courseId,
+  const res = await axios.post(
+    `${BASE_URL}/content/${contentId}`,
+    {
+      courseId: courseId,
     },
-    withCredentials: true,
-  });
+    {
+      withCredentials: true,
+    }
+  );
   return res;
 };

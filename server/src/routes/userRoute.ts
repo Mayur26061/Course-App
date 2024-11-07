@@ -22,6 +22,6 @@ router.get("/me", AuthenticateUser, getMe);
 router.get("/courses", getCourses);
 router.get("/course/:courseId", getSelectedCourse);
 router.post("/buycourse/:courseId", AuthenticateUser, buyCourse);
-router.get("/content/:contentId", AuthenticateUser, getContent);
+router.post("/content/:contentId", AuthenticateUser, getContent);
 
 export default router;
