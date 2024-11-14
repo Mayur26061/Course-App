@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
 import { coursePriceState } from "../../stores/selectors/course";
 import { buyCourseAction } from "./fetch";
+import { courseState } from "../../stores/atoms/course";
 
 const CourseCardButton = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const CourseCardButton = () => {
   const [user, setUser] = useRecoilState(userState);
   const userEmail = useRecoilValue(userOnlyState);
   const price = useRecoilValue(coursePriceState);
+  const course = useRecoilValue(courseState);
   const goToSignIn = () => {
     navigate(`/signin?courseId=${cid}`);
   };

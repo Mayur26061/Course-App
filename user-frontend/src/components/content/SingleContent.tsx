@@ -8,7 +8,7 @@ import Notfound from "../common/Notfound";
 const SingleContent = () => {
   const { co, cid } = useParams();
   const [content, setContent] = useState(null);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsloading] = useState(true);
   useEffect(() => {
     async function fetchContent() {
       try {
@@ -29,9 +29,9 @@ const SingleContent = () => {
   if (isLoading) {
     return <Loading />;
   }
-  if (!content) {
-    return <Notfound title={"Content not found"} />;
-  }
+  // if (!content) {
+  //   return <Notfound title={"Content not found"} />;
+  // }
   return (
     <div className="flex flex-col grow">
       <div className="w-full bg-slate-100">

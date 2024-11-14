@@ -10,6 +10,7 @@ import {
   getSelectedCourse,
   buyCourse,
   getContent,
+  markasCompleteContent,
 } from "../controllers/userController";
 
 const router = express.Router();
@@ -23,5 +24,5 @@ router.get("/courses", getCourses);
 router.get("/course/:courseId", getSelectedCourse);
 router.post("/buycourse/:courseId", AuthenticateUser, buyCourse);
 router.post("/content/:contentId", AuthenticateUser, getContent);
-
+router.post("/markCompleted/:contentId", AuthenticateUser, markasCompleteContent);
 export default router;
