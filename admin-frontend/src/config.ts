@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3000/api/admin"
+export const BASE_URL = "http://localhost:3002/api/admin"
 interface validationContent {
     type: string;
     url: string;

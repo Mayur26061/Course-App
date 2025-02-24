@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import Sidebar from "./Sidebar";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { navState } from "../../store/atoms/sidebar";
 import UserPage from "../user/UserPage";
@@ -32,6 +32,7 @@ const Home = () => {
       </div>
       <div className="p-2 w-full overflow-auto h-screen">
         <Routes>
+      <Route index element={<Navigate to="/user" replace />}/>
           <Route path="/user" element={<UserPage />} />
           <Route path="/course" element={<CoursePage />} />
           <Route path="/enroll" element={<Enrolled />} />

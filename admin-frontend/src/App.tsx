@@ -25,7 +25,9 @@ function App() {
 
   useEffect(() => {
     if (!user.user && !user.isLoading) {
-      navigate("/signin");
+      if (!['/signup','/signin'].includes(location.pathname)){
+        navigate("/signin");
+      }
     }
   }, [user]);
 

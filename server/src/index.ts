@@ -23,6 +23,6 @@ app.use("/api/learner", userRoute);
 app.use("/api/instructor", instructorRoute);
 app.use("/api/admin", adminRoute);
 
-app.listen(3000, () => {
+app.listen(3002, () => {
   console.log("Server is listening on port 3000");
 });
