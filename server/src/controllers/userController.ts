@@ -284,3 +284,24 @@ export const markasCompleteContent = asyncHandler(async (req: reqObj, res) => {
   const content = await _getContent(cid, courseId, uid);
   res.json({ error: false, content: content });
 });
+
+export const getSearchedCourses = asyncHandler(async (req: reqObj, res) => {
+  const data = z
+    .object({
+      searchTerm: z.string().trim(),
+    })
+    .safeParse(req.body);
+  if (data.error || !data.data?.searchTerm) {
+    res.send({ error: false, courses: [] });
+    return;
+  }
+  console.log(data.data?.searchTerm);
+  const courses = await prisma.course.findMany({
+    where: {
+      published: true,
+      title: { contains: data.data?.searchTerm || "", mode: "insensitive" },
+    },
+  });
+  console.log(courses);
+  res.send({ error: false, courses });
+});
