@@ -10,3 +10,16 @@ export const logOutAction = async () => {
     }
   );
 };
+
+export const fetchSearchTerm = async (searchTerm: string) => {
+  const response = await axios.post(
+    `${BASE_URL}/searchCourses`,
+    {
+      searchTerm,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data
+};

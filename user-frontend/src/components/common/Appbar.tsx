@@ -1,10 +1,11 @@
 import { Button, Typography } from "@mui/material";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
-import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
 import { logOutAction } from "./fetch";
+import Searchbar from "./Searchbar";
 
 const Appbar = () => {
   const setUser = useSetRecoilState(userState);
@@ -21,8 +22,11 @@ const Appbar = () => {
   };
   return (
     <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
-      <div onClick={() => navigate("/")}>
-        <Typography variant="h6">SmartLearn</Typography>
+      <div className="flex items-center gap-2">
+        <div onClick={() => navigate("/")}>
+          <Typography variant="h6">SmartLearn</Typography>
+        </div>
+        <Searchbar />
       </div>
       {!isLoading && (
         <>

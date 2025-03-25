@@ -16,6 +16,7 @@ import SingleCourse from "./components/course/SingleCourse";
 import { userState } from "./stores/atoms/user";
 import { fetchMe } from "./fetch";
 import "./App.css";
+import SearchCourses from "./components/course/SearchCourses";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -28,7 +29,7 @@ function App() {
 
   return (
     <div className="flex flex-col w-full h-screen">
-      <Router>
+      <Router future={{ v7_relativeSplatPath: true }}>
         <Appbar />
         <Routes>
           <Route index element={<Navigate to="/courses" replace />} />
@@ -37,6 +38,7 @@ function App() {
           <Route path="signin" element={<Login />} />
           <Route path="signup" element={<Register />} />
           <Route path="course/:co/content/:cid" element={<SingleContent />} />
+          <Route path="search" element={<SearchCourses />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
