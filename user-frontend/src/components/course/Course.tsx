@@ -1,32 +1,37 @@
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { courseType } from "./CoursesContainer";
 
-function Course(props) {
+interface Tprops {
+  course: courseType;
+}
+const Course: FC<Tprops> = ({ course }) => {
   const navigate = useNavigate();
   return (
     <div tabIndex={0}>
       <Card
         className="text-center m-2 w-72 h-64 cursor-pointer"
         onClick={() => {
-          navigate(`/course/${props.course.id}`);
+          navigate(`/course/${course.id}`);
         }}
       >
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {props.course.title}
+            {course.title}
           </Typography>
           <Typography
             className="truncate h-5"
             variant="body2"
             color="text.secondary"
           >
-            {props.course.description}
+            {course.description}
           </Typography>
           <div className="p-1 h-40">
             <CardMedia
               component="img"
               alt="courseImage"
-              image={props.course.image}
+              image={course.image}
               className="h-full w-full"
             />
           </div>
@@ -34,5 +39,5 @@ function Course(props) {
       </Card>
     </div>
   );
-}
+};
 export default Course;

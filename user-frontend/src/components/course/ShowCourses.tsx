@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Course from "./Courses";
 import Landing from "../common/Landing";
 import { fetchCourses } from "./fetch";
+import CoursesContainer from "./CoursesContainer";
 
 function ShowCourses() {
   const [courses, setCourses] = useState([]);
@@ -18,9 +18,7 @@ function ShowCourses() {
   return (
     <div>
       <Landing />
-      <div className="flex justify-center flex-wrap">
-        {courses && courses.map((c) => <Course key={c.id} course={c} />)}
-      </div>
+      <CoursesContainer courses={courses} />
     </div>
   );
 }

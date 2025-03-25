@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CourseCard from "./CourseCard";
 import { Grid, Typography } from "@mui/material";
@@ -19,14 +19,16 @@ const SingleCourse = () => {
   const isLoading = useRecoilValue(courseLoadingState);
 
   useEffect(() => {
-    setCourse({ isLoading: true, course: null });
-    fetchSingleCourse(cid)
+    setCourse({ isLoading: true, course: null })
+    if (cid){
+      fetchSingleCourse(cid)
       .then((response) => {
         setCourse({ isLoading: false, course: response.data.course });
       })
       .catch(() => {
         setCourse({ isLoading: false, course: null });
       });
+    }
   }, [cid]);
   if (isLoading) {
     return <Loading />;
