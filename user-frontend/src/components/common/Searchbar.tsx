@@ -29,16 +29,17 @@ const Searchbar: FC<Tprops> = () => {
   // }, [searchValue]);
 
   return (
-    <div className="w-48 border-black">
-      <form className="flex" onSubmit={_Submit}>
+    <div className="border-black flex-grow">
+      <form className="flex " onSubmit={_Submit}>
         <Input
           placeholder="Search Course"
           value={searchValue}
+          className="w-28 focus-within:w-full ease-in-out transition-all duration-500 transform border border-r-0"
           onChange={(ev) => {
             setSearchValue(ev.target.value);
           }}
         />
-        <button type="submit">
+        <button type="submit" className="border border-l-0 rounded-r-2xl">
           <Search />
         </button>
       </form>
