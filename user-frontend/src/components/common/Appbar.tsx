@@ -21,44 +21,42 @@ const Appbar = () => {
     navigate("/signin");
   };
   return (
-    <div className="flex justify-between p-2 bg-slate-50 sticky top-0 z-10">
-      <div className="flex items-center gap-2">
-        <div onClick={() => navigate("/")}>
+    <div className="flex justify-between items-center p-2 bg-slate-50 sticky top-0 z-10 gap-2">
+      <div className="flex items-center">
+        <div onClick={() => navigate("/")} className="cursor-pointer">
           <Typography variant="h6">SmartLearn</Typography>
         </div>
-        <Searchbar />
       </div>
+      <Searchbar />
       {!isLoading && (
         <>
-          <div>
-            <div className="flex items-center gap-2">
-              <a
-                className="py-1 px-1.5 text-blue-700 border border-blue-700"
-                href="http://localhost:8000/"
-                target="_blank"
-              >
-                Be an Instrutor
-              </a>
-              {!userEmail && (
-                <>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    onClick={() => navigate("/signup")}
-                  >
-                    Sign Up
-                  </Button>
-                  <Button size="small" onClick={() => navigate("/signin")}>
-                    Sign In
-                  </Button>
-                </>
-              )}
-              {userEmail && (
-                <Button size="small" variant="contained" onClick={onLogOut}>
-                  Logout
+          <div className="flex flex-grow justify-end gap-2">
+            <a
+              className="py-1 px-1.5 text-blue-700 border border-blue-700"
+              href="http://localhost:8000/"
+              target="_blank"
+            >
+              Be an Instrutor
+            </a>
+            {!userEmail && (
+              <>
+                <Button
+                  size="small"
+                  variant="contained"
+                  onClick={() => navigate("/signup")}
+                >
+                  Sign Up
                 </Button>
-              )}
-            </div>
+                <Button size="small" onClick={() => navigate("/signin")}>
+                  Sign In
+                </Button>
+              </>
+            )}
+            {userEmail && (
+              <Button size="small" variant="contained" onClick={onLogOut}>
+                Logout
+              </Button>
+            )}
           </div>
         </>
       )}

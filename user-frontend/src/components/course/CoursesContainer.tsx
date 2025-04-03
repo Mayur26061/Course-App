@@ -21,7 +21,7 @@ interface Tprops {
 
 const CoursesContainer: FC<Tprops> = ({ courses }) => {
   return (
-    <div className="flex justify-center flex-wrap">
+    <div className="flex flex-wrap">
       {courses && courses.map((c) => <Course key={c.id} course={c} />)}
     </div>
   );

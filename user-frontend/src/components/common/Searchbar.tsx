@@ -10,13 +10,12 @@ type Tprops = {
 };
 // setuserState:React.Dispatch<React.SetStateAction<boolean>>
 const Searchbar: FC<Tprops> = () => {
-  const nav = useNavigate()
+  const nav = useNavigate();
   const [searchValue, setSearchValue] = useRecoilState(searchState);
-
 
   const _Submit = async (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
     e.preventDefault();
-    nav(`/search?search=${searchValue}`)
+    nav(`/search?search=${searchValue}`);
   };
   // const onChangeSearch = ()=>{
   //   console.log(searchValue)
