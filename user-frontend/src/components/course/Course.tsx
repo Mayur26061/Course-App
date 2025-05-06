@@ -1,5 +1,5 @@
-import { Card, CardMedia, CardContent, Typography } from "@mui/material";
-import { FC } from "react";
+import { Card, CardMedia, CardContent } from "@mui/material";
+import { FC, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { courseType } from "./CoursesContainer";
 
@@ -8,33 +8,37 @@ interface Tprops {
 }
 const Course: FC<Tprops> = ({ course }) => {
   const navigate = useNavigate();
+  const navCourse = () => {
+    navigate(`/course/${course.id}`);
+  };
   return (
-    <div tabIndex={0}>
-      <Card
-        className="text-center m-2 w-72 h-64 cursor-pointer"
-        onClick={() => {
-          navigate(`/course/${course.id}`);
-        }}
-      >
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {course.title}
-          </Typography>
-          <Typography
-            className="truncate h-5"
-            variant="body2"
-            color="text.secondary"
-          >
-            {course.description}
-          </Typography>
-          <div className="p-1 h-40">
-            <CardMedia
-              component="img"
-              alt="courseImage"
-              image={course.image}
-              className="h-full w-full"
-            />
+    <div
+      className="m-1"
+      tabIndex={1}
+      onKeyDown={(e: KeyboardEvent) => {
+        if (e.key == "Enter") {
+          navCourse();
+        }
+      }}
+      onClick={navCourse}
+    >
+      <Card className="!rounded-md cursor-pointer" sx={{ maxWidth: 345 }}>
+        <div className="h-40">
+          <CardMedia
+            component="img"
+            height="140"
+            image={course.image}
+            alt="green iguana"
+            className="h-full w-full"
+          />
+        </div>
+        <CardContent className="gap-1.5 flex flex-col">
+          <div>
+            <div className="font-semibold text-gray-950">{course.title}</div>
+            <div className=" text-blue-500 text-xs">Mayur Rathod</div>
           </div>
+          <div className="text-gray-700 text-sm">{course.description}</div>
+          <div className="font-extrabold text-gray-800">₹{course.price}</div>
         </CardContent>
       </Card>
     </div>
