@@ -1,4 +1,3 @@
-import { Button, Typography } from "@mui/material";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../stores/atoms/user";
@@ -21,10 +20,10 @@ const Appbar = () => {
     navigate("/signin");
   };
   return (
-    <div className="flex justify-between items-center p-2 bg-slate-50 sticky top-0 z-10 gap-2">
+    <div className="flex justify-between items-center p-2 bg-slate-50 sticky top-0 z-10 gap-2 shadow-md">
       <div className="flex items-center">
-        <div onClick={() => navigate("/")} className="cursor-pointer">
-          <Typography variant="h6">SmartLearn</Typography>
+        <div onClick={() => navigate("/")} className="cursor-pointer px-2 py-1 text-lg font-semibold">
+            SmartLearn
         </div>
       </div>
       <Searchbar />
@@ -32,7 +31,7 @@ const Appbar = () => {
         <>
           <div className="flex flex-grow justify-end gap-2">
             <a
-              className="py-1 px-1.5 text-blue-700 border border-blue-700"
+              className="py-1 px-2 text-blue-700 border border-blue-700 rounded-full"
               href="http://localhost:8000/"
               target="_blank"
             >
@@ -40,22 +39,27 @@ const Appbar = () => {
             </a>
             {!userEmail && (
               <>
-                <Button
-                  size="small"
-                  variant="contained"
+                <button
+                  className="px-4 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-700"
                   onClick={() => navigate("/signup")}
                 >
                   Sign Up
-                </Button>
-                <Button size="small" onClick={() => navigate("/signin")}>
+                </button>
+                <button
+                  className="px-4 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-700"
+                  onClick={() => navigate("/signin")}
+                >
                   Sign In
-                </Button>
+                </button>
               </>
             )}
             {userEmail && (
-              <Button size="small" variant="contained" onClick={onLogOut}>
+              <button
+                className="px-4 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-900"
+                onClick={onLogOut}
+              >
                 Logout
-              </Button>
+              </button>
             )}
           </div>
         </>

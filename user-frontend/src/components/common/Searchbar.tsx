@@ -1,4 +1,3 @@
-import { Input } from "@mui/material";
 import { FC, SyntheticEvent } from "react";
 import { Search } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -29,18 +28,20 @@ const Searchbar: FC<Tprops> = () => {
 
   return (
     <div className="border-black flex-grow">
-      <form className="flex " onSubmit={_Submit}>
-        <Input
-          placeholder="Search Course"
-          value={searchValue}
-          className="w-28 focus-within:w-full ease-in-out transition-all duration-500 transform border border-r-0"
-          onChange={(ev) => {
-            setSearchValue(ev.target.value);
-          }}
-        />
-        <button type="submit" className="border border-l-0 rounded-r-2xl">
-          <Search />
-        </button>
+      <form className="flex" onSubmit={_Submit}>
+        <div className="flex w-full">
+          <input
+            placeholder="Search Course"
+            value={searchValue}
+            className="outline-none w-64 border border-r-0 rounded-l-2xl px-4 py-1 focus-within:w-full ease-in-out transition-all duration-500 transform"
+            onChange={(ev) => {
+              setSearchValue(ev.target.value);
+            }}
+          />
+          <button type="submit" className="border border-l-0 rounded-r-2xl">
+            <Search />
+          </button>
+        </div>
       </form>
     </div>
   );
