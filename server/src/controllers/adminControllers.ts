@@ -91,7 +91,16 @@ export const adminSignIn = asyncHandler(async (req, res, next) => {
 });
 
 export const getAllCourses = asyncHandler(async (req, res) => {
-  const courses = await prisma.course.findMany({});
+  const courses = await prisma.course.findMany({
+    include:{
+      author:{
+        select:{
+          id:true,
+          name:true,
+        }
+      }
+    }
+  });
   res.send({ error: false, courses });
 });
 
