@@ -17,6 +17,7 @@ import { userState } from "./stores/atoms/user";
 import { fetchMe } from "./fetch";
 import "./App.css";
 import SearchCourses from "./components/course/SearchCourses";
+import Profile from "./components/auth/Profile";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -39,6 +40,7 @@ function App() {
           <Route path="signup" element={<Register />} />
           <Route path="course/:co/content/:cid" element={<SingleContent />} />
           <Route path="search" element={<SearchCourses />} />
+          <Route path="my" element={<Profile/>} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>

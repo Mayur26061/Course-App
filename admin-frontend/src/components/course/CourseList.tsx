@@ -9,6 +9,10 @@ import Paper from "@mui/material/Paper";
 import { fetchCourses } from "./fetch";
 import Course from './Course';
 
+interface Userfield {
+  id:string;
+  name:string;
+}
 export interface courseType {
     id: string;
     createAt: Date;
@@ -21,6 +25,7 @@ export interface courseType {
     duration: Date | null;
     author_id: string;
     category: string | null;
+    author:Userfield;
   }
 
 const CourseList = () => {
@@ -42,6 +47,7 @@ const CourseList = () => {
               <TableCell>Price</TableCell>
               {/* <TableCell>Category</TableCell> */}
               <TableCell>Status</TableCell>
+              <TableCell>Author</TableCell>
               {/* <TableCell align="center">User Type</TableCell>
               <TableCell align="center">Usename</TableCell>
               <TableCell align="center">Status</TableCell> */}

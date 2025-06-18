@@ -56,7 +56,10 @@ function CreateCourse() {
           variant="outlined"
           className="!mb-2.5"
           label="Price"
-          onChange={(e) => setPrice(parseInt(e.target.value))}
+          onChange={(e) => {
+            const value = parseInt(e.target.value) || 0
+            setPrice(value)
+            }}
         />
         <TextField
           fullWidth={true}

@@ -27,13 +27,14 @@ const Searchbar: FC<Tprops> = () => {
   // }, [searchValue]);
 
   return (
-    <div className="border-black flex-grow">
+    // For now hiding search bar in mobile view 
+    <div className="border-black flex-grow max-sm:hidden"> 
       <form className="flex" onSubmit={_Submit}>
         <div className="flex w-full">
           <input
             placeholder="Search Course"
             value={searchValue}
-            className="outline-none w-64 border border-r-0 rounded-l-2xl px-4 py-1 focus-within:w-full ease-in-out transition-all duration-500 transform"
+            className="outline-none w-full sm:w-64 border border-r-0 rounded-l-2xl px-4 py-1 focus-within:w-full ease-in-out transition-all duration-500 transform"
             onChange={(ev) => {
               setSearchValue(ev.target.value);
             }}

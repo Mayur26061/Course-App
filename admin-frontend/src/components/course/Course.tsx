@@ -20,6 +20,7 @@ const Course: FC<courseprop> = ({ course }) => {
       <TableCell>{course.description}</TableCell>
       <TableCell>{course.price}</TableCell>
       <TableCell>{course.published ? "published" : "unpublished"}</TableCell>
+      <TableCell>{course.author.name}</TableCell>
     </TableRow>
   );
 };
