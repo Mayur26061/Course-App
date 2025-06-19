@@ -79,3 +79,22 @@ export const AuthenticateAdmin = (
 ) => {
   _commonMiddleware(req, res, next, "admin");
 };
+
+export const AuthenticateMixedUser = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token = getCookieToken(req.headers.cookie, "token");
+  if (token) {
+    jwt.verify(token, getSecretKey("learner"), (err, data: any) => {
+      if (!err) {
+        // todo: store user id in session
+        req.headers.uid = data.id || "";
+      } else {
+        res.setHeader("set-Cookie", "token=; HttpOnly; Max-Age=;");
+      }
+    });
+  }
+  next();
+};
