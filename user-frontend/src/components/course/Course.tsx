@@ -5,11 +5,12 @@ import { courseType } from "./CoursesContainer";
 
 interface Tprops {
   course: courseType;
+  path:string;
 }
-const Course: FC<Tprops> = ({ course }) => {
+const Course: FC<Tprops> = ({ course,path }) => {
   const navigate = useNavigate();
   const navCourse = () => {
-    navigate(`/course/${course.id}`);
+    navigate(`${path}/${course.id}`);
   };
   return (
     <div

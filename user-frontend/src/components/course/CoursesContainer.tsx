@@ -22,7 +22,7 @@ interface Tprops {
 const CoursesContainer: FC<Tprops> = ({ courses }) => {
   return (
     <div className="flex flex-wrap gap-2">
-      {courses && courses.map((c) => <Course key={c.id} course={c} />)}
+      {courses && courses.map((c) => <Course key={c.id} course={c} path="/course"/>)}
     </div>
   );
 };

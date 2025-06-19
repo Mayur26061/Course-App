@@ -10,7 +10,7 @@ import EnrolledCourse from "../course/EnrolledCourse";
 const MyProfileRoute = ()=>{
     return <Routes>
         <Route index element={<Profile/>}/>
-        <Route path="creations" element={<MyCreation/>}/>
+        <Route path="/creations/*" element={<MyCreation/>}/>
         <Route path="mycourses" element={<EnrolledCourse/>}/>
         <Route path="*" element={<Notfound/>}/>
     </Routes>

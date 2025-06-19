@@ -20,3 +20,15 @@ export const buyCourseAction = async (courseId: string) => {
   );
   return res;
 };
+
+export const fetchMyCreation = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/mycreation`, {
+      withCredentials: true,
+    });
+    return response.data.course;
+  } catch {
+    console.log("Something went wrong");
+    return [];
+  }
+};
