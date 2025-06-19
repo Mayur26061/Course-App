@@ -8,8 +8,21 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 
+import { useNavigate } from "react-router-dom";
+import { logOutAction } from "../common/fetch";
+
 const Profile = () => {
-  const [user] = useRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
+  const navigate = useNavigate()
+
+  const onLogOut = async () => {
+    await logOutAction();
+    setUser({
+      isLoading: false,
+      user: null,
+    });
+    navigate("/signin");
+  };
 
   return (
     <div className="grid gap-4 p-4 md:grid-cols-[420px_1fr]">
@@ -25,12 +38,12 @@ const Profile = () => {
         <p className="font-semibold text-gray-500">{user.user?.username}</p>
       </div>
       <div className="w-full">
-        <UserActions title="My Courses" Icon={<DashboardIcon />} />
-        <UserActions title="My Creations" Icon={<CreateNewFolderIcon />} />
-        <UserActions title="Certificates" Icon={<CardMembershipIcon />} />
-        <UserActions title="Change Password" Icon={<SecurityIcon />} />
-        <UserActions title="Setting" Icon={<SettingsIcon />} />
-        <UserActions title="Sign Out" Icon={<LogoutIcon />} />
+        <UserActions title="My Courses" Icon={<DashboardIcon />} action={()=>{navigate('mycourses')}}/>
+        <UserActions title="My Creations" Icon={<CreateNewFolderIcon />} action={()=>{navigate('creations')}}/>
+        <UserActions title="Certificates" Icon={<CardMembershipIcon />} action={()=>{navigate('certificates')}}/>
+        <UserActions title="Change Password" Icon={<SecurityIcon />} action={()=>{navigate('mycourses')}}/>
+        <UserActions title="Setting" Icon={<SettingsIcon />} action={()=>{navigate('setting')}}/>
+        <UserActions title="Sign Out" Icon={<LogoutIcon />} action={onLogOut}/>
       </div>
     </div>
   );
