@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { generateToken } from "../middleware/auth";
 import prisma from "../utils/client";
 import { reqObj } from "../utils/utils";
+import { Prisma } from "@prisma/client";
 
 const signCheck = z.object({
   username: z.string().email().min(1),
@@ -152,12 +153,24 @@ export const getMe = asyncHandler(async (req: reqObj, res) => {
 });
 
 // get id specific course
-export const getSelectedCourse = asyncHandler(async (req, res) => {
-  const course = await prisma.course.findUnique({
-    where: {
-      id: req.params.courseId,
+export const getSelectedCourse = asyncHandler(async (req:reqObj, res) => {
+  const uid: string = req.headers["uid"] || "";
+  let condition : Prisma.courseWhereUniqueInput = { id: req.params.courseId}
+  if (uid){
+    condition.OR = [
+      {
       published: true,
-    },
+      },
+      {
+        author_id:uid
+      }
+    ]
+  } else {
+    condition.published = true
+  }
+
+  const course = await prisma.course.findUnique({
+    where: condition,
     include: {
       contents: {
         where: {
