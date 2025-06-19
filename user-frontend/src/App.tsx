@@ -18,6 +18,7 @@ import { fetchMe } from "./fetch";
 import "./App.css";
 import SearchCourses from "./components/course/SearchCourses";
 import Profile from "./components/auth/Profile";
+import MyProfileRoute from "./components/auth/MyProfileRoute";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -41,6 +42,7 @@ function App() {
           <Route path="course/:co/content/:cid" element={<SingleContent />} />
           <Route path="search" element={<SearchCourses />} />
           <Route path="my" element={<Profile/>} />
+          <Route path="my/*" element={<MyProfileRoute/>} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
