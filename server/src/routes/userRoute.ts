@@ -17,7 +17,6 @@ import {
   getCourses as getMyCreations,
   addCourse,
   addContent,
-  getSelectContent,
   deleteContent,
   updateCourse,
   updateContent,
@@ -41,5 +40,11 @@ router.post(
 );
 router.post("/searchCourses", getSearchedCourses);
 router.get("/mycreation", AuthenticateUser, getMyCreations);
+router.post("/addcourse", AuthenticateUser, addCourse);
+router.post("/:courseId/addcontent", AuthenticateUser, addContent);
+router.put("/update/course/:courseId", AuthenticateUser, updateCourse);
+router.put("/update/content/:contentId", AuthenticateUser, updateContent);
+router.delete("/delete/course/:courseId", AuthenticateUser, deleteCourse);
+router.delete("/delete/content/:contentId", AuthenticateUser, deleteContent);
 
 export default router;
