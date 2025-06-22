@@ -29,13 +29,6 @@ export const fetchSingleCourse = async (courseId: string) => {
   return [[], null];
 };
 
-export const createCourseCall = async (courseData) => {
-  const res = await axios.post(`${BASE_URL}/addcourse`, courseData, {
-    withCredentials: true,
-  });
-  return res.data
-};
-
 export const deleteCourseCall = async (courseId: string) => {
   await axios.delete(`${BASE_URL}/delete/course/${courseId}`, {
     withCredentials: true,

@@ -42,12 +42,6 @@ const Appbar = () => {
           )}
           {userCurrent.user && (
             <div className="flex items-center">
-              <Button
-                onClick={() => navigate("/createcourse")}
-                variant="text"
-              >
-                Add Course
-              </Button>
               <Button onClick={() => navigate("/courses")} variant="text">
                 Courses
               </Button>

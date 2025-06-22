@@ -1,7 +1,9 @@
 export const BASE_URL = "http://localhost:3002/api/admin"
 interface validationContent {
+    title:string;
+    description:string;
     type: string;
-    url: string;
+    content_url: string;
   }
   export interface contentType {
     id: string;
@@ -21,17 +23,17 @@ interface validationContent {
     const checkDocumentAccess = (urlsub: string) => {
       return ["preview", "view", "edit"].some((e) => urlsub.startsWith(e));
     };
-    if (content.type === "video" && content.url.startsWith("https://youtu.be/")) {
-      const url = content.url;
-      content.url = url.replace(
+    if (content.type === "video" && content.content_url.startsWith("https://youtu.be/")) {
+      const url = content.content_url;
+      content.content_url = url.replace(
         "https://youtu.be",
         "https://www.youtube.com/embed/"
       );
       return true;
     }
     if (content.type == "document") {
-      if (content.url.startsWith("https://docs.google.com/")) {
-        let url = content.url;
+      if (content.content_url.startsWith("https://docs.google.com/")) {
+        let url = content.content_url;
         if (
           url.split("/").length === 7 &&
           checkDocumentAccess(url.substr(url.lastIndexOf("/") + 1))
@@ -40,7 +42,7 @@ interface validationContent {
         } else {
           return false;
         }
-        content.url = url;
+        content.content_url = url;
       }
       return true;
     }

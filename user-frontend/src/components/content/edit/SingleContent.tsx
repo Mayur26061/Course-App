@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import { Loading } from "../common/Loading";
-import { contentType } from "../utils";
-import { fetchSingleContent } from "./fetch";
+import { Loading } from "../../common/Loading";
+import { fetchSingleContent } from "../fetch";
+import { contentType } from "../../../utils";
 
 const SingleContent = () => {
   const { co, cid } = useParams();
   const [content, setContent] = useState<contentType>();
   const [isLoading, setIsLoading] = useState(false);
+  
   useEffect(() => {
     async function fetchthisContent() {
       setIsLoading(true);
@@ -27,6 +28,9 @@ const SingleContent = () => {
     }
     fetchthisContent();
   }, [cid, co]);
+  if(!cid || !co){
+    return <></>
+  }
   if (isLoading) {
     return <Loading />;
   }

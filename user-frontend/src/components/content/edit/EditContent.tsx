@@ -3,59 +3,68 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { TextField, Select, MenuItem, InputLabel } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { TextField, Select, MenuItem } from "@mui/material";
+import { boxStyle, validateContent } from "../../../utils";
 import { useSetRecoilState } from "recoil";
-import { validateContent } from "../utils";
-import { boxStyle } from "../utils";
-import { contentState } from "../../stores/atoms/content";
-import { createContentCall } from "./fetch";
+import { editContentCall } from "../fetch";
+import { contentState } from "../../../stores/atoms/content";
+// import { useParams } from "react-router-dom";
+import { contentType } from "../../../utils";
 
-export default function CreateContent({ handleClose, open }) {
+interface Tprops {
+  handleClose:()=>void;
+  open:boolean;
+  content:contentType;
+}
+
+export default function EditContent({ handleClose, open, content }:Tprops) {
+  const [title, setTitle] = useState(content.title);
+  const [description, setDescription] = useState(content.description);
+  const [type, setType] = useState(content.type);
+  const [url, setUrl] = useState(content.content_url);
   const setContent = useSetRecoilState(contentState);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
-  const [url, setUrl] = useState("");
-  const { cid } = useParams();
+  // const { cid } = useParams();
 
-  const onCloses = () => {
+  const onCloses = (ev: { stopPropagation: () => void }) => {
+    ev.stopPropagation();
     handleClose();
-    setTitle("");
-    setDescription("");
-    setType("");
-    setUrl("");
+    setTitle(content.title);
+    setDescription(content.description);
+    setType(content.type);
+    setUrl(content.content_url);
   };
-
-  const createContent = async () => {
+  const editContent = async () => {
     const contentobj = {
       title,
       description,
       type,
       content_url: url,
     };
-    if (title && type && url && validateContent({ type, url })) {
-      const response = await createContentCall(cid,contentobj)
+    if (title && type && url && validateContent(contentobj)) {
+      const response = await editContentCall(content.id,contentobj)
       if (response.data.error) {
-        console.log(response.data.message);
+        console.log(response.data.error);
       } else {
-        setContent((data) => {
+        setContent((contents) => {
           return {
             isLoading: false,
-            content: [...data.content, response.data.content],
+            content: contents.content.map((d) => {
+              if (d.id === response.data.content.id) {
+                return response.data.content;
+              }
+              return d;
+            }),
           };
         });
       }
-      onCloses();
     }
-    console.log("Please fill the required details");
+    handleClose();
   };
-
   return (
     <Modal open={open} onClose={onCloses}>
-      <Box sx={boxStyle} className="w-full max-w-lg p-2">
+      <Box sx={boxStyle} className="w-full max-w-lg">
         <Typography variant="h5" className="!mb-2.5">
-          Create new content
+          Edit content
         </Typography>
         <TextField
           value={title}
@@ -73,7 +82,6 @@ export default function CreateContent({ handleClose, open }) {
           variant="outlined"
           label="Description"
         />
-        <InputLabel id="demo-simple-select-label">Type</InputLabel>
         <Select
           fullWidth={true}
           className="!mb-2.5"
@@ -95,13 +103,12 @@ export default function CreateContent({ handleClose, open }) {
           onChange={(e) => setUrl(e.target.value)}
         />
         <div className="mt-3">
-
-        <Button variant="contained" onClick={createContent}>
-          Create Content
-        </Button>
-        <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
-          Close
-        </Button>
+          <Button variant="contained" onClick={editContent}>
+            Edit Content
+          </Button>
+          <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
+            Close
+          </Button>
         </div>
       </Box>
     </Modal>

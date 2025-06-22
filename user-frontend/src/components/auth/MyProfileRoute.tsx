@@ -8,6 +8,7 @@ import Notfound from "../common/Notfound";
 import EnrolledCourse from "../course/EnrolledCourse";
 
 const MyProfileRoute = ()=>{
+    
     return <Routes>
         <Route index element={<Profile/>}/>
         <Route path="/creations/*" element={<MyCreation/>}/>

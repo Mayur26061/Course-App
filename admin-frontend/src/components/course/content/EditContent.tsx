@@ -35,7 +35,7 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
       type,
       content_url: url,
     };
-    if (title && type && url && validateContent({ type, url })) {
+    if (title && type && url && validateContent(contentobj)) {
       const response = await editContentCall(content.id, contentobj);
       if (response.data.error) {
         console.log(response.data.error);

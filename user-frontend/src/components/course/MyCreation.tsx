@@ -4,15 +4,18 @@ import Course from "./Course";
 import { courseType } from "./CoursesContainer";
 import { Route, Routes } from "react-router-dom";
 import Notfound from "../common/Notfound";
-import SingleCourse from "./SingleCourse";
+import SingleCourseEdit from "./SingleCourseEdit";
+import SingleContent from "../content/SingleContent";
+import CreateCourse from "./CreateCourse";
 
 const MyCreation: FC = () => {
     
     return (
         <Routes>
         <Route index element={<AllCourses/>}/>
-        <Route path="/:cid" element={<SingleCourse/>}/>
-        <Route path="/:co/content/:cid" element={<AllCourses/>}/>
+        <Route path="/:cid" element={<SingleCourseEdit/>}/>
+        <Route path="/:co/content/:cid" element={<SingleContent />} />
+        <Route path="/create" element={<CreateCourse />} />
         <Route path="*" element={<Notfound/>}/>
     </Routes>
   );

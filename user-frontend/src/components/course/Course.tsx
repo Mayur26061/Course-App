@@ -10,7 +10,9 @@ interface Tprops {
 const Course: FC<Tprops> = ({ course,path }) => {
   const navigate = useNavigate();
   const navCourse = () => {
-    navigate(`${path}/${course.id}`);
+    if (path){
+      navigate(`${path}/${course.id}`);
+    }
   };
   return (
     <div
