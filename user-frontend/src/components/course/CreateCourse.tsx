@@ -25,7 +25,7 @@ function CreateCourse() {
     setDescription("");
     setPrice(0);
     setImageLink('');
-    navigate("/courses")
+    navigate(`/my/creations/${res.course.id}`)
   };
   return (
     <div className="flex flex-col justify-center items-center p-5">

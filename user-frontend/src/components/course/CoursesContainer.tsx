@@ -19,7 +19,7 @@ interface Tprops {
   courses: courseType[];
 }
 
-const CoursesContainer: FC<Tprops> = ({ courses }) => {
+const CoursesContainer: FC<Tprops> = ({ courses }) => { // we can pass path from props ?
   return (
     <div className="flex flex-wrap gap-2">
       {courses && courses.map((c) => <Course key={c.id} course={c} path="/course"/>)}

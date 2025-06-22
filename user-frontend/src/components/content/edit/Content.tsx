@@ -3,9 +3,9 @@ import { FC, useState } from "react";
 import EditContent from "./EditContent";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { contentState } from "../../stores/atoms/content";
-import { deleteContentCall } from "./fetch";
-import { contentType } from "../utils";
+import { contentState } from "../../../stores/atoms/content";
+import { deleteContentCall } from "../fetch";
+import { contentType } from "../../../utils";
 
 type contentProps = {
   content: contentType;

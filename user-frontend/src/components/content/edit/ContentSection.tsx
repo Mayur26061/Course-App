@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Card } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import { contentIsloading, contentsState } from "../../stores/selectors/content";
 import Content from "./Content";
 import CreateContent from "./CreateContent";
-import { Loading } from "../common/Loading";
+import { Loading } from "../../common/Loading";
+import { contentIsloading, contentsState } from "../../../stores/selectors/content";
 
 const ContentSection = () => {
   const content = useRecoilValue(contentsState);

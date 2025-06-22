@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import UpdateCourse from "./UpdateCourse";
 import CourseCard from "./CourseCard";
-import { Typography } from "@mui/material";
 import { courseState } from "../../stores/atoms/course";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  courseTitleState,
-} from "../../stores/selectors/course";
-import { contentState } from "../../stores/atoms/content";
+import { useSetRecoilState } from "recoil";
 import { Loading } from "../common/Loading";
-import { fetchSingleCourse } from "./fetch";
+import ContentSection from "../content/edit/ContentSection";
+import { fetchSingleCourseEditable } from "./fetch";
+import { GrayTopper } from "./SingleCourse";
+import UpdateCourse from "./UpdateCourse";
+import { contentState } from "../../stores/atoms/content";
 
-const SingleCourse = () => {
+const SingleCourseEdit = () => {
   const { cid } = useParams();
   const setCourse = useSetRecoilState(courseState);
   const setContent = useSetRecoilState(contentState);
@@ -22,7 +20,7 @@ const SingleCourse = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       setIsLoading(true)
-      const [contents, course] = await fetchSingleCourse(cid);
+      const [contents, course] = await fetchSingleCourseEditable(cid);
       setCourse({ isLoading: false, course: course });
       setContent({ isLoading: false, content: contents });
       setIsLoading(false)
@@ -39,27 +37,10 @@ const SingleCourse = () => {
       <GrayTopper />
       <CourseCard />
       <UpdateCourse />
+      <ContentSection />
     </div>
   );
 };
 
-export default SingleCourse;
+export default SingleCourseEdit;
 
-function GrayTopper() {
-  const title = useRecoilValue(courseTitleState);
-  return (
-    <div className="h-64 bg-stone-900">
-      <div className="h-64 flex flex-col justify-center">
-        <div>
-          <Typography
-            className="text-white text-center"
-            variant="h3"
-            fontWeight={600}
-          >
-            {title || ""}
-          </Typography>
-        </div>
-      </div>
-    </div>
-  );
-}
