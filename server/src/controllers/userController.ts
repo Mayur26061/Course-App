@@ -156,6 +156,7 @@ export const getMe = asyncHandler(async (req: reqObj, res) => {
 export const getSelectedCourse = asyncHandler(async (req:reqObj, res) => {
   const uid: string = req.headers["uid"] || "";
   let condition : Prisma.courseWhereUniqueInput = { id: req.params.courseId}
+  let contCondition : Prisma.contentWhereInput = {}
   if (uid){
     condition.OR = [
       {
@@ -166,6 +167,7 @@ export const getSelectedCourse = asyncHandler(async (req:reqObj, res) => {
       }
     ]
   } else {
+    contCondition.published = true
     condition.published = true
   }
 
@@ -173,9 +175,7 @@ export const getSelectedCourse = asyncHandler(async (req:reqObj, res) => {
     where: condition,
     include: {
       contents: {
-        where: {
-          published: true,
-        },
+        where: contCondition,
       },
     },
   });
