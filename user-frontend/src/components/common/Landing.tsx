@@ -1,4 +1,4 @@
-import { Typography, Button, Grid } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import image from "../../assets/professor.jpeg";
 import { useRecoilValue } from "recoil";
@@ -21,10 +21,14 @@ function Landing() {
               {!userEmail && (
                 <div className="p-1">
                   <Link className="m-1" to={"/signup"}>
-                    <Button variant="contained">Signup</Button>
+                    <button className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700">
+                      Signup
+                    </button>
                   </Link>
                   <Link className="m-1" to={"/signin"}>
-                    <Button variant="contained">Signin</Button>
+                    <button className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700">
+                      Signin
+                    </button>
                   </Link>
                 </div>
               )}
