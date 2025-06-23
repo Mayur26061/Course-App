@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { userOnlyState } from "../../stores/selectors/userEmail";
 import { useNavigate, useParams } from "react-router-dom";
@@ -48,13 +47,19 @@ const CourseCardButton = () => {
         userEmail?.user_courses.findIndex((data) => data.course_id === cid) >= 0
       ) &&
         (userEmail ? (
-          <Button variant="contained" onClick={buyCourse}>
+          <button
+            className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700 min-w-20"
+            onClick={buyCourse}
+          >
             {price > 0 ? "Buy" : "Enroll Free"}
-          </Button>
+          </button>
         ) : (
-          <Button variant="contained" onClick={goToSignIn}>
+          <button
+            className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700"
+            onClick={goToSignIn}
+          >
             Sign in
-          </Button>
+          </button>
         ))}
     </>
   );
