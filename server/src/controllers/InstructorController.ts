@@ -10,7 +10,7 @@ import { generateToken } from "../middleware/auth";
 const courseInp = z.object({
   title: z.string().min(3),
   description: z.string().min(1),
-  price: z.number().positive().finite().default(0),
+  price: z.number().gte(0).finite().default(0),
   image: z.string().url().min(1),
   published:z.boolean().optional(),
 });
@@ -18,7 +18,7 @@ const courseInp = z.object({
 export const courseOptional = z.object({
   title: z.string().min(3).optional(),
   description: z.string().min(1).optional(),
-  price: z.number().positive().finite().default(0).optional(),
+  price: z.number().gte(0).finite().default(0).optional(),
   image: z.string().url().min(1).optional(),
   published:z.boolean().optional(),
 }).refine(data=> Object.values(data).some(value=> value!== undefined),{
