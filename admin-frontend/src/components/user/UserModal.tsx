@@ -149,7 +149,6 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
           onChange={(e) => setUserType(e.target.value)}
         >
           <MenuItem value={"admin"}>Admin</MenuItem>
-          <MenuItem value={"instructor"}>Instructor</MenuItem>
           <MenuItem value={"learner"}>Learner</MenuItem>
         </Select>
         {enablePass ? (
