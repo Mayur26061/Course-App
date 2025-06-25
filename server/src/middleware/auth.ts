@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import jwt from "jsonwebtoken";
 import { Response, Request, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 import { getSecretKey, userType } from "../utils/utils";
 
 interface target {
@@ -62,14 +62,6 @@ export const AuthenticateUser = (
   next: NextFunction
 ) => {
   _commonMiddleware(req, res, next, "learner");
-};
-
-export const AuthenticateInstructor = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  _commonMiddleware(req, res, next, "instructor");
 };
 
 export const AuthenticateAdmin = (

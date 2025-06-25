@@ -14,7 +14,7 @@ import {
   getSearchedCourses,
 } from "../controllers/userController";
 import {
-  getCourses as getMyCreations,
+  getMyCreations,
   addCourse,
   addContent,
   deleteContent,
@@ -22,6 +22,7 @@ import {
   updateContent,
   deleteCourse,
 } from "../controllers/InstructorController";
+
 const router = express.Router();
 
 // learner's routes

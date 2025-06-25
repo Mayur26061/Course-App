@@ -5,7 +5,6 @@ import dotenv from "dotenv";
 
 import adminRoute from "./routes/adminRoute";
 import userRoute from "./routes/userRoute";
-import instructorRoute from "./routes/instructorRoute";
 
 dotenv.config();
 
@@ -20,7 +19,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 app.use("/api/learner", userRoute);
-app.use("/api/instructor", instructorRoute);
 app.use("/api/admin", adminRoute);
 
 app.listen(3002, () => {

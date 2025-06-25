@@ -1,12 +1,11 @@
-import { Request } from "express";
-import { z } from "zod";
+import { Prisma } from "@prisma/client";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 
 import { generateToken } from "../middleware/auth";
 import prisma from "../utils/client";
 import { reqObj } from "../utils/utils";
-import { Prisma } from "@prisma/client";
 
 const signCheck = z.object({
   username: z.string().email().min(1),
@@ -108,6 +107,13 @@ export const getCourses = asyncHandler(async (req, res) => {
     where: {
       published: true,
     },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
   res.send({ error: false, courses });
 });
@@ -153,22 +159,35 @@ export const getMe = asyncHandler(async (req: reqObj, res) => {
 });
 
 // get id specific course
-export const getSelectedCourse = asyncHandler(async (req:reqObj, res) => {
+export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
   const uid: string = req.headers["uid"] || "";
-  let condition : Prisma.courseWhereUniqueInput = { id: req.params.courseId}
-  let contCondition : Prisma.contentWhereInput = {}
-  if (uid){
+  let condition: Prisma.courseWhereUniqueInput = { id: req.params.courseId };
+  let contCondition: Prisma.contentWhereInput = {};
+  if (uid) {
+    // if logged in user show publish as well as his course
     condition.OR = [
       {
-      published: true,
+        published: true,
       },
       {
-        author_id:uid
-      }
-    ]
+        author_id: uid,
+      },
+    ];
+
+    // if logged in user show publish as well as his content
+    contCondition.OR = [
+      {
+        published: true,
+      },
+      {
+        course: {
+          author_id: uid,
+        },
+      },
+    ];
   } else {
-    contCondition.published = true
-    condition.published = true
+    contCondition.published = true;
+    condition.published = true;
   }
 
   const course = await prisma.course.findUnique({
@@ -221,15 +240,24 @@ const _getContent = async (
   const content = await prisma.content.findUnique({
     where: {
       id: contendId,
-      published: true,
-      course: {
-        user_courses: {
-          some: {
-            course_id: course_id,
-            user_id: userId,
+      OR: [
+        {
+          published: true,
+          course: {
+            user_courses: {
+              some: {
+                course_id: course_id,
+                user_id: userId,
+              },
+            },
           },
         },
-      },
+        {
+          course: {
+            author_id: userId,
+          },
+        },
+      ],
     },
     include: {
       user_content: {
@@ -253,7 +281,6 @@ export const getContent = asyncHandler(async (req: reqObj, res) => {
     return;
   }
   const content = await _getContent(contentId, courseId, uid);
-  console.log(content);
   if (!content) {
     res.json({ error: true, message: "Couldn't find content" });
     return;
@@ -315,6 +342,5 @@ export const getSearchedCourses = asyncHandler(async (req: reqObj, res) => {
       title: { contains: data.data?.searchTerm || "", mode: "insensitive" },
     },
   });
-  console.log(courses);
   res.send({ error: false, courses });
 });
