@@ -1,7 +1,7 @@
-import { FC } from "react"
+import { FC } from "react";
 
-const EnrolledCourse:FC = ()=>{
-   return <>Enrolled</> 
-}
+const EnrolledCourse: FC = () => {
+  return <>Enrolled</>;
+};
 
-export default EnrolledCourse
+export default EnrolledCourse;
