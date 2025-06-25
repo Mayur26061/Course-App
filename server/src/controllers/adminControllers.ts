@@ -1,11 +1,11 @@
+import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
-import { boolean, z } from "zod";
+import { z } from "zod";
 
+import { generateToken } from "../middleware/auth";
 import { reqObj, updateUserVals } from "../utils/utils";
 import prisma from "../utils/client";
 import { signUpCheck, signCheck } from "../utils/utils";
-import bcrypt from "bcryptjs";
-import { generateToken } from "../middleware/auth";
 import { contentOptional, courseOptional } from "./InstructorController";
 
 // Sign Up for admin

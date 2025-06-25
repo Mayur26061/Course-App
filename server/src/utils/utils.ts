@@ -1,13 +1,12 @@
-import { z } from "zod";
 import { Request } from "express";
+import { z } from "zod";
 
-export type userType = "admin" | "instructor" | "learner";
+export type userType = "admin" | "learner";
 
 // return secret key for different user
 export function getSecretKey(type: userType): string {
   const secreteKeyObject = {
     admin: process.env.ADMIN_TOKEN_SECRET_KEY,
-    instructor: process.env.INSTRUCTOR_TOKEN_SECRET_KEY,
     learner: process.env.LEARNER_TOKEN_SECRET_KEY,
   };
   return secreteKeyObject[type];
@@ -32,6 +31,6 @@ export const updateUserVals = z.object({
   name: z.string().trim().min(1).optional(),
   username: z.string().email().optional(),
   password: z.string().min(6).optional(),
-  userType: z.enum(["admin", "instructor", "learner"]).optional(),
+  userType: z.enum(["admin", "learner"]).optional(),
   isApproved: z.boolean().optional(),
 });

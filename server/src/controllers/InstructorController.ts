@@ -3,27 +3,26 @@ import { z } from "zod";
 
 import { reqObj } from "../utils/utils";
 import prisma from "../utils/client";
-import { signUpCheck, signCheck } from "../utils/utils";
-import bcrypt from "bcryptjs";
-import { generateToken } from "../middleware/auth";
 
 const courseInp = z.object({
   title: z.string().min(3),
   description: z.string().min(1),
   price: z.number().gte(0).finite().default(0),
   image: z.string().url().min(1),
-  published:z.boolean().optional(),
+  published: z.boolean().optional(),
 });
 
-export const courseOptional = z.object({
-  title: z.string().min(3).optional(),
-  description: z.string().min(1).optional(),
-  price: z.number().gte(0).finite().default(0).optional(),
-  image: z.string().url().min(1).optional(),
-  published:z.boolean().optional(),
-}).refine(data=> Object.values(data).some(value=> value!== undefined),{
-  message:"Empty Object"
-});
+export const courseOptional = z
+  .object({
+    title: z.string().min(3).optional(),
+    description: z.string().min(1).optional(),
+    price: z.number().gte(0).finite().default(0).optional(),
+    image: z.string().url().min(1).optional(),
+    published: z.boolean().optional(),
+  })
+  .refine((data) => Object.values(data).some((value) => value !== undefined), {
+    message: "Empty Object",
+  });
 
 const contentValidator = z.object({
   title: z.string().trim().min(3),
@@ -31,103 +30,22 @@ const contentValidator = z.object({
   type: z.enum(["image", "document", "video"]),
   content_url: z.string().url(),
   duration: z.string().time().optional(),
-})
-
-export const contentOptional = z.object({
-  title: z.string().trim().min(3).optional(),
-  description: z.string().trim().optional(),
-  type: z.enum(["image", "document", "video"]).optional(),
-  content_url: z.string().url().optional(),
-  duration: z.string().time().optional(),
-  published:z.boolean().optional(),
-}).refine(data=> Object.values(data).some(value=> value!== undefined),{
-  message:"Empty Object"
-});;
-
-// Sign Up for instructor
-export const instrutorSignUp = asyncHandler(async (req, res, next) => {
-  const result = signUpCheck.safeParse(req.body);
-  if (result.error) {
-    res.json({
-      error: true,
-      message: "Invalid Inputs",
-    });
-    return;
-  }
-  const { username, password, name } = result.data;
-  const existUser = await prisma.user.findFirst({
-    where: {
-      username: username,
-    },
-  });
-  if (existUser) {
-    res.json({
-      error: true,
-      message: `User already exist for type ${existUser.userType}`,
-    });
-    return;
-  }
-
-  await prisma.user.create({
-    data: {
-      username,
-      name,
-      password: bcrypt.hashSync(password, 8),
-      userType: "instructor",
-    },
-  });
-
-  res.send({ error: false, message: "Request submitted to smart learn" });
 });
 
-// Sign In for instructor
-export const instrutorSignIn = asyncHandler(async (req, res, next) => {
-  const result = signCheck.safeParse(req.body);
-  if (result.error) {
-    res.json({
-      error: true,
-      message: "Invalid Inputs",
-    });
-    return;
-  }
-  const { username, password } = req.body;
-
-  // todo: z.enum for userType
-  const existUser = await prisma.user.findFirst({
-    where: {
-      username: username,
-      userType: "instructor",
-      isApproved: true,
-    },
-    include: {
-      user_courses: true,
-    },
+export const contentOptional = z
+  .object({
+    title: z.string().trim().min(3).optional(),
+    description: z.string().trim().optional(),
+    type: z.enum(["image", "document", "video"]).optional(),
+    content_url: z.string().url().optional(),
+    duration: z.string().time().optional(),
+    published: z.boolean().optional(),
+  })
+  .refine((data) => Object.values(data).some((value) => value !== undefined), {
+    message: "Empty Object",
   });
-  if (!existUser) {
-    res.json({
-      error: true,
-      message: "Can't find user please signUp",
-    });
-    return;
-  }
 
-  if (!bcrypt.compareSync(password, existUser.password)) {
-    res.json({
-      error: true,
-      message: "Incorrect password",
-    });
-    return;
-  }
-  const token = generateToken(
-    { id: existUser.id, username: username },
-    "instructor"
-  );
-  const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
-  res.send({ error: false, user });
-});
-
-export const getCourses = asyncHandler(async (req: reqObj, res) => {
+export const getMyCreations = asyncHandler(async (req: reqObj, res) => {
   const course = await prisma.course.findMany({
     where: {
       author_id: req.headers.uid,
@@ -204,67 +122,6 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
   };
   const content = await prisma.content.create(contentObj);
   res.json({ error: false, content });
-});
-
-// get course with ID created by him
-export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
-  const course = await prisma.course.findUnique({
-    where: {
-      id: req.params.courseId,
-      author_id: req.headers.uid,
-    },
-    include: {
-      contents: true,
-    },
-  });
-  if (!course) {
-    res.json({ error: true, message: "couldn't find" });
-    return;
-  }
-  res.json({ error: false, course });
-});
-
-// get content with ID
-export const getSelectContent = asyncHandler(async (req: reqObj, res) => {
-  const courseId: string = req.body.courseId;
-  const content = await prisma.content.findUnique({
-    where: {
-      id: req.params.contentId,
-      course_id: courseId,
-      course: {
-        author_id: req.headers.uid,
-      },
-    },
-  });
-  if (!content) {
-    res.json({ error: true, message: "couldn't find" });
-    return;
-  }
-  res.json({ error: false, content });
-});
-
-// Logout logic
-export const instructorSignout = asyncHandler(async (req, res) => {
-  res.setHeader("set-Cookie", "itoken=; HttpOnly; Max-Age=;");
-  res.json({ error: false, message: "Log out successfull" });
-});
-
-// function name say it all
-export const getMe = asyncHandler(async (req: reqObj, res) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: req.headers.uid,
-    },
-    include: {
-      courses: true,
-    },
-  });
-  if (user) {
-    const { password: pwd, ...userData } = user;
-    res.json({ error: false, user: userData });
-    return;
-  }
-  res.json({ error: true, message: "couldn't find" });
 });
 
 export const deleteContent = asyncHandler(async (req: reqObj, res) => {
