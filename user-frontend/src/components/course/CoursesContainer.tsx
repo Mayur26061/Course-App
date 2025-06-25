@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import Course from "./Course";
 
 export interface courseType {
@@ -13,16 +13,21 @@ export interface courseType {
   duration: Date | null;
   author_id: string;
   category: string | null;
+  author: {
+    name: string;
+  };
 }
 
 interface Tprops {
   courses: courseType[];
 }
 
-const CoursesContainer: FC<Tprops> = ({ courses }) => { // we can pass path from props ?
+const CoursesContainer: FC<Tprops> = ({ courses }) => {
+  // we can pass path from props ?
   return (
     <div className="flex flex-wrap gap-2">
-      {courses && courses.map((c) => <Course key={c.id} course={c} path="/course"/>)}
+      {courses &&
+        courses.map((c) => <Course key={c.id} course={c} path="/course" />)}
     </div>
   );
 };

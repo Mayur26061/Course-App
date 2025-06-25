@@ -6,19 +6,19 @@ import {
   Navigate,
 } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
-import Notfound from "./components/common/Notfound";
+import MyProfileRoute from "./components/auth/MyProfileRoute";
+import Profile from "./components/auth/Profile";
+import Register from "./components/auth/Register";
 import Appbar from "./components/common/Appbar";
+import Notfound from "./components/common/Notfound";
 import SingleContent from "./components/content/SingleContent";
+import SearchCourses from "./components/course/SearchCourses";
 import ShowCourses from "./components/course/ShowCourses";
 import SingleCourse from "./components/course/SingleCourse";
 import { userState } from "./stores/atoms/user";
-import { fetchMe } from "./fetch";
 import "./App.css";
-import SearchCourses from "./components/course/SearchCourses";
-import Profile from "./components/auth/Profile";
-import MyProfileRoute from "./components/auth/MyProfileRoute";
+import { fetchMe } from "./fetch";
 
 function App() {
   const setUser = useSetRecoilState(userState);
@@ -41,8 +41,8 @@ function App() {
           <Route path="signup" element={<Register />} />
           <Route path="course/:co/content/:cid" element={<SingleContent />} />
           <Route path="search" element={<SearchCourses />} />
-          <Route path="my" element={<Profile/>} />
-          <Route path="my/*" element={<MyProfileRoute/>} />
+          <Route path="my" element={<Profile />} />
+          <Route path="my/*" element={<MyProfileRoute />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>

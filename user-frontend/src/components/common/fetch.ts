@@ -1,5 +1,5 @@
-import { BASE_URL } from "../../config";
 import axios from "axios";
+import { BASE_URL } from "../../config";
 
 export const logOutAction = async () => {
   await axios.post(

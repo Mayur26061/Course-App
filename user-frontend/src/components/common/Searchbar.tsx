@@ -1,5 +1,5 @@
-import { FC, SyntheticEvent } from "react";
 import { Search } from "@mui/icons-material";
+import { FC, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { searchState } from "../../stores/atoms/search";
@@ -27,8 +27,8 @@ const Searchbar: FC<Tprops> = () => {
   // }, [searchValue]);
 
   return (
-    // For now hiding search bar in mobile view 
-    <div className="border-black flex-grow max-sm:hidden"> 
+    // For now hiding search bar in mobile view
+    <div className="border-black flex-grow max-sm:hidden">
       <form className="flex" onSubmit={_Submit}>
         <div className="flex w-full">
           <input

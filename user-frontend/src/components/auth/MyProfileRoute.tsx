@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import Profile from "./Profile";
-import MyCreation from "../course/MyCreation";
 import Notfound from "../common/Notfound";
 import EnrolledCourse from "../course/EnrolledCourse";
+import MyCreation from "../course/MyCreation";
+import Profile from "./Profile";
 
 const MyProfileRoute = () => {
   return (

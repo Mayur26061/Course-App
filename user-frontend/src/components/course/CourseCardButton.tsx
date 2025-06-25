@@ -1,10 +1,9 @@
-import { useRecoilValue, useRecoilState } from "recoil";
-import { userOnlyState } from "../../stores/selectors/userEmail";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { coursePriceState } from "../../stores/selectors/course";
+import { userOnlyState } from "../../stores/selectors/userEmail";
 import { buyCourseAction } from "./fetch";
-import { courseState } from "../../stores/atoms/course";
 
 const CourseCardButton = () => {
   const navigate = useNavigate();
@@ -12,7 +11,6 @@ const CourseCardButton = () => {
   const [user, setUser] = useRecoilState(userState);
   const userEmail = useRecoilValue(userOnlyState);
   const price = useRecoilValue(coursePriceState);
-  const course = useRecoilValue(courseState);
   const goToSignIn = () => {
     navigate(`/signin?courseId=${cid}`);
   };

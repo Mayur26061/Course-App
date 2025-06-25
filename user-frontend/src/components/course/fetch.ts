@@ -1,26 +1,32 @@
-import { BASE_URL } from "../../config";
 import axios from "axios";
+import { BASE_URL } from "../../config";
+
+// Fetch all courses
 export const fetchCourses = async () => {
   const res = await axios.get(`${BASE_URL}/courses`, {
     withCredentials: true,
   });
   return res;
 };
+
+/*
+ * Fetch single course with specfied
+ * @param {string} courseId
+ */
 export const fetchSingleCourse = async (courseId: string) => {
   try {
-
     const res = await axios.get(`${BASE_URL}/course/${courseId}`, {
       withCredentials: true,
     });
     return res;
-  }
-  catch {
-    return  {error:true,course:null}
+  } catch {
+    return { error: true, course: null };
   }
 };
+
 export const fetchSingleCourseEditable = async (courseId: string) => {
   try {
-     const response = await axios.get(`${BASE_URL}/course/${courseId}`, {
+    const response = await axios.get(`${BASE_URL}/course/${courseId}`, {
       withCredentials: true,
     });
     if (!response.data.error) {
@@ -59,7 +65,7 @@ export const createCourseCall = async (courseData) => {
   const res = await axios.post(`${BASE_URL}/addcourse`, courseData, {
     withCredentials: true,
   });
-  return res.data
+  return res.data;
 };
 
 export const deleteCourseCall = async (courseId: string) => {

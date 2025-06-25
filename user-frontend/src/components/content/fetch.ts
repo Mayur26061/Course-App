@@ -1,5 +1,6 @@
-import { BASE_URL } from "../../config";
 import axios from "axios";
+import { BASE_URL } from "../../config";
+
 export const fetchSingleContent = async (
   contentId: string,
   courseId: string
@@ -62,6 +63,7 @@ export const deleteContentCall = async (
     withCredentials: true,
   });
 };
+
 export const fetchSingleContentEdit = async (
   contentId: string,
   courseId: string

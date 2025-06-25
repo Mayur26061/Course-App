@@ -26,12 +26,12 @@ export const validateContent = <T extends validationContent>(
   };
 
   if (content.type === "video") {
-    if(content.content_url.startsWith("https://youtu.be/")){
-        const url = content.content_url;
-        content.content_url = url.replace(
-            "https://youtu.be",
-            "https://www.youtube.com/embed/"
-        );
+    if (content.content_url.startsWith("https://youtu.be/")) {
+      const url = content.content_url;
+      content.content_url = url.replace(
+        "https://youtu.be",
+        "https://www.youtube.com/embed/"
+      );
     }
     return true;
   }

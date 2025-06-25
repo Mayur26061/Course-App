@@ -1,14 +1,14 @@
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../stores/atoms/user";
-import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
+import { userOnlyState } from "../../stores/selectors/userEmail";
 import { logOutAction } from "./fetch";
 import Searchbar from "./Searchbar";
-import { useState } from "react";
-import { IconButton, Menu, MenuItem } from "@mui/material";
-import LogoutIcon from "@mui/icons-material/Logout";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const Appbar = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

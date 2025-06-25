@@ -1,19 +1,18 @@
-import { useRecoilState } from "recoil";
-import { userState } from "../../stores/atoms/user";
-import SettingsIcon from "@mui/icons-material/Settings";
-import UserActions from "./UserActions";
-import SecurityIcon from "@mui/icons-material/Security";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
-
+import SecurityIcon from "@mui/icons-material/Security";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { logOutAction } from "../common/fetch";
+import { userState } from "../../stores/atoms/user";
+import UserActions from "./UserActions";
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onLogOut = async () => {
     await logOutAction();
@@ -38,12 +37,42 @@ const Profile = () => {
         <p className="font-semibold text-gray-500">{user.user?.username}</p>
       </div>
       <div className="w-full">
-        <UserActions title="My Courses" Icon={<DashboardIcon />} action={()=>{navigate('mycourses')}}/>
-        <UserActions title="My Creations" Icon={<CreateNewFolderIcon />} action={()=>{navigate('creations')}}/>
-        <UserActions title="Certificates" Icon={<CardMembershipIcon />} action={()=>{navigate('certificates')}}/>
-        <UserActions title="Change Password" Icon={<SecurityIcon />} action={()=>{navigate('mycourses')}}/>
-        <UserActions title="Setting" Icon={<SettingsIcon />} action={()=>{navigate('setting')}}/>
-        <UserActions title="Sign Out" Icon={<LogoutIcon />} action={onLogOut}/>
+        <UserActions
+          title="My Courses"
+          Icon={<DashboardIcon />}
+          action={() => {
+            navigate("mycourses");
+          }}
+        />
+        <UserActions
+          title="My Creations"
+          Icon={<CreateNewFolderIcon />}
+          action={() => {
+            navigate("creations");
+          }}
+        />
+        <UserActions
+          title="Certificates"
+          Icon={<CardMembershipIcon />}
+          action={() => {
+            navigate("certificates");
+          }}
+        />
+        <UserActions
+          title="Change Password"
+          Icon={<SecurityIcon />}
+          action={() => {
+            navigate("mycourses");
+          }}
+        />
+        <UserActions
+          title="Setting"
+          Icon={<SettingsIcon />}
+          action={() => {
+            navigate("setting");
+          }}
+        />
+        <UserActions title="Sign Out" Icon={<LogoutIcon />} action={onLogOut} />
       </div>
     </div>
   );
