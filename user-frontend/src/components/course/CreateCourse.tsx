@@ -1,14 +1,14 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { createCourseCall } from "./fetch";
 import { useNavigate } from "react-router-dom";
+import { createCourseCall } from "./fetch";
+
 function CreateCourse() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [imageLink, setImageLink] = useState("");
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const createCourse = async () => {
     const course = {
@@ -17,15 +17,15 @@ function CreateCourse() {
       price,
       image: imageLink,
     };
-    const res = await createCourseCall(course)
-    if (res.error){
-      return
+    const res = await createCourseCall(course);
+    if (res.error) {
+      return;
     }
     setTitle("");
     setDescription("");
     setPrice(0);
-    setImageLink('');
-    navigate(`/my/creations/${res.course.id}`)
+    setImageLink("");
+    navigate(`/my/creations/${res.course.id}`);
   };
   return (
     <div className="flex flex-col justify-center items-center p-5">
@@ -57,9 +57,9 @@ function CreateCourse() {
           className="!mb-2.5"
           label="Price"
           onChange={(e) => {
-            const value = parseInt(e.target.value) || 0
-            setPrice(value)
-            }}
+            const value = parseInt(e.target.value) || 0;
+            setPrice(value);
+          }}
         />
         <TextField
           fullWidth={true}

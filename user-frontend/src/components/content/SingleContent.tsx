@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Button } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { Loading } from "../common/Loading";
-import { fetchSingleContent } from "./fetch";
 import Notfound from "../common/Notfound";
+import { fetchSingleContent } from "./fetch";
 
 const SingleContent = () => {
   const { co, cid } = useParams();
@@ -15,6 +14,7 @@ const SingleContent = () => {
         const res = await fetchSingleContent(cid, co);
         if (res.data.error) {
           console.log(res.data.message);
+          setIsloading(false);
           return;
         }
         setContent(res.data.content);
@@ -29,16 +29,11 @@ const SingleContent = () => {
   if (isLoading) {
     return <Loading />;
   }
-  // if (!content) {
-  //   return <Notfound title={"Content not found"} />;
-  // }
+  if (!content) {
+    return <Notfound title={"Content not found"} />;
+  }
   return (
     <div className="flex flex-col grow">
-      <div className="w-full bg-slate-100">
-        <Link to={`/course/${co}`}>
-          <Button>&lt; Back to Course</Button>
-        </Link>
-      </div>
       <div className="p-3 flex justify-center items-center">
         <div className="px-10 w-[800px] h-[560px]">
           {content?.type == "image" && (

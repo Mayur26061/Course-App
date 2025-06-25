@@ -1,23 +1,25 @@
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { TextField, Select, MenuItem } from "@mui/material";
-import { boxStyle, validateContent } from "../../../utils";
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { useSetRecoilState } from "recoil";
-import { editContentCall } from "../fetch";
 import { contentState } from "../../../stores/atoms/content";
-// import { useParams } from "react-router-dom";
-import { contentType } from "../../../utils";
+import { contentType, boxStyle, validateContent } from "../../../utils";
+import { editContentCall } from "../fetch";
 
 interface Tprops {
-  handleClose:()=>void;
-  open:boolean;
-  content:contentType;
+  handleClose: () => void;
+  open: boolean;
+  content: contentType;
 }
 
-export default function EditContent({ handleClose, open, content }:Tprops) {
+export default function EditContent({ handleClose, open, content }: Tprops) {
   const [title, setTitle] = useState(content.title);
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
@@ -41,7 +43,7 @@ export default function EditContent({ handleClose, open, content }:Tprops) {
       content_url: url,
     };
     if (title && type && url && validateContent(contentobj)) {
-      const response = await editContentCall(content.id,contentobj)
+      const response = await editContentCall(content.id, contentobj);
       if (response.data.error) {
         console.log(response.data.error);
       } else {

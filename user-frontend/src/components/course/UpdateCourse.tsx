@@ -1,8 +1,8 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { courseState } from "../../stores/atoms/course";
-import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { courseState } from "../../stores/atoms/course";
 import { deleteCourseCall, updateCourseCall } from "./fetch";
 
 const UpdateCourse = () => {

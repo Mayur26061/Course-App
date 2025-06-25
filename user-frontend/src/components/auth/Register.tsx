@@ -1,14 +1,14 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { userState } from "../../stores/atoms/user";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { userState } from "../../stores/atoms/user";
 import { signUpAction } from "./fetch";
 
 function Register() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [name, setName] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const setUser = useSetRecoilState(userState);
 
   const navigate = useNavigate();

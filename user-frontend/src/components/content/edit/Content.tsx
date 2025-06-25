@@ -1,11 +1,11 @@
 import { Button, Card, Typography } from "@mui/material";
 import { FC, useState } from "react";
-import EditContent from "./EditContent";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../../stores/atoms/content";
-import { deleteContentCall } from "../fetch";
 import { contentType } from "../../../utils";
+import EditContent from "./EditContent";
+import { deleteContentCall } from "../fetch";
 
 type contentProps = {
   content: contentType;

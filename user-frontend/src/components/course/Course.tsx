@@ -5,12 +5,12 @@ import { courseType } from "./CoursesContainer";
 
 interface Tprops {
   course: courseType;
-  path:string;
+  path: string;
 }
-const Course: FC<Tprops> = ({ course,path }) => {
+const Course: FC<Tprops> = ({ course, path }) => {
   const navigate = useNavigate();
   const navCourse = () => {
-    if (path){
+    if (path) {
       navigate(`${path}/${course.id}`);
     }
   };
@@ -38,7 +38,7 @@ const Course: FC<Tprops> = ({ course,path }) => {
         <CardContent className="gap-1.5 flex flex-col">
           <div>
             <div className="font-semibold text-gray-950">{course.title}</div>
-            <div className=" text-blue-500 text-xs">Mayur Rathod</div>
+            <div className=" text-blue-500 text-xs">{course.author.name}</div>
           </div>
           <div className="text-gray-700 text-sm">{course.description}</div>
           <div className="font-extrabold text-gray-800">₹{course.price}</div>

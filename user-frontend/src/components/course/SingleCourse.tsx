@@ -1,17 +1,17 @@
+import { Grid, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import CourseCard from "./CourseCard";
-import { Grid, Typography } from "@mui/material";
-import { courseState } from "../../stores/atoms/course";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { Loading } from "../common/Loading";
+import Notfound from "../common/Notfound";
+import ContentSection from "../content/ContentSection";
+import { courseState } from "../../stores/atoms/course";
 import {
   courseLoadingState,
   courseTitleState,
 } from "../../stores/selectors/course";
-import { Loading } from "../common/Loading";
-import ContentSection from "../content/ContentSection";
+import CourseCard from "./CourseCard";
 import { fetchSingleCourse } from "./fetch";
-import Notfound from "../common/Notfound";
 
 const SingleCourse = () => {
   const { cid } = useParams();
@@ -19,15 +19,15 @@ const SingleCourse = () => {
   const isLoading = useRecoilValue(courseLoadingState);
 
   useEffect(() => {
-    setCourse({ isLoading: true, course: null })
-    if (cid){
+    setCourse({ isLoading: true, course: null });
+    if (cid) {
       fetchSingleCourse(cid)
-      .then((response) => {
-        setCourse({ isLoading: false, course: response.data.course });
-      })
-      .catch(() => {
-        setCourse({ isLoading: false, course: null });
-      });
+        .then((response) => {
+          setCourse({ isLoading: false, course: response.data.course });
+        })
+        .catch(() => {
+          setCourse({ isLoading: false, course: null });
+        });
     }
   }, [cid]);
   if (isLoading) {

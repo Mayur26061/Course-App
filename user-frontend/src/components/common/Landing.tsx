@@ -1,7 +1,7 @@
 import { Typography, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
-import image from "../../assets/professor.jpeg";
 import { useRecoilValue } from "recoil";
+import image from "../../assets/professor.jpeg";
 import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
 

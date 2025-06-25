@@ -1,21 +1,26 @@
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { TextField, Select, MenuItem, InputLabel } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { createContentCall } from "../fetch";
 import { contentState } from "../../../stores/atoms/content";
 import { boxStyle, validateContent } from "../../../utils";
+import { createContentCall } from "../fetch";
 
 interface Tprops {
-  handleClose:()=>void;
-  open:boolean;
+  handleClose: () => void;
+  open: boolean;
 }
 
-export default function CreateContent({ handleClose, open }:Tprops) {
+export default function CreateContent({ handleClose, open }: Tprops) {
   const setContent = useSetRecoilState(contentState);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -32,8 +37,8 @@ export default function CreateContent({ handleClose, open }:Tprops) {
   };
 
   const createContent = async () => {
-    if(!cid){
-      return
+    if (!cid) {
+      return;
     }
     const contentobj = {
       title,
@@ -42,7 +47,7 @@ export default function CreateContent({ handleClose, open }:Tprops) {
       content_url: url,
     };
     if (title && type && url && validateContent(contentobj)) {
-      const response = await createContentCall(cid,contentobj)
+      const response = await createContentCall(cid, contentobj);
       if (response.data.error) {
         console.log(response.data.message);
       } else {
@@ -102,13 +107,12 @@ export default function CreateContent({ handleClose, open }:Tprops) {
           onChange={(e) => setUrl(e.target.value)}
         />
         <div className="mt-3">
-
-        <Button variant="contained" onClick={createContent}>
-          Create Content
-        </Button>
-        <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
-          Close
-        </Button>
+          <Button variant="contained" onClick={createContent}>
+            Create Content
+          </Button>
+          <Button variant="outlined" onClick={onCloses} className="!ml-1.5">
+            Close
+          </Button>
         </div>
       </Box>
     </Modal>

@@ -1,13 +1,13 @@
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { FC, useEffect, useState } from "react";
-import { fetchMyCreation } from "./fetch";
-import Course from "./Course";
-import { courseType } from "./CoursesContainer";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Notfound from "../common/Notfound";
-import SingleCourseEdit from "./SingleCourseEdit";
 import SingleContent from "../content/SingleContent";
+import Course from "./Course";
+import { courseType } from "./CoursesContainer";
 import CreateCourse from "./CreateCourse";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import SingleCourseEdit from "./SingleCourseEdit";
+import { fetchMyCreation } from "./fetch";
 
 const MyCreation: FC = () => {
   return (

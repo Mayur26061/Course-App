@@ -15,6 +15,7 @@ export interface contentType {
   duration: Date | null;
   course_id: string;
 }
+
 const ContentSection = () => {
   const content = useRecoilValue<contentType[]>(courseContentState);
   return (

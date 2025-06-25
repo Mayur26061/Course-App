@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Landing from "../common/Landing";
-import { fetchCourses } from "./fetch";
 import CoursesContainer from "./CoursesContainer";
+import { fetchCourses } from "./fetch";
 
 function ShowCourses() {
   const [courses, setCourses] = useState([]);
