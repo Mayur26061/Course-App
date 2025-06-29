@@ -12,6 +12,7 @@ import {
   getContent,
   markasCompleteContent,
   getSearchedCourses,
+  getMyCourse,
 } from "../controllers/userController";
 import {
   getMyCreations,
@@ -47,5 +48,6 @@ router.put("/update/course/:courseId", AuthenticateUser, updateCourse);
 router.put("/update/content/:contentId", AuthenticateUser, updateContent);
 router.delete("/delete/course/:courseId", AuthenticateUser, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateUser, deleteContent);
+router.get("/my/enrolled", AuthenticateUser, getMyCourse);
 
 export default router;

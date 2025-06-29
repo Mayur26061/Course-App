@@ -115,3 +115,17 @@ export const updateCourseCall = async (
   }
   return res.data.course;
 };
+
+export const fetchEnrolled = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/my/enrolled`, {
+      withCredentials: true,
+    });
+    if (response.data.courses) {
+      return response.data.courses;
+    }
+  } catch (e) {
+    console.log(e);
+  }
+  return [];
+};

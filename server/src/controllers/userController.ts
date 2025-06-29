@@ -368,3 +368,25 @@ export const getSearchedCourses = asyncHandler(async (req: reqObj, res) => {
   });
   res.send({ error: false, courses });
 });
+
+export const getMyCourse = asyncHandler(async (req: reqObj, res) => {
+  const uid: string = req.headers["uid"] || "";
+  const myCourses = await prisma.course.findMany({
+    where: {
+      user_courses: {
+        some: {
+          user_id: uid,
+        },
+      },
+    },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
+
+  res.send({ error: false, courses: myCourses });
+});
