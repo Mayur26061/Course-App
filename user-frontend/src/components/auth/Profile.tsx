@@ -24,7 +24,7 @@ const Profile = () => {
     navigate("/signin");
   };
 
-  if (!user.user || !user.isLoading) {
+  if (!user.user) {
     return <Notfound />;
   }
 
