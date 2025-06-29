@@ -52,7 +52,7 @@ const SingleCourse = () => {
 
 export default SingleCourse;
 
-export function GrayTopper() {
+export const GrayTopper = () => {
   const title = useRecoilValue(courseTitleState);
   return (
     <div className="h-64 w-full -mb-64 bg-stone-900">
@@ -69,4 +69,4 @@ export function GrayTopper() {
       </div>
     </div>
   );
-}
+};

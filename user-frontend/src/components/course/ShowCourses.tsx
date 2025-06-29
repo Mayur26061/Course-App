@@ -3,7 +3,7 @@ import Landing from "../common/Landing";
 import CoursesContainer from "./CoursesContainer";
 import { fetchCourses } from "./fetch";
 
-function ShowCourses() {
+const ShowCourses = () => {
   const [courses, setCourses] = useState([]);
   useEffect(() => {
     fetchCourses()
@@ -21,6 +21,6 @@ function ShowCourses() {
       <CoursesContainer courses={courses} />
     </div>
   );
-}
+};
 
 export default ShowCourses;

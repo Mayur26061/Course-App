@@ -7,11 +7,11 @@ import { contentState } from "../../../stores/atoms/content";
 import { deleteContentCall } from "../fetch";
 import EditContent from "./EditContent";
 
-type contentProps = {
+interface ContentProps {
   content: ContentType;
-};
+}
 
-const Content: FC<contentProps> = ({ content }) => {
+const Content: FC<ContentProps> = ({ content }) => {
   const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);

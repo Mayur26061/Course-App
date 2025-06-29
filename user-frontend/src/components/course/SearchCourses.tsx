@@ -14,10 +14,10 @@ const SearchCourses: FC = () => {
   useEffect(() => {
     const term = search.get("search")?.trim() || "";
 
-    async function fetchData() {
+    const fetchData = async () => {
       const response = await fetchSearchTerm(term);
       setCourses(response.courses);
-    }
+    };
     if (term) {
       fetchData();
     }

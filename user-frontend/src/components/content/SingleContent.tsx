@@ -11,7 +11,7 @@ const SingleContent = () => {
   const [isLoading, setIsloading] = useState(true);
 
   useEffect(() => {
-    async function fetchContent() {
+    const fetchContent = async () => {
       setIsloading(true);
       if (!cid || !co) {
         setIsloading(false);
@@ -29,7 +29,8 @@ const SingleContent = () => {
         console.log("Error");
       }
       setIsloading(false);
-    }
+    };
+
     fetchContent();
   }, []);
 

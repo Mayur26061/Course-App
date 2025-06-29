@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { signUpAction } from "./fetch";
 
-function Register() {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -78,6 +78,6 @@ function Register() {
       </Card>
     </div>
   );
-}
+};
 
 export default Register;

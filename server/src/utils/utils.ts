@@ -4,13 +4,13 @@ import { z } from "zod";
 export type userType = "admin" | "learner";
 
 // return secret key for different user
-export function getSecretKey(type: userType): string {
+export const getSecretKey = (type: userType): string => {
   const secreteKeyObject = {
     admin: process.env.ADMIN_TOKEN_SECRET_KEY,
     learner: process.env.LEARNER_TOKEN_SECRET_KEY,
   };
   return secreteKeyObject[type];
-}
+};
 
 export const signCheck = z.object({
   username: z.string().email().min(1),

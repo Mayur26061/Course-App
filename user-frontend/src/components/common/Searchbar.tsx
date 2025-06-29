@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { searchState } from "../../stores/atoms/search";
 
-type Tprops = {
+interface SearchbarProps {
   children?: string;
-};
-// setuserState:React.Dispatch<React.SetStateAction<boolean>>
-const Searchbar: FC<Tprops> = () => {
+}
+
+const Searchbar: FC<SearchbarProps> = () => {
   const nav = useNavigate();
   const [searchValue, setSearchValue] = useRecoilState(searchState);
 
