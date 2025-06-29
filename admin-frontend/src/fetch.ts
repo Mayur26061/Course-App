@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "./config";
+
 export const fetchMe = async () => {
   try {
     const res = await axios.get(`${BASE_URL}/me`, {

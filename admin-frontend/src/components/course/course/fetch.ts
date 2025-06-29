@@ -1,6 +1,13 @@
 import { BASE_URL } from "../../../config";
 import axios from "axios";
 
+export interface CourseUpdateParams {
+  title?: string;
+  description?: string;
+  price?: number;
+  published?: boolean;
+}
+
 export const fetchAllCourses = async () => {
   try {
     const response = await axios.get(`${BASE_URL}/courses`, {
@@ -35,7 +42,10 @@ export const deleteCourseCall = async (courseId: string) => {
   });
 };
 
-export const updateCourseCall = async (courseId:string, courseObj:unknown) => {
+export const updateCourseCall = async (
+  courseId: string,
+  courseObj: CourseUpdateParams
+) => {
   const res = await axios.put(
     `${BASE_URL}/update/course/${courseId}`,
     courseObj,

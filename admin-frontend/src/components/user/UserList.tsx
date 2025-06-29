@@ -1,25 +1,27 @@
-import React, { FC, useEffect } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+import { FC, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { usersDataState } from "../../store/atoms/user";
 import { fetchUsers } from "./fetch";
 import User from "./User";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { usersDataState } from "../../store/atoms/user";
-import { useRecoilState } from "recoil";
 
 const UserList: FC = () => {
   const [users, setUsers] = useRecoilState(usersDataState);
 
   useEffect(() => {
     const fetchApi = async () => {
-      setUsers({ isLoading: true, user: [] });
+      setUsers({ isLoading: true, users: [] });
       const result = await fetchUsers();
-      setUsers({ isLoading: false, user: result });
-    }
+      setUsers({ isLoading: false, users: result });
+    };
     fetchApi();
   }, []);
 
@@ -35,7 +37,7 @@ const UserList: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.user.map((row) => (
+          {users.users.map((row) => (
             <User key={row.id} user={row} />
           ))}
         </TableBody>

@@ -5,10 +5,12 @@ import {
   coursePriceState,
   courseTitleState,
 } from "../../../store/selectors/course";
+
 const CourseCard = () => {
   const title = useRecoilValue(courseTitleState);
-
   const imageLink = useRecoilValue(courseImageState);
+  const price = useRecoilValue(coursePriceState);
+
   return (
     // use absolute with media query
     <div className="flex justify-center mt-5 lg:justify-end lg:mr-3">
@@ -22,16 +24,12 @@ const CourseCard = () => {
             Price
           </Typography>
           <Typography variant="subtitle1">
-            <PriceCard />
+            <b>Rs {price}</b>
           </Typography>
         </div>
       </Card>
     </div>
   );
 };
-const PriceCard = () => {
-  // just to learn recoil
-  const price = useRecoilValue(coursePriceState);
-  return <b>Rs {price}</b>;
-};
+
 export default CourseCard;

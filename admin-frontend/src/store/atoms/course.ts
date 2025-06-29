@@ -1,9 +1,11 @@
 import { atom } from "recoil";
-import { courseType } from "../../components/course/CourseList";
+import { CourseType } from "../../lib/types/course";
+
 interface courseStateType {
   isLoading: boolean;
-  course: courseType | null;
+  course: CourseType | null;
 }
+
 export const courseState = atom<courseStateType>({
   key: "courseState",
   default: {

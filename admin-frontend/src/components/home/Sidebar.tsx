@@ -1,10 +1,12 @@
 import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { navState } from "../../store/atoms/sidebar";
 import { useRecoilState } from "recoil";
+import { navState } from "../../store/atoms/sidebar";
+
 interface OptionalProps {
   setShow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 const Sidebar: FC<OptionalProps> = () => {
   const obj = [
     {
@@ -36,19 +38,18 @@ interface items {
   title: string;
 }
 const SidebarItems: FC<items> = ({ route, title }) => {
-  const [show,setShow] = useRecoilState(navState)
+  const [show, setShow] = useRecoilState(navState);
 
   return (
     <div className="w-full flex justify-center">
       <NavLink
-      onClick={()=>{if (show) setShow(false)}}
+        onClick={() => {
+          if (show) setShow(false);
+        }}
         to={"/" + route}
-        className={(({ isActive }) => isActive?'font-bold':'')}>
-        <h1
-          className="p-1 !text-inherit"
-        >
-          {title}
-        </h1>
+        className={({ isActive }) => (isActive ? "font-bold" : "")}
+      >
+        <h1 className="p-1 !text-inherit">{title}</h1>
       </NavLink>
     </div>
   );

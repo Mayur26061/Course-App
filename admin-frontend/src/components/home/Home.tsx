@@ -1,19 +1,20 @@
-import { useRecoilState } from "recoil";
-import Sidebar from "./Sidebar";
-import { Navigate, Route, Routes } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import { navState } from "../../store/atoms/sidebar";
-import UserPage from "../user/UserPage";
 import CoursePage from "../course/CoursePage";
-import Enrolled from "../enrolled/Enrolled";
 import SingleCourse from "../course/course/SingleCourse";
+import Enrolled from "../enrolled/Enrolled";
+import UserPage from "../user/UserPage";
+import Notfound from "./NotFound";
+import Sidebar from "./Sidebar";
 
 const Home = () => {
   const [show, setShow] = useRecoilState(navState);
   return (
     <div className="flex bg-slate-300 h-full flex-row flex-grow overflow-hidden">
       <div className="hidden md:flex h-screen flex-initial bg-slate-300">
-          <Sidebar />
+        <Sidebar />
       </div>
       <div className="flex md:hidden flex-row z-20">
         {show && (
@@ -32,13 +33,14 @@ const Home = () => {
       </div>
       <div className="p-2 w-full overflow-auto h-screen">
         <Routes>
-      <Route index element={<Navigate to="/user" replace />}/>
+          <Route index element={<Navigate to="/user" replace />} />
           <Route path="/user" element={<UserPage />} />
           <Route path="/course" element={<CoursePage />} />
           <Route path="/enroll" element={<Enrolled />} />
           <Route path="/course/:cid" element={<SingleCourse />} />
+          <Route path="*" element={<Notfound />} />
         </Routes>
-    </div>
+      </div>
     </div>
   );
 };

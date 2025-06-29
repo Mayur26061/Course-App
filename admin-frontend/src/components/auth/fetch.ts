@@ -1,20 +1,25 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
 
+interface UserSignInType {
+  username: string;
+  password: string;
+  name: string;
+}
+
 export const loginAction = async (username: string, password: string) => {
   const response = await axios.post(
     `${BASE_URL}/signin`,
     { username, password },
     {
-      withCredentials:true,
+      withCredentials: true,
     }
   );
   return response.data;
 };
 
-type userSignInType = { username: string; password: string; name: string };
-export const signUpAction = async (obj: userSignInType) => {
-  try{
+export const signUpAction = async (obj: UserSignInType) => {
+  try {
     const res = await axios.post(
       `${BASE_URL}/signup`,
       {
@@ -27,10 +32,9 @@ export const signUpAction = async (obj: userSignInType) => {
       }
     );
     return res.data;
-  }
-  catch(error){
+  } catch (error) {
     if (axios.isAxiosError(error)) {
-    return {error:true,message:error.message}
+      return { error: true, message: error.message };
+    }
   }
-}
 };

@@ -1,21 +1,21 @@
 import { Button, Card, Typography } from "@mui/material";
-import { FC, useState } from "react";
-import EditContent from "./EditContent";
-// import { useNavigate } from "react-router-dom";
+import { FC, SyntheticEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
+import { ContentType } from "../../../lib/types/content";
 import { contentState } from "../../../store/atoms/content";
+import EditContent from "./EditContent";
 import { deleteContentCall } from "./fetch";
-import { contentType } from "../../../store/atoms/content";
-interface sigletype {
-  content: contentType;
+interface ContentProps {
+  content: ContentType;
 }
-const Content: FC<sigletype> = ({ content }) => {
+const Content: FC<ContentProps> = ({ content }) => {
+  // for future navigation
   // const navigate = useNavigate();
+  // const {cid} = useParams()
   const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);
-  // const {cid} = useParams()
 
-  const handleOpen = (ev: { stopPropagation: () => void }) => {
+  const handleOpen = (ev: SyntheticEvent) => {
     ev.stopPropagation();
     setOpen(true);
   };
@@ -24,7 +24,7 @@ const Content: FC<sigletype> = ({ content }) => {
     setOpen(false);
   };
 
-  const deleteContent = async (ev: { stopPropagation: () => void }) => {
+  const deleteContent = async (ev: SyntheticEvent) => {
     // setContent({isLoading:true,content:[]})
     ev.stopPropagation();
     await deleteContentCall(content.id, content.course_id);

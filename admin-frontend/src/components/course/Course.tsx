@@ -1,12 +1,9 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { TableCell, TableRow } from "@mui/material";
-import { courseType } from "./CourseList";
 import { useNavigate } from "react-router-dom";
+import { CourseProps } from "../../lib/types/course";
 
-export interface courseprop {
-  course: courseType;
-}
-const Course: FC<courseprop> = ({ course }) => {
+const Course: FC<CourseProps> = ({ course }) => {
   const navigate = useNavigate();
   const onClickRow = () => {
     navigate(course.id);

@@ -1,26 +1,33 @@
-import { FC, useState } from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import { TextField, Select, MenuItem } from "@mui/material";
-import { validateContent, boxStyle } from "../../../config";
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { FC, SyntheticEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { contentState, contentType } from "../../../store/atoms/content";
+import { ContentType } from "../../../lib/types/content";
+import { contentState } from "../../../store/atoms/content";
+import { boxStyle, validateContent } from "../../../utils";
 import { editContentCall } from "./fetch";
-interface editType {
+
+interface EditContentProps {
   handleClose: () => void;
   open: boolean;
-  content: contentType;
+  content: ContentType;
 }
-const EditContent:FC<editType> = ({ handleClose, open, content }) => {
+
+const EditContent: FC<EditContentProps> = ({ handleClose, open, content }) => {
   const [title, setTitle] = useState(content.title);
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.content_url);
   const setContent = useSetRecoilState(contentState);
 
-  const onCloses = (ev: { stopPropagation: () => void }) => {
+  const onCloses = (ev: SyntheticEvent) => {
     ev.stopPropagation();
     handleClose();
     setTitle(content.title);
@@ -28,6 +35,7 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
     setType(content.type);
     setUrl(content.content_url);
   };
+
   const editContent = async () => {
     const contentobj = {
       title,
@@ -55,24 +63,28 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
     }
     handleClose();
   };
-  const togglePublish = async()=>{
-    const response = await editContentCall(content.id, {published:!content.published});
-      if (response.data.error) {
-        console.log(response.data.error);
-      } else {
-        setContent((contents) => {
-          return {
-            isLoading: false,
-            content: contents.content.map((d) => {
-              if (d.id === response.data.content.id) {
-                return response.data.content;
-              }
-              return d;
-            }),
-          };
-        });
-      }
-  }
+
+  const togglePublish = async () => {
+    const response = await editContentCall(content.id, {
+      published: !content.published,
+    });
+    if (response.data.error) {
+      console.log(response.data.error);
+    } else {
+      setContent((contents) => {
+        return {
+          isLoading: false,
+          content: contents.content.map((d) => {
+            if (d.id === response.data.content.id) {
+              return response.data.content;
+            }
+            return d;
+          }),
+        };
+      });
+    }
+  };
+
   return (
     <Modal open={open} onClose={onCloses}>
       <Box sx={boxStyle} className="w-full max-w-lg">
@@ -137,6 +149,6 @@ const EditContent:FC<editType> = ({ handleClose, open, content }) => {
       </Box>
     </Modal>
   );
-}
+};
 
-export default EditContent
+export default EditContent;

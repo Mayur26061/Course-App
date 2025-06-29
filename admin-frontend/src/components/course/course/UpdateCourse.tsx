@@ -1,61 +1,50 @@
-import { Button, Card, Switch, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { courseState } from "../../../store/atoms/course";
-import { useRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
-import { deleteCourseCall, updateCourseCall } from "./fetch";
 import DeleteIcon from "@mui/icons-material/Delete";
-const KEYS = ["title", "description", ""];
-type checin = {
-  title: string;
-  description: string;
-  price: string;
-};
-const acbs = (ct: checin, ob: checin): boolean => {
-  for (const a of Object.keys(ct)) {
-    if (ct[a] == "") {
-      return true;
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    if (ct[a] !== ob[a]) {
-      return false;
-    }
-  }
-  return true;
-};
-const UpdateCourse = () => {
+import { Button, Card, Switch, TextField, Typography } from "@mui/material";
+import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { CourseType } from "../../../lib/types/course";
+import { courseState } from "../../../store/atoms/course";
+import { checkCourseChanges } from "../../../utils";
+import {
+  CourseUpdateParams,
+  deleteCourseCall,
+  updateCourseCall,
+} from "./fetch";
+
+interface UpdateCourseProps {
+  course: CourseType;
+}
+
+const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
   const navigate = useNavigate();
-  const [course, setCourse] = useRecoilState(courseState);
-  const [title, setTitle] = useState<string>(course.course?.title || "");
-  const [description, setDescription] = useState<string>(
-    course.course?.description || ""
-  );
-  const [price, setPrice] = useState<string>(course.course?.price || "");
+  const setCourse = useSetRecoilState(courseState);
+  const [title, setTitle] = useState(course.title);
+  const [description, setDescription] = useState(course.description);
+  const [price, setPrice] = useState(course.price);
   const [disable, setDisable] = useState<boolean>(true);
-  const [published, setPublished] = useState<boolean>(
-    Boolean(course.course?.published)
-  );
+  const [published, setPublished] = useState(course.published);
 
   useEffect(() => {
     const obj = { title, description, price };
     const ob2 = {
-      title: course.course?.title || "",
-      description: course.course?.description || "",
-      price: course.course?.price || "",
+      title: course.title || "",
+      description: course.description || "",
+      price: course.price || "",
     };
-    setDisable(acbs(obj, ob2));
+    setDisable(checkCourseChanges(obj, ob2));
   }, [
     title,
     description,
     price,
-    course.course?.title,
-    course.course?.description,
-    course.course?.price,
+    course.title,
+    course.description,
+    course.price,
   ]);
 
-  const update = async (vals: unknown) => {
-    if (course.course) {
-      const updatedCourse = await updateCourseCall(course.course.id, vals);
+  const update = async (vals: CourseUpdateParams) => {
+    if (course) {
+      const updatedCourse = await updateCourseCall(course.id, vals);
       if (updatedCourse.error) {
         console.log(updatedCourse.message);
         return;
@@ -63,6 +52,7 @@ const UpdateCourse = () => {
       setCourse({ isLoading: false, course: updatedCourse });
     }
   };
+
   const onSubmit = () => {
     const obj = {
       title,
@@ -71,15 +61,17 @@ const UpdateCourse = () => {
     };
     update(obj);
   };
+
   const changePublished = () => {
     update({ published: !published });
     setPublished(!published);
   };
 
   const deleteCourse = async () => {
-    await deleteCourseCall(course.course?.id || "");
+    await deleteCourseCall(course.id || "");
     navigate("/course");
   };
+
   return (
     <div className="flex justify-center mt-5">
       <Card variant="outlined">

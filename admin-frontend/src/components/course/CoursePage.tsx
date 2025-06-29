@@ -1,9 +1,7 @@
 import CourseList from "./CourseList";
 
 const CoursePage = () => {
-  return (
-      <CourseList />
-  );
+  return <CourseList />;
 };
 
 export default CoursePage;
