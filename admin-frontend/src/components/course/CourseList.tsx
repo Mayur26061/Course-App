@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+} from "@mui/material";
+import { useState, useEffect } from "react";
+import { CourseType } from "../../lib/types/course";
 import { fetchCourses } from "./fetch";
 import Course from "./Course";
 
-interface Userfield {
-  id: string;
-  name: string;
-}
-export interface courseType {
-  id: string;
-  createAt: Date;
-  updatedAt: Date;
-  title: string;
-  description: string;
-  price: string;
-  published: boolean;
-  image: string;
-  duration: Date | null;
-  author_id: string;
-  category: string | null;
-  author: Userfield;
-}
-
 const CourseList = () => {
-  const [courses, setCourses] = useState<courseType[]>([]);
+  const [courses, setCourses] = useState<CourseType[]>([]);
+
   useEffect(() => {
     const getCourses = async () => {
       const course = await fetchCourses();
@@ -37,6 +22,7 @@ const CourseList = () => {
     };
     getCourses();
   }, []);
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">

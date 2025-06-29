@@ -1,22 +1,21 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { userState } from "../../store/atoms/user";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { userState } from "../../store/atoms/user";
 import { loginAction } from "./fetch";
 
 const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [userSt,setUser] = useRecoilState(userState);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userSt, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(userSt.user && !userSt.isLoading){
-      navigate('/')
+  useEffect(() => {
+    if (userSt.user && !userSt.isLoading) {
+      navigate("/");
     }
-  },[userSt])
-
+  }, [userSt]);
 
   const handleLogin = async () => {
     const response = await loginAction(email, password);
@@ -73,6 +72,6 @@ const Login = () => {
       </Card>
     </div>
   );
-}
+};
 
 export default Login;

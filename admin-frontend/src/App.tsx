@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import "./App.css";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Home from "./components/home/Home";
-import { userState } from "./store/atoms/user";
-import { useRecoilState } from "recoil";
-import { fetchMe } from "./fetch";
 import Navbar from "./components/home/Navbar";
+import { userState } from "./store/atoms/user";
+import { fetchMe } from "./fetch";
+import "./App.css";
 
 const App = () => {
   const [user, setUser] = useRecoilState(userState);
@@ -25,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     if (!user.user && !user.isLoading) {
-      if (!['/signup','/signin'].includes(location.pathname)){
+      if (!["/signup", "/signin"].includes(location.pathname)) {
         navigate("/signin");
       }
     }
@@ -33,21 +33,20 @@ const App = () => {
 
   return (
     <>
-    <div className="flex flex-col h-full">
-      <Navbar />
-      <div className="flex-grow">
-      <Routes>
-        <Route path="/signin" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="*" element={<Home />} />
-        {/* <Route path="*" element={<Notfound />} /> */}
-        <Route />
-        <Route />
-      </Routes>
+      <div className="flex flex-col h-full">
+        <Navbar />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/signin" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="*" element={<Home />} />
+            <Route />
+            <Route />
+          </Routes>
+        </div>
       </div>
-    </div>
     </>
   );
-}
+};
 
 export default App;

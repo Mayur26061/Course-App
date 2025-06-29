@@ -1,6 +1,6 @@
+import { Button, TextField, Card, Typography, Alert } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, TextField, Card, Typography, Alert } from "@mui/material";
 import { signUpAction } from "./fetch";
 
 const Register = () => {
@@ -81,6 +81,6 @@ const Register = () => {
       </Card>
     </div>
   );
-}
+};
 
 export default Register;

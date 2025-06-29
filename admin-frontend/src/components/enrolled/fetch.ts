@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
+
 export const fetchEnrolled = async () => {
   const response = await axios.get(`${BASE_URL}/subscriber`, {
     withCredentials: true,
@@ -28,15 +29,18 @@ export const actionComplete = async (subId: string, completed: boolean) => {
   }
 };
 
-export const deleteSubs = async(subId:string)=>{
+export const deleteSubs = async (subId: string) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/delete/subscriber/${subId}`,{
-    withCredentials:true
-  })
+    const response = await axios.delete(
+      `${BASE_URL}/delete/subscriber/${subId}`,
+      {
+        withCredentials: true,
+      }
+    );
 
-  return response.data
-}  catch (e) {
-  console.error(e);
-  return { error: true, e };
-}
-}
+    return response.data;
+  } catch (e) {
+    console.error(e);
+    return { error: true, e };
+  }
+};

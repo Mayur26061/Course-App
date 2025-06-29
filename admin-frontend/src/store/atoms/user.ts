@@ -1,37 +1,27 @@
 import { atom } from "recoil";
+import { UserType } from "../../lib/types/user";
 
-export interface checktype {
-  username: string;
-  userType: string;
-  name: string;
-};
-export interface userType  extends checktype{
-  id: string;
-  image: string | null;
-  createAt: string;
-  isApproved: boolean;
+interface UserAtom {
+  isLoading: boolean;
+  user: UserType | null;
 }
-
-interface userStateType {
-  isLoading:boolean,
-  user: userType|null
-}
-export const userState = atom<userStateType>({
+export const userState = atom<UserAtom>({
   key: "userState",
   default: {
     isLoading: true,
     user: null,
   },
 });
-interface usersDataStateType {
-  isLoading:boolean,
-  user: userType[]
+
+interface UsersAtom {
+  isLoading: boolean;
+  users: UserType[];
 }
 
-export const usersDataState = atom<usersDataStateType>({
-  key:"usersDataState",
+export const usersDataState = atom<UsersAtom>({
+  key: "usersDataState",
   default: {
     isLoading: true,
-    user: [],
+    users: [],
   },
-})
+});

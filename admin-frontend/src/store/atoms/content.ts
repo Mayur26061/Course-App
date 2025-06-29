@@ -1,20 +1,10 @@
-import { atom } from "recoil"
-export interface contentType {
-    id: string;
-    createAt: Date;
-    updatedAt: Date;
-    title: string;
-    description: string | null;
-    type: string;
-    published: boolean;
-    content_url: string;
-    duration: Date | null;
-    course_id: string;
-  }
+import { atom } from "recoil";
+import { ContentType } from "../../lib/types/content";
+
 export const contentState = atom({
-    "key": "contentState",
-    "default": {
-        isLoading: false,
-        content: [] as contentType[],
-    }
-})
+  key: "contentState",
+  default: {
+    isLoading: false,
+    content: [] as ContentType[],
+  },
+});

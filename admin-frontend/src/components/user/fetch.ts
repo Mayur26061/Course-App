@@ -1,12 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
-export const fetchUsers = async () => {
-  const response = await axios.get(`${BASE_URL}/users`, {
-    withCredentials: true,
-  });
-  return response.data.users;
-};
-interface updateTypes {
+
+interface UpdateTypes {
   name?: string;
   username?: string;
   password?: string;
@@ -14,7 +9,14 @@ interface updateTypes {
   isApproved?: boolean;
 }
 
-export const updateUser = async (userId: string, userVals: updateTypes) => {
+export const fetchUsers = async () => {
+  const response = await axios.get(`${BASE_URL}/users`, {
+    withCredentials: true,
+  });
+  return response.data.users;
+};
+
+export const updateUser = async (userId: string, userVals: UpdateTypes) => {
   try {
     const response = await axios.put(
       `${BASE_URL}/update/user/${userId}`,
@@ -37,8 +39,8 @@ export const updateUser = async (userId: string, userVals: updateTypes) => {
 
 export const deleteUserRoute = async (userId: string) => {
   try {
-    const response = await axios.delete(`${BASE_URL}/delete/user/${userId}`,{
-      withCredentials:true,
+    const response = await axios.delete(`${BASE_URL}/delete/user/${userId}`, {
+      withCredentials: true,
     });
     if (response.data.error) {
       throw new Error(response.data.message);

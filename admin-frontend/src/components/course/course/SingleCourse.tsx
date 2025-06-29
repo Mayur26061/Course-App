@@ -1,23 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import UpdateCourse from "./UpdateCourse";
-import CourseCard from "./CourseCard";
-import { Typography } from "@mui/material";
-import { courseState } from "../../../store/atoms/course";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { courseTitleState } from "../../../store/selectors/course";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { contentState } from "../../../store/atoms/content";
+import { courseState } from "../../../store/atoms/course";
+import { courseTitleState } from "../../../store/selectors/course";
 import ContentSection from "../content/ContentSection";
+import Notfound from "../../home/NotFound";
+import CourseCard from "./CourseCard";
+import UpdateCourse from "./UpdateCourse";
 import { fetchSingleCourse } from "./fetch";
 
-interface ook {
+interface CidParams {
   cid?: string;
 }
 
 const SingleCourse = () => {
-  const param: ook = useParams();
-  const setCourse = useSetRecoilState(courseState);
+  const param: CidParams = useParams();
+  const [course, setCourse] = useRecoilState(courseState);
   const setContent = useSetRecoilState(contentState);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -35,12 +35,14 @@ const SingleCourse = () => {
   if (isLoading) {
     return "<Loading />;";
   }
-
+  if (!course.course) {
+    return <Notfound title="Course not found" />;
+  }
   return (
     <div className="relative text-left mb-28">
       <GrayTopper />
       <CourseCard />
-      <UpdateCourse />
+      <UpdateCourse course={course.course} />
       <ContentSection />
     </div>
   );
@@ -65,4 +67,4 @@ const GrayTopper = () => {
       </div>
     </div>
   );
-}
+};

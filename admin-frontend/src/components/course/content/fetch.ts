@@ -1,7 +1,7 @@
 import { BASE_URL } from "../../../config";
 import axios from "axios";
 
-interface contentType {
+interface ContentTypeParams {
   title?: string;
   description?: string | null;
   type?: string;
@@ -11,7 +11,7 @@ interface contentType {
 
 export const editContentCall = async (
   contentId: string,
-  contentobj: contentType
+  contentobj: ContentTypeParams
 ) => {
   const response = await axios.put(
     `${BASE_URL}/update/content/${contentId}`,
@@ -34,6 +34,7 @@ export const deleteContentCall = async (
     withCredentials: true,
   });
 };
+
 export const fetchSingleContent = async (
   contentId: string,
   courseId: string

@@ -11,6 +11,7 @@ export const courseTitleState = selector({
     return "";
   },
 });
+
 export const courseLoadingState = selector({
   key: "courseLoadingState",
   get: ({ get }) => {
@@ -18,6 +19,7 @@ export const courseLoadingState = selector({
     return state.isLoading;
   },
 });
+
 export const coursePriceState = selector({
   key: "coursePriceState",
   get: ({ get }) => {
@@ -28,6 +30,7 @@ export const coursePriceState = selector({
     return "";
   },
 });
+
 export const courseImageState = selector({
   key: "courseImageState",
   get: ({ get }) => {

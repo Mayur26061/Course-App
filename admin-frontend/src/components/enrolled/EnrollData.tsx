@@ -1,14 +1,16 @@
-import React, { FC } from "react";
-import { courseUserType, userEnrollState } from "../../store/atoms/user_course";
-import { TableRow, TableCell, Button } from "@mui/material";
-import { actionComplete, deleteSubs } from "./fetch";
-import { useSetRecoilState } from "recoil";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { TableRow, TableCell, Button } from "@mui/material";
+import { FC } from "react";
+import { useSetRecoilState } from "recoil";
+import { CourseUserType } from "../../lib/types/course";
+import { userEnrollState } from "../../store/atoms/user_course";
+import { actionComplete, deleteSubs } from "./fetch";
 
-interface userCourse {
-  userCourse: courseUserType;
+interface EnrollDataProps {
+  userCourse: CourseUserType;
 }
-const EnrollData: FC<userCourse> = ({ userCourse }) => {
+
+const EnrollData: FC<EnrollDataProps> = ({ userCourse }) => {
   const setcouseUser = useSetRecoilState(userEnrollState);
   const actionButton = async (val: boolean) => {
     const response = await actionComplete(userCourse.id, val);

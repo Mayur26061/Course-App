@@ -7,33 +7,20 @@ import {
   MenuItem,
   Button,
 } from "@mui/material";
-import React, { FC, useEffect, useState } from "react";
-import { boxStyle } from "../../config";
-import { deleteUserRoute, updateUser } from "./fetch";
-import { checktype, usersDataState, userType } from "../../store/atoms/user";
+import { FC, SyntheticEvent, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
+import { UserType } from "../../lib/types/user";
+import { usersDataState } from "../../store/atoms/user";
+import { boxStyle, checkUserChanges } from "../../utils";
+import { deleteUserRoute, updateUser } from "./fetch";
 
-interface userModalProps {
+interface UserModalProps {
   handleClose: () => void;
   open: boolean;
-  user: userType;
+  user: UserType;
 }
-interface checktypeinp extends checktype {
-  password: string;
-}
-const checkChanges = (obj1: checktypeinp, obj2: userType): boolean => {
-  for (const key in obj1) {
-    if (key != "password") {
-      if (obj1[key] !== obj2[key]) {
-        return true;
-      }
-    } else if (obj1[key] != "") {
-      return true;
-    }
-  }
-  return false;
-};
-const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
+
+const UserModal: FC<UserModalProps> = ({ open, handleClose, user }) => {
   const [userType, setUserType] = useState(user.userType);
   const [name, setName] = useState(user.name);
   const [username, setUsername] = useState(user.username);
@@ -42,7 +29,28 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
   const [password, setPassword] = useState<string>("");
   const setUser = useSetRecoilState(usersDataState);
 
-  const onSave = async (ev: { stopPropagation: () => void }) => {
+  useEffect(() => {
+    const val = checkUserChanges({ name, username, password, userType }, user);
+    setCanSave(val);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, username, password, userType]);
+
+  const setStates = (updatedUser: UserType) => {
+    setUser((pre) => {
+      return {
+        ...pre,
+        user: pre.users.map((data) => {
+          if (data === user) {
+            return updatedUser;
+          } else {
+            return data;
+          }
+        }),
+      };
+    });
+  };
+
+  const onSave = async (ev: SyntheticEvent) => {
     const obj: {
       name?: string;
       username?: string;
@@ -71,49 +79,29 @@ const UserModal: FC<userModalProps> = ({ open, handleClose, user }) => {
     onCloses(ev);
   };
 
-  const setStates = (updatedUser: userType) => {
-    setUser((pre) => {
-      return {
-        ...pre,
-        user: pre.user.map((data) => {
-          if (data === user) {
-            return updatedUser;
-          } else {
-            return data;
-          }
-        }),
-      };
-    });
-  };
-
   const onDelete = async () => {
     const response = await deleteUserRoute(user.id);
     if (!response.error) {
       setUser((pre) => {
         return {
           ...pre,
-          user: pre.user.filter((data) => data !== user),
+          user: pre.users.filter((data) => data !== user),
         };
       });
     }
   };
-  
-  const togglePublish = async ()=>{
-    const response = await updateUser(user.id,{ isApproved:!user.isApproved});
+
+  const togglePublish = async () => {
+    const response = await updateUser(user.id, {
+      isApproved: !user.isApproved,
+    });
     if (!response.error) {
       console.log(response.user);
       setStates(response.user);
     }
+  };
 
-  }
-
-  useEffect(() => {
-    const val = checkChanges({ name, username, password, userType }, user);
-    setCanSave(val);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, username, password, userType]);
-
-  const onCloses = (ev: { stopPropagation: () => void }) => {
+  const onCloses = (ev: SyntheticEvent) => {
     ev.stopPropagation();
     setPassword("");
     setEnablePass(false);
