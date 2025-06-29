@@ -26,10 +26,10 @@ const AllCourses = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchCall() {
+    const fetchCall = async () => {
       const courses = await fetchMyCreation();
       setCourses(courses);
-    }
+    };
     fetchCall();
   }, []);
   return (

@@ -5,7 +5,7 @@ import image from "../../assets/professor.jpeg";
 import { userOnlyState } from "../../stores/selectors/userEmail";
 import { userLoadingState } from "../../stores/selectors/isUserLoading";
 
-function Landing() {
+const Landing = () => {
   const userEmail = useRecoilValue(userOnlyState);
   const isLoading = useRecoilValue(userLoadingState);
   return (
@@ -41,6 +41,6 @@ function Landing() {
       </Grid>
     </div>
   );
-}
+};
 
 export default Landing;

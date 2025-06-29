@@ -13,7 +13,7 @@ import { Button, Typography } from "@mui/material";
 import { userState } from "../../store/atoms/user";
 import { useNavigate } from "react-router-dom";
 
-export default function Navbar() {
+const Navbar = () => {
   const [show, setShow] = useRecoilState(navState);
   const auth = useRecoilValue(userState);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -112,3 +112,5 @@ export default function Navbar() {
       </AppBar>
   );
 }
+
+export default Navbar;

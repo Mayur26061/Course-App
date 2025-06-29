@@ -11,7 +11,7 @@ type checin = {
   description: string;
   price: string;
 };
-function acbs(ct: checin, ob: checin): boolean {
+const acbs = (ct: checin, ob: checin): boolean => {
   for (const a of Object.keys(ct)) {
     if (ct[a] == "") {
       return true;
@@ -22,7 +22,7 @@ function acbs(ct: checin, ob: checin): boolean {
     }
   }
   return true;
-}
+};
 const UpdateCourse = () => {
   const navigate = useNavigate();
   const [course, setCourse] = useRecoilState(courseState);

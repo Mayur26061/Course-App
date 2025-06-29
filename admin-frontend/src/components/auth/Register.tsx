@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, TextField, Card, Typography, Alert } from "@mui/material";
 import { signUpAction } from "./fetch";
 
-function Register() {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");

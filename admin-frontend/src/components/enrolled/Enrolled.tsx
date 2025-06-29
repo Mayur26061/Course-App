@@ -9,7 +9,7 @@ import { userEnrollState } from "../../store/atoms/user_course";
 const Enrolled = () => {
   const [enroll, setEnroll] = useRecoilState(userEnrollState);
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       const res = await fetchEnrolled();
       setEnroll({isLoading:false,course_users:res});
     }

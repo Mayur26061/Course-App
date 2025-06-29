@@ -20,7 +20,7 @@ import { userState } from "./stores/atoms/user";
 import "./App.css";
 import { fetchMe } from "./fetch";
 
-function App() {
+const App = () => {
   const setUser = useSetRecoilState(userState);
   useEffect(() => {
     const fetchUser = async () => {
@@ -48,6 +48,6 @@ function App() {
       </Router>
     </div>
   );
-}
+};
 
 export default App;

@@ -31,10 +31,10 @@ export interface courseType {
 const CourseList = () => {
   const [courses, setCourses] = useState<courseType[]>([]);
   useEffect(() => {
-    async function getCourses() {
+    const getCourses = async () => {
       const course = await fetchCourses();
       setCourses(course);
-    }
+    };
     getCourses();
   }, []);
   return (

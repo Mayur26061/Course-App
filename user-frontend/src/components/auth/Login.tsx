@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { loginAction } from "./fetch";
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const setUser = useSetRecoilState(userState);
@@ -71,6 +71,6 @@ function Login() {
       </Card>
     </div>
   );
-}
+};
 
 export default Login;

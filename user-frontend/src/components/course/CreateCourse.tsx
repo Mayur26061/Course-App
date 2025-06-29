@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createCourseCall } from "./fetch";
 
-function CreateCourse() {
+const CreateCourse = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -77,5 +77,5 @@ function CreateCourse() {
       </Card>
     </div>
   );
-}
+};
 export default CreateCourse;

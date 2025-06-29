@@ -1,4 +1,4 @@
-import { SyntheticEvent, useState } from "react";
+import { FC, SyntheticEvent, useState } from "react";
 import {
   Modal,
   Box,
@@ -14,13 +14,13 @@ import { contentState } from "../../../stores/atoms/content";
 import { boxStyle, validateContent } from "../../../utils";
 import { editContentCall } from "../fetch";
 
-interface Tprops {
+interface EditContentProps {
   handleClose: () => void;
   open: boolean;
   content: ContentType;
 }
 
-export default function EditContent({ handleClose, open, content }: Tprops) {
+const EditContent: FC<EditContentProps> = ({ handleClose, open, content }) => {
   const [title, setTitle] = useState(content.title);
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
@@ -115,4 +115,6 @@ export default function EditContent({ handleClose, open, content }: Tprops) {
       </Box>
     </Modal>
   );
-}
+};
+
+export default EditContent;

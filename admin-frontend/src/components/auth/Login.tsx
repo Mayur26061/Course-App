@@ -5,7 +5,7 @@ import { userState } from "../../store/atoms/user";
 import { useRecoilState } from "recoil";
 import { loginAction } from "./fetch";
 
-function Login() {
+const Login = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [userSt,setUser] = useRecoilState(userState);

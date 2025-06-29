@@ -15,7 +15,7 @@ const UserList: FC = () => {
   const [users, setUsers] = useRecoilState(usersDataState);
 
   useEffect(() => {
-    async function fetchApi() {
+    const fetchApi = async () => {
       setUsers({ isLoading: true, user: [] });
       const result = await fetchUsers();
       setUsers({ isLoading: false, user: result });

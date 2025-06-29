@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil";
 import { fetchMe } from "./fetch";
 import Navbar from "./components/home/Navbar";
 
-function App() {
+const App = () => {
   const [user, setUser] = useRecoilState(userState);
   const navigate = useNavigate();
 

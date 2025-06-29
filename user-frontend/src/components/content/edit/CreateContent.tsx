@@ -8,19 +8,19 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { contentState } from "../../../stores/atoms/content";
 import { boxStyle, validateContent } from "../../../utils";
 import { createContentCall } from "../fetch";
 
-interface Tprops {
+interface CreateContentProps {
   handleClose: () => void;
   open: boolean;
 }
 
-export default function CreateContent({ handleClose, open }: Tprops) {
+const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
   const setContent = useSetRecoilState(contentState);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -117,4 +117,6 @@ export default function CreateContent({ handleClose, open }: Tprops) {
       </Box>
     </Modal>
   );
-}
+};
+
+export default CreateContent;
