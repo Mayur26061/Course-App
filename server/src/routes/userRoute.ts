@@ -39,7 +39,7 @@ router.post(
   AuthenticateUser,
   markasCompleteContent
 );
-router.post("/searchCourses", getSearchedCourses);
+router.post("/searchCourses", AuthenticateMixedUser, getSearchedCourses);
 router.get("/mycreation", AuthenticateUser, getMyCreations);
 router.post("/addcourse", AuthenticateUser, addCourse);
 router.post("/:courseId/addcontent", AuthenticateUser, addContent);

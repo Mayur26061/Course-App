@@ -50,6 +50,13 @@ export const getMyCreations = asyncHandler(async (req: reqObj, res) => {
     where: {
       author_id: req.headers.uid,
     },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
   });
   res.json({ error: false, course: course });
 });

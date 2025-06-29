@@ -326,20 +326,44 @@ export const markasCompleteContent = asyncHandler(async (req: reqObj, res) => {
 });
 
 export const getSearchedCourses = asyncHandler(async (req: reqObj, res) => {
+  const uid: string = req.headers["uid"] || "";
   const data = z
     .object({
       searchTerm: z.string().trim(),
     })
     .safeParse(req.body);
+
   if (data.error || !data.data?.searchTerm) {
     res.send({ error: false, courses: [] });
     return;
   }
-  console.log(data.data?.searchTerm);
+
+  let condition: Prisma.courseWhereInput = {
+    title: { contains: data.data?.searchTerm || "", mode: "insensitive" },
+  };
+
+  // if logged in user show publish as well as his course
+  if (uid) {
+    condition.OR = [
+      {
+        published: true,
+      },
+      {
+        author_id: uid,
+      },
+    ];
+  } else {
+    condition.published = true;
+  }
+
   const courses = await prisma.course.findMany({
-    where: {
-      published: true,
-      title: { contains: data.data?.searchTerm || "", mode: "insensitive" },
+    where: condition,
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
     },
   });
   res.send({ error: false, courses });
