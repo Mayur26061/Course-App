@@ -2,13 +2,14 @@ import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { fetchSearchTerm } from "../common/fetch";
+import { CourseType } from "../../libs/types/course";
 import { searchState } from "../../stores/atoms/search";
-import CoursesContainer, { courseType } from "./CoursesContainer";
+import CoursesContainer from "./CoursesContainer";
 
 const SearchCourses: FC = () => {
   const [search] = useSearchParams();
   const setSearchState = useSetRecoilState(searchState);
-  const [courses, setCourses] = useState<courseType[]>([]);
+  const [courses, setCourses] = useState<CourseType[]>([]);
 
   useEffect(() => {
     const term = search.get("search")?.trim() || "";

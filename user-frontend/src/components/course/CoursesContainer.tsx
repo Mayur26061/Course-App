@@ -1,29 +1,13 @@
 import { FC } from "react";
+import { CourseType } from "../../libs/types/course";
 import Course from "./Course";
 
-export interface courseType {
-  id: string;
-  createAt: Date;
-  updatedAt: Date;
-  title: string;
-  description: string;
-  price: string;
-  published: boolean;
-  image: string;
-  duration: Date | null;
-  author_id: string;
-  category: string | null;
-  author: {
-    name: string;
-  };
-}
-
 interface Tprops {
-  courses: courseType[];
+  courses: CourseType[];
 }
 
 const CoursesContainer: FC<Tprops> = ({ courses }) => {
-  // we can pass path from props ?
+  // can we pass path from props ?
   return (
     <div className="flex flex-wrap gap-2">
       {courses &&

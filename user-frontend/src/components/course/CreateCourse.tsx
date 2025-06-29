@@ -27,6 +27,7 @@ function CreateCourse() {
     setImageLink("");
     navigate(`/my/creations/${res.course.id}`);
   };
+
   return (
     <div className="flex flex-col justify-center items-center p-5">
       <Typography variant="h4">Create Course Page</Typography>

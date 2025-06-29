@@ -9,8 +9,8 @@ import CourseCardButton from "./CourseCardButton";
 
 const CourseCard = () => {
   const title: string = useRecoilValue(courseTitleState);
-
   const imageLink: string = useRecoilValue(courseImageState);
+
   return (
     <div className="flex justify-center lg:justify-start w-full mt-56 md:mt-44">
       <Card className="w-350 min-h-52 z-1 mr-12 !rounded-2xl pb-4 ">
@@ -29,8 +29,9 @@ const CourseCard = () => {
   );
 };
 
+// Component was used to test recoil state
 const PriceCard = () => {
-  const price: string = useRecoilValue(coursePriceState);
+  const price = useRecoilValue(coursePriceState);
   return <b>Rs {price}</b>;
 };
 

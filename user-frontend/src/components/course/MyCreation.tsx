@@ -1,10 +1,10 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { FC, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { CourseType } from "../../libs/types/course";
 import Notfound from "../common/Notfound";
 import SingleContent from "../content/SingleContent";
 import Course from "./Course";
-import { courseType } from "./CoursesContainer";
 import CreateCourse from "./CreateCourse";
 import SingleCourseEdit from "./SingleCourseEdit";
 import { fetchMyCreation } from "./fetch";
@@ -22,7 +22,7 @@ const MyCreation: FC = () => {
 };
 
 const AllCourses = () => {
-  const [courses, setCourses] = useState<courseType[]>([]);
+  const [courses, setCourses] = useState<CourseType[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {

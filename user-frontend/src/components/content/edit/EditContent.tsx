@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import {
   Modal,
   Box,
@@ -9,14 +9,15 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useSetRecoilState } from "recoil";
+import { ContentType } from "../../../libs/types/course";
 import { contentState } from "../../../stores/atoms/content";
-import { contentType, boxStyle, validateContent } from "../../../utils";
+import { boxStyle, validateContent } from "../../../utils";
 import { editContentCall } from "../fetch";
 
 interface Tprops {
   handleClose: () => void;
   open: boolean;
-  content: contentType;
+  content: ContentType;
 }
 
 export default function EditContent({ handleClose, open, content }: Tprops) {
@@ -25,9 +26,8 @@ export default function EditContent({ handleClose, open, content }: Tprops) {
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.content_url);
   const setContent = useSetRecoilState(contentState);
-  // const { cid } = useParams();
 
-  const onCloses = (ev: { stopPropagation: () => void }) => {
+  const onCloses = (ev: SyntheticEvent) => {
     ev.stopPropagation();
     handleClose();
     setTitle(content.title);
@@ -47,10 +47,10 @@ export default function EditContent({ handleClose, open, content }: Tprops) {
       if (response.data.error) {
         console.log(response.data.error);
       } else {
-        setContent((contents) => {
+        setContent((contentsStateVals) => {
           return {
             isLoading: false,
-            content: contents.content.map((d) => {
+            contents: contentsStateVals.contents.map((d) => {
               if (d.id === response.data.content.id) {
                 return response.data.content;
               }

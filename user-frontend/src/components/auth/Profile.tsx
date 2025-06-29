@@ -8,7 +8,8 @@ import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { logOutAction } from "../common/fetch";
 import { userState } from "../../stores/atoms/user";
-import UserActions from "./UserActions";
+import Notfound from "../common/Notfound";
+import UserAction from "./UserAction";
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState);
@@ -23,12 +24,16 @@ const Profile = () => {
     navigate("/signin");
   };
 
+  if (!user.user || !user.isLoading) {
+    return <Notfound />;
+  }
+
   return (
     <div className="grid gap-4 p-4 md:grid-cols-[420px_1fr]">
       <div className="h-full w-full flex flex-col items-center">
         <div className="flex justify-center px-2 py-4">
           <img
-            src={user?.user?.image}
+            src={user.user.image || ""}
             alt="image"
             className="size-28 rounded-full"
           />
@@ -37,42 +42,42 @@ const Profile = () => {
         <p className="font-semibold text-gray-500">{user.user?.username}</p>
       </div>
       <div className="w-full">
-        <UserActions
+        <UserAction
           title="My Courses"
           Icon={<DashboardIcon />}
           action={() => {
             navigate("mycourses");
           }}
         />
-        <UserActions
+        <UserAction
           title="My Creations"
           Icon={<CreateNewFolderIcon />}
           action={() => {
             navigate("creations");
           }}
         />
-        <UserActions
+        <UserAction
           title="Certificates"
           Icon={<CardMembershipIcon />}
           action={() => {
             navigate("certificates");
           }}
         />
-        <UserActions
+        <UserAction
           title="Change Password"
           Icon={<SecurityIcon />}
           action={() => {
             navigate("mycourses");
           }}
         />
-        <UserActions
+        <UserAction
           title="Setting"
           Icon={<SettingsIcon />}
           action={() => {
             navigate("setting");
           }}
         />
-        <UserActions title="Sign Out" Icon={<LogoutIcon />} action={onLogOut} />
+        <UserAction title="Sign Out" Icon={<LogoutIcon />} action={onLogOut} />
       </div>
     </div>
   );

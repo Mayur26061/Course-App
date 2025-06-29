@@ -1,5 +1,25 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
+import { CourseType } from "../../libs/types/course";
+
+interface SingleCourseData {
+  course: CourseType | null;
+  error: boolean;
+  message?: string;
+}
+
+interface CourseCreateParams {
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+interface CourseUpdateParams {
+  title: string;
+  description: string;
+  price: number;
+}
 
 // Fetch all courses
 export const fetchCourses = async () => {
@@ -13,12 +33,17 @@ export const fetchCourses = async () => {
  * Fetch single course with specfied
  * @param {string} courseId
  */
-export const fetchSingleCourse = async (courseId: string) => {
+export const fetchSingleCourse = async (
+  courseId: string
+): Promise<SingleCourseData> => {
   try {
-    const res = await axios.get(`${BASE_URL}/course/${courseId}`, {
-      withCredentials: true,
-    });
-    return res;
+    const res = await axios.get<SingleCourseData>(
+      `${BASE_URL}/course/${courseId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return res.data;
   } catch {
     return { error: true, course: null };
   }
@@ -61,7 +86,7 @@ export const fetchMyCreation = async () => {
   }
 };
 
-export const createCourseCall = async (courseData) => {
+export const createCourseCall = async (courseData: CourseCreateParams) => {
   const res = await axios.post(`${BASE_URL}/addcourse`, courseData, {
     withCredentials: true,
   });
@@ -74,7 +99,10 @@ export const deleteCourseCall = async (courseId: string) => {
   });
 };
 
-export const updateCourseCall = async (courseId, courseObj) => {
+export const updateCourseCall = async (
+  courseId: string,
+  courseObj: CourseUpdateParams
+) => {
   const res = await axios.put(
     `${BASE_URL}/update/course/${courseId}`,
     courseObj,

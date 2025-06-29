@@ -1,24 +1,9 @@
-interface validationContent {
-  title: string;
-  description: string;
+interface ValidationContent {
   type: string;
   content_url: string;
 }
 
-export interface contentType {
-  id: string;
-  createAt: Date;
-  updatedAt: Date;
-  title: string;
-  description: string | null;
-  type: string;
-  published: boolean;
-  content_url: string;
-  duration: Date | null;
-  course_id: string;
-}
-
-export const validateContent = <T extends validationContent>(
+export const validateContent = <T extends ValidationContent>(
   content: T
 ): boolean => {
   const checkDocumentAccess = (urlsub: string) => {
