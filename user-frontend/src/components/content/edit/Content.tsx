@@ -1,22 +1,23 @@
 import { Button, Card, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useState, SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import { ContentType } from "../../../libs/types/course";
 import { contentState } from "../../../stores/atoms/content";
-import { contentType } from "../../../utils";
-import EditContent from "./EditContent";
 import { deleteContentCall } from "../fetch";
+import EditContent from "./EditContent";
 
 type contentProps = {
-  content: contentType;
+  content: ContentType;
 };
+
 const Content: FC<contentProps> = ({ content }) => {
   const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);
   // const {cid} = useParams()
 
-  const handleOpen = (ev) => {
+  const handleOpen = (ev: SyntheticEvent) => {
     ev.stopPropagation();
     setOpen(true);
   };
@@ -25,7 +26,7 @@ const Content: FC<contentProps> = ({ content }) => {
     setOpen(false);
   };
 
-  const deleteContent = async (ev) => {
+  const deleteContent = async (ev: SyntheticEvent) => {
     // setContent({isLoading:true,content:[]})
     ev.stopPropagation();
     await deleteContentCall(content.id, content.course_id);
@@ -33,7 +34,7 @@ const Content: FC<contentProps> = ({ content }) => {
     setContent((contents) => {
       return {
         isLoading: false,
-        content: contents.content.filter((c) => c.id !== content.id),
+        contents: contents.contents.filter((c) => c.id !== content.id),
       };
     });
   };

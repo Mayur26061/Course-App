@@ -54,7 +54,7 @@ export default function CreateContent({ handleClose, open }: Tprops) {
         setContent((data) => {
           return {
             isLoading: false,
-            content: [...data.content, response.data.content],
+            contents: [...data.contents, response.data.content],
           };
         });
       }

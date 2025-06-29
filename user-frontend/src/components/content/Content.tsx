@@ -1,9 +1,15 @@
 import { Card, Typography } from "@mui/material";
+import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { ContentType } from "../../libs/types/course";
 import { userOnlyState } from "../../stores/selectors/userEmail";
 
-const Content = ({ content }) => {
+interface ContentProps {
+  content: ContentType;
+}
+
+const Content: FC<ContentProps> = ({ content }) => {
   const userEmail = useRecoilValue(userOnlyState);
   const navigate = useNavigate();
   const custom = !userEmail?.user_courses.filter(

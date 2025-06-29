@@ -1,12 +1,13 @@
 import { Card, CardMedia, CardContent } from "@mui/material";
 import { FC, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import { courseType } from "./CoursesContainer";
+import { CourseType } from "../../libs/types/course";
 
 interface Tprops {
-  course: courseType;
+  course: CourseType;
   path: string;
 }
+
 const Course: FC<Tprops> = ({ course, path }) => {
   const navigate = useNavigate();
   const navCourse = () => {
@@ -14,6 +15,7 @@ const Course: FC<Tprops> = ({ course, path }) => {
       navigate(`${path}/${course.id}`);
     }
   };
+
   return (
     <div
       className="m-1"

@@ -1,23 +1,28 @@
 import { Button, Card, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
+import { CourseType } from "../../libs/types/course";
 import { courseState } from "../../stores/atoms/course";
 import { deleteCourseCall, updateCourseCall } from "./fetch";
 
-const UpdateCourse = () => {
+interface UpdateCourseProps {
+  course: CourseType;
+}
+
+const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
   const navigate = useNavigate();
-  const [course, setCourse] = useRecoilState(courseState);
-  const [title, setTitle] = useState(course.course.title);
-  const [description, setDescription] = useState(course.course.description);
-  const [price, setPrice] = useState(course.course.price);
+  const setCourse = useSetRecoilState(courseState);
+  const [title, setTitle] = useState(course.title);
+  const [description, setDescription] = useState(course.description);
+  const [price, setPrice] = useState(course.price);
   const [disable, setDisable] = useState(true);
 
   const update = async () => {
-    const updatedCourse = await updateCourseCall(course.course.id, {
+    const updatedCourse = await updateCourseCall(course.id, {
       title,
       description,
-      price: parseInt(price),
+      price: price,
     });
     if (updatedCourse.error) {
       console.log(updatedCourse.message);
@@ -27,7 +32,7 @@ const UpdateCourse = () => {
   };
 
   const deleteCourse = async () => {
-    await deleteCourseCall(course.course.id);
+    await deleteCourseCall(course.id);
     navigate("/courses");
   };
   return (
@@ -60,11 +65,12 @@ const UpdateCourse = () => {
           <TextField
             fullWidth={true}
             value={price}
+            type="number"
             variant="outlined"
             label="Price"
             className="!mb-2.5"
             onChange={(e) => {
-              setPrice(e.target.value);
+              setPrice(parseInt(e.target.value));
               setDisable(false);
             }}
           />

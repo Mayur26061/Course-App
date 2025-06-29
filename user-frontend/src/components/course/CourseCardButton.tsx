@@ -11,10 +11,15 @@ const CourseCardButton = () => {
   const [user, setUser] = useRecoilState(userState);
   const userEmail = useRecoilValue(userOnlyState);
   const price = useRecoilValue(coursePriceState);
+
   const goToSignIn = () => {
     navigate(`/signin?courseId=${cid}`);
   };
+
   const buyCourse = async () => {
+    if (!cid || !userEmail) {
+      return;
+    }
     setUser({ isLoading: true, user: userEmail });
     try {
       const res = await buyCourseAction(cid);
@@ -32,16 +37,17 @@ const CourseCardButton = () => {
           },
         });
       } else {
-        setUser({ isLoading: false, user });
+        setUser({ ...user, isLoading: false });
       }
     } catch {
-      setUser({ isLoading: false, user });
+      setUser({ ...user, isLoading: false });
     }
   };
 
   return (
     <>
       {!(
+        userEmail &&
         userEmail?.user_courses.findIndex((data) => data.course_id === cid) >= 0
       ) &&
         (userEmail ? (
@@ -49,7 +55,7 @@ const CourseCardButton = () => {
             className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700 min-w-20"
             onClick={buyCourse}
           >
-            {price > 0 ? "Buy" : "Enroll Free"}
+            {price && price > 0 ? "Buy" : "Enroll Free"}
           </button>
         ) : (
           <button

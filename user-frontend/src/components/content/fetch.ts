@@ -1,6 +1,13 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
 
+interface Content {
+  title: string;
+  description: string | null;
+  type: string;
+  content_url: string;
+}
+
 export const fetchSingleContent = async (
   contentId: string,
   courseId: string
@@ -17,16 +24,9 @@ export const fetchSingleContent = async (
   return res;
 };
 
-interface contentType {
-  title: string;
-  description: string | null;
-  type: string;
-  content_url: string;
-}
-
 export const createContentCall = async (
   courseId: string,
-  contentobj: contentType
+  contentobj: Content
 ) => {
   const response = await axios.post(
     `${BASE_URL}/${courseId}/addcontent`,
@@ -40,7 +40,7 @@ export const createContentCall = async (
 
 export const editContentCall = async (
   contentId: string,
-  contentobj: contentType
+  contentobj: Content
 ) => {
   const response = await axios.put(
     `${BASE_URL}/update/content/${contentId}`,
@@ -68,11 +68,14 @@ export const fetchSingleContentEdit = async (
   contentId: string,
   courseId: string
 ) => {
-  const res = await axios.post(`${BASE_URL}/content/${contentId}`, {
+  const res = await axios.post(
+    `${BASE_URL}/content/${contentId}`,
+    {
       courseId: courseId,
     },
     {
-    withCredentials: true,
-  });
+      withCredentials: true,
+    }
+  );
   return res;
 };

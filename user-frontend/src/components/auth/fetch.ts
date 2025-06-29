@@ -1,6 +1,12 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
 
+interface UserSignUp {
+  username: string;
+  password: string;
+  name: string;
+}
+
 export const loginAction = async (username: string, password: string) => {
   const response = await axios.post(
     `${BASE_URL}/signin`,
@@ -12,8 +18,7 @@ export const loginAction = async (username: string, password: string) => {
   return response.data;
 };
 
-type userSignInType = { username: string; password: string; name: string };
-export const signUpAction = async (obj: userSignInType) => {
+export const signUpAction = async (obj: UserSignUp) => {
   const res = await axios.post(
     `${BASE_URL}/signup`,
     {

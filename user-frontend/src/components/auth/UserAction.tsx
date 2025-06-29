@@ -1,13 +1,13 @@
 import { SvgIconOwnProps } from "@mui/material";
 import React, { FC } from "react";
 
-interface userActionProps {
+interface UserActionProps {
   title: string;
   Icon: React.ReactElement<SvgIconOwnProps>;
   action: (() => Promise<void>) | (() => void);
 }
 
-const UserActions: FC<userActionProps> = ({ title, Icon, action }) => {
+const UserAction: FC<UserActionProps> = ({ title, Icon, action }) => {
   const handleClick = async () => {
     await action();
   };
@@ -23,4 +23,4 @@ const UserActions: FC<userActionProps> = ({ title, Icon, action }) => {
   );
 };
 
-export default UserActions;
+export default UserAction;

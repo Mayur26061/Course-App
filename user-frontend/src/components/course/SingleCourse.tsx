@@ -23,13 +23,14 @@ const SingleCourse = () => {
     if (cid) {
       fetchSingleCourse(cid)
         .then((response) => {
-          setCourse({ isLoading: false, course: response.data.course });
+          setCourse({ isLoading: false, course: response.course });
         })
         .catch(() => {
           setCourse({ isLoading: false, course: null });
         });
     }
   }, [cid]);
+
   if (isLoading) {
     return <Loading />;
   }

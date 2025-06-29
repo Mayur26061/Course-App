@@ -13,6 +13,6 @@ export const contentsState = selector({
   key: "contentsState",
   get: ({ get }) => {
     const state = get(contentState);
-    return state.content;
+    return state.contents;
   },
 });
