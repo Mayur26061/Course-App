@@ -3,7 +3,6 @@ import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SecurityIcon from "@mui/icons-material/Security";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { logOutAction } from "../common/fetch";
@@ -67,14 +66,7 @@ const Profile = () => {
           title="Change Password"
           Icon={<SecurityIcon />}
           action={() => {
-            navigate("mycourses");
-          }}
-        />
-        <UserAction
-          title="Setting"
-          Icon={<SettingsIcon />}
-          action={() => {
-            navigate("setting");
+            navigate("changepass");
           }}
         />
         <UserAction title="Sign Out" Icon={<LogoutIcon />} action={onLogOut} />

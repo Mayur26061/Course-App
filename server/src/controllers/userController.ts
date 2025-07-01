@@ -15,7 +15,11 @@ const signCheck = z.object({
 const signUpCheck = signCheck.extend({
   name: z.string().min(1),
 });
-
+const resetCheck = z.object({
+  oldPassword: z.string().min(6),
+  newPassword: z.string().min(6),
+  confirmPassword: z.string().min(6),
+});
 type signUp = z.infer<typeof signUpCheck>;
 
 // SignUp logic
@@ -389,4 +393,54 @@ export const getMyCourse = asyncHandler(async (req: reqObj, res) => {
   });
 
   res.send({ error: false, courses: myCourses });
+});
+
+export const resetPassword = asyncHandler(async (req: reqObj, res) => {
+  const uid: string = req.headers["uid"] || "";
+  const result = resetCheck.safeParse(req.body);
+  if (result.error) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+  const { oldPassword, newPassword, confirmPassword } = result.data;
+
+  const existUser = await prisma.user.findUnique({
+    where: { id: uid },
+  });
+  if (!existUser) {
+    res.json({
+      error: true,
+      message: "Please SignUp",
+    });
+    return;
+  }
+
+  if (!bcrypt.compareSync(oldPassword, existUser.password)) {
+    res.json({
+      error: true,
+      message: "Incorrect password",
+    });
+    return;
+  }
+
+  if (newPassword === confirmPassword) {
+    await prisma.user.update({
+      data: {
+        password: bcrypt.hashSync(newPassword, 8),
+      },
+      where: {
+        id: existUser.id,
+      },
+    });
+    res.redirect(307, "/api/learner/signout");
+    return;
+  }
+
+  res.json({
+    error: true,
+    message: "Password Didn't match",
+  });
 });
