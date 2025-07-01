@@ -8,7 +8,6 @@ import {
 import { useSetRecoilState } from "recoil";
 import Login from "./components/auth/Login";
 import MyProfileRoute from "./components/auth/MyProfileRoute";
-import Profile from "./components/auth/Profile";
 import Register from "./components/auth/Register";
 import Appbar from "./components/common/Appbar";
 import Notfound from "./components/common/Notfound";
@@ -41,7 +40,6 @@ const App = () => {
           <Route path="signup" element={<Register />} />
           <Route path="course/:co/content/:cid" element={<SingleContent />} />
           <Route path="search" element={<SearchCourses />} />
-          <Route path="my" element={<Profile />} />
           <Route path="my/*" element={<MyProfileRoute />} />
           <Route path="*" element={<Notfound />} />
         </Routes>

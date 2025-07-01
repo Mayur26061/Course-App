@@ -1,10 +1,18 @@
 import { Routes, Route } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../stores/atoms/user";
 import Notfound from "../common/Notfound";
 import EnrolledCourse from "../course/EnrolledCourse";
 import MyCreation from "../course/MyCreation";
 import Profile from "./Profile";
 
 const MyProfileRoute = () => {
+  const user = useRecoilValue(userState);
+
+  if (!user.user) {
+    return <Notfound />;
+  }
+
   return (
     <Routes>
       <Route index element={<Profile />} />
