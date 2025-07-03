@@ -129,3 +129,15 @@ export const fetchEnrolled = async () => {
   }
   return [];
 };
+
+export const fetchMyCertifations = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/my/completion`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+  return { error: true, message: "Something went wrong" };
+};

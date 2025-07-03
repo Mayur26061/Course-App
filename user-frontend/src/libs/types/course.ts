@@ -51,3 +51,13 @@ export interface UserType {
   isApproved: boolean;
   user_courses: UserCourse[];
 }
+
+export interface UserCourseCertifaction {
+  id: string;
+  course_id: string;
+  user_id: string;
+  completed_date: string;
+  joined_date: string;
+  status: string;
+  course: CourseType;
+}

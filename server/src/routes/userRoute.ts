@@ -14,6 +14,7 @@ import {
   getSearchedCourses,
   getMyCourse,
   resetPassword,
+  getCompletedCourse,
 } from "../controllers/userController";
 import {
   getMyCreations,
@@ -51,5 +52,6 @@ router.delete("/delete/course/:courseId", AuthenticateUser, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateUser, deleteContent);
 router.get("/my/enrolled", AuthenticateUser, getMyCourse);
 router.post("/my/resetpass", AuthenticateUser, resetPassword);
+router.get("/my/completion", AuthenticateUser, getCompletedCourse);
 
 export default router;

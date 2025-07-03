@@ -444,3 +444,25 @@ export const resetPassword = asyncHandler(async (req: reqObj, res) => {
     message: "Password Didn't match",
   });
 });
+
+export const getCompletedCourse = asyncHandler(async (req: reqObj, res) => {
+  // const
+  const completedCourse = await prisma.user_course.findMany({
+    where: {
+      user_id: req.headers.uid,
+      status: "completed",
+    },
+    include: {
+      course: {
+        include: {
+          author: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  res.send({ error: false, data: completedCourse });
+});
