@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { generateToken } from "../middleware/auth";
 import prisma from "../utils/client";
-import { reqObj } from "../utils/utils";
+import { generatePdf, reqObj } from "../utils/utils";
 
 const signCheck = z.object({
   username: z.string().email().min(1),
@@ -465,4 +465,63 @@ export const getCompletedCourse = asyncHandler(async (req: reqObj, res) => {
     },
   });
   res.send({ error: false, data: completedCourse });
+});
+
+export const generateCertificate = asyncHandler(async (req: reqObj, res) => {
+  const data = await prisma.user_course.findUnique({
+    where: {
+      id: req.params.ucourseId,
+      status: "completed",
+    },
+    select: {
+      completed_date: true,
+      user: {
+        select: {
+          name: true,
+        },
+      },
+      course: {
+        select: {
+          title: true,
+        },
+      },
+    },
+  });
+  let html = "<html><head></head><body>Something went wrong</body></html>";
+  let responseHeaders = {
+    "Content-Type": "application/pdf",
+    "Content-Disposition": `attachment; filename="error.pdf"`,
+  };
+  if (data) {
+    const name = data.user.name;
+    const course = data.course.title;
+    const date = data.completed_date;
+    html = `
+    <html>
+    <head>
+    <style>
+    body { font-family: Arial; text-align: center; padding: 50px; }
+    .certificate { border: 5px solid #555; padding: 50px; }
+    h1 { font-size: 48px; margin-bottom: 20px; }
+    </style>
+    </head>
+    <body>
+    <div class="certificate">
+    <h1>Certificate of Completion</h1>
+    <p>This is to certify that</p>
+    <h2>${name}</h2>
+    <p>has successfully completed the course</p>
+    <h3>${course}</h3>
+    <p>on ${date?.toLocaleDateString()}</p>
+    </div>
+    </body>
+    </html>
+    `;
+    responseHeaders[
+      "Content-Disposition"
+    ] = `attachment; filename="${name}-${course}.pdf"`;
+  }
+  const buffer = await generatePdf(html);
+  res.set(responseHeaders);
+  res.send(buffer);
 });

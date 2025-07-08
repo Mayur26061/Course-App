@@ -1,10 +1,24 @@
 import React, { FC } from "react";
 import { UserCourseCertifaction } from "../../libs/types/course";
+import { generateCertificate } from "./fetch";
 
 interface CertificateProps {
   cData: UserCourseCertifaction;
 }
 const Certificate: FC<CertificateProps> = ({ cData }) => {
+  const downloadCertificate = async () => {
+    const url = await generateCertificate(cData.id);
+    if (!url) {
+      return;
+    }
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${cData.course.title}.pdf`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  };
+
   return (
     <div className="flex items-center justify-start p-5 bg-white gap-2">
       <div className="w-20">
@@ -24,6 +38,12 @@ const Certificate: FC<CertificateProps> = ({ cData }) => {
           </span>
         </p>
       </div>
+      <button
+        onClick={downloadCertificate}
+        className="px-4 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-700 text-nowrap"
+      >
+        View Certifcate
+      </button>
     </div>
   );
 };

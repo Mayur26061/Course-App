@@ -141,3 +141,16 @@ export const fetchMyCertifations = async () => {
   }
   return { error: true, message: "Something went wrong" };
 };
+
+export const generateCertificate = async (id: string): Promise<string> => {
+  try {
+    const response = await axios.get(`${BASE_URL}/generate/certificate/${id}`, {
+      withCredentials: true,
+      responseType: "blob",
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    return url;
+  } catch {
+    return "";
+  }
+};

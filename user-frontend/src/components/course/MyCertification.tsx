@@ -22,7 +22,7 @@ const MyCertification = () => {
   return (
     <div className="max-w-lg w-full mx-auto mt-5">
       {courseDatas.map((data) => (
-        <Certificate cData={data} />
+        <Certificate key={data.id} cData={data} />
       ))}
     </div>
   );

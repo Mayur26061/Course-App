@@ -1,4 +1,5 @@
 import { Request } from "express";
+import puppeteer from "puppeteer";
 import { z } from "zod";
 
 export type userType = "admin" | "learner";
@@ -34,3 +35,12 @@ export const updateUserVals = z.object({
   userType: z.enum(["admin", "learner"]).optional(),
   isApproved: z.boolean().optional(),
 });
+
+export const generatePdf = async (html: string): Promise<Buffer> => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.setContent(html);
+  const pdfBuffer = await page.pdf({ format: "A4" });
+  await browser.close();
+  return Buffer.from(pdfBuffer);
+};
