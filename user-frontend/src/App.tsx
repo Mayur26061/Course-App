@@ -32,17 +32,19 @@ const App = () => {
     <div className="flex flex-col w-full h-screen">
       <Router future={{ v7_relativeSplatPath: true }}>
         <Appbar />
-        <Routes>
-          <Route index element={<Navigate to="/courses" replace />} />
-          <Route path="/courses" element={<ShowCourses />} />
-          <Route path="course/:cid" element={<SingleCourse />} />
-          <Route path="signin" element={<Login />} />
-          <Route path="signup" element={<Register />} />
-          <Route path="course/:co/content/:cid" element={<SingleContent />} />
-          <Route path="search" element={<SearchCourses />} />
-          <Route path="my/*" element={<MyProfileRoute />} />
-          <Route path="*" element={<Notfound />} />
-        </Routes>
+        <div className="max-w-screen-2xl w-full mx-auto mt-10">
+          <Routes>
+            <Route index element={<Navigate to="/courses" replace />} />
+            <Route path="/courses" element={<ShowCourses />} />
+            <Route path="course/:cid" element={<SingleCourse />} />
+            <Route path="signin" element={<Login />} />
+            <Route path="signup" element={<Register />} />
+            <Route path="course/:co/content/:cid" element={<SingleContent />} />
+            <Route path="search" element={<SearchCourses />} />
+            <Route path="my/*" element={<MyProfileRoute />} />
+            <Route path="*" element={<Notfound />} />
+          </Routes>
+        </div>
       </Router>
     </div>
   );

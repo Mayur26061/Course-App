@@ -33,9 +33,9 @@ const AllCourses = () => {
     fetchCall();
   }, []);
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="inline-grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full gap-y-3">
       <div
-        className="cursor-pointer h-72 w-72 border border-gray-900 text-gray-900 flex justify-center items-center"
+        className="rounded-md cursor-pointer w-full justify-self-center p-1 text-gray-900 flex justify-center items-center max-w-[345px] border border-gray-300 bg-white"
         onClick={() => {
           navigate("create");
         }}
