@@ -490,7 +490,8 @@ export const generateCertificate = asyncHandler(async (req: reqObj, res) => {
   let html = "<html><head></head><body>Something went wrong</body></html>";
   let responseHeaders = {
     "Content-Type": "application/pdf",
-    "Content-Disposition": `attachment; filename="error.pdf"`,
+    "Access-Control-Expose-Headers": "Content-Disposition",
+    "Content-Disposition": "attachment; filename=error.pdf",
   };
   if (data) {
     const name = data.user.name;
@@ -519,7 +520,7 @@ export const generateCertificate = asyncHandler(async (req: reqObj, res) => {
     `;
     responseHeaders[
       "Content-Disposition"
-    ] = `attachment; filename="${name}-${course}.pdf"`;
+    ] = `attachment; filename=${name}-${course}.pdf`;
   }
   const buffer = await generatePdf(html);
   res.set(responseHeaders);

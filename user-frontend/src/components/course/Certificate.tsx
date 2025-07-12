@@ -7,13 +7,13 @@ interface CertificateProps {
 }
 const Certificate: FC<CertificateProps> = ({ cData }) => {
   const downloadCertificate = async () => {
-    const url = await generateCertificate(cData.id);
-    if (!url) {
+    const data = await generateCertificate(cData.id);
+    if (!data.url) {
       return;
     }
     const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${cData.course.title}.pdf`);
+    link.href = data.url;
+    link.setAttribute("download", data.filename);
     document.body.appendChild(link);
     link.click();
     link.remove();
