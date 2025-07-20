@@ -39,7 +39,7 @@ const App = () => {
           <Routes>
             <Route path="/signin" element={<Login />} />
             <Route path="/signup" element={<Register />} />
-            <Route path="*" element={<Home />} />
+            {user.user && <Route path="*" element={<Home />} />}
             <Route />
             <Route />
           </Routes>
