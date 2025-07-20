@@ -37,7 +37,7 @@ model course {
   price        Float         @default(0)
   published    Boolean       @default(false)
   image        String // make it optional later
-  duration     DateTime?     @db.Time()
+  duration     Decimal?      @db.Decimal(10, 2)
   author       user          @relation(fields: [author_id], references: [id], onDelete: SetDefault, onUpdate: Cascade)
   author_id    String        @default("anonymous")
   category     String?
@@ -46,16 +46,16 @@ model course {
 }
 
 model content {
-  id          String    @id @default(cuid())
-  createAt    DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          String   @id @default(cuid())
+  createAt    DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   title       String
   description String?
   type        String
-  published   Boolean   @default(false)
+  published   Boolean  @default(false)
   content_url String
-  duration    DateTime? @db.Time()
-  course      course    @relation(fields: [course_id], references: [id], onDelete: Cascade)
+  duration    Decimal? @db.Decimal(10, 2)
+  course      course   @relation(fields: [course_id], references: [id], onDelete: Cascade)
   course_id   String
 
   user_content user_content[]

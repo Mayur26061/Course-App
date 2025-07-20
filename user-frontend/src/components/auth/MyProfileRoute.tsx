@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../stores/atoms/user";
+import { Loading } from "../common/Loading";
 import Notfound from "../common/Notfound";
 import EnrolledCourse from "../course/EnrolledCourse";
 import MyCertification from "../course/MyCertification";
@@ -10,6 +11,10 @@ import ChangePassword from "./ChangePassword";
 
 const MyProfileRoute = () => {
   const user = useRecoilValue(userState);
+
+  if (user.isLoading) {
+    return <Loading />;
+  }
 
   if (!user.user) {
     return <Notfound />;

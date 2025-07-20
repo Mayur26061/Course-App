@@ -5,10 +5,12 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SecurityIcon from "@mui/icons-material/Security";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
+import image from "../../assets/avatar.png";
 import { logOutAction } from "../common/fetch";
 import { userState } from "../../stores/atoms/user";
 import Notfound from "../common/Notfound";
 import UserAction from "./UserAction";
+
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState);
@@ -32,7 +34,7 @@ const Profile = () => {
       <div className="h-full w-full flex flex-col items-center">
         <div className="flex justify-center px-2 py-4">
           <img
-            src={user.user.image || ""}
+            src={user.user.image || image}
             alt="image"
             className="size-28 rounded-full"
           />

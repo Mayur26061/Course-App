@@ -11,9 +11,10 @@ dotenv.config();
 const app = express();
 
 const corsConfig = {
-  origin:['http://localhost:5173','http://localhost:5174','http://localhost:5175'],
+  origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
   credentials: true,
 };
+
 app.use(cors(corsConfig));
 app.use(express.json());
 app.use(bodyParser.json());
