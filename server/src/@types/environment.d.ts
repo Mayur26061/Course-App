@@ -6,6 +6,7 @@ declare global {
       ADMIN_TOKEN_SECRET_KEY: string;
       FRONTEND_URL: string;
       ADMIN_URL: string;
+      PORT: number;
     }
   }
 }
