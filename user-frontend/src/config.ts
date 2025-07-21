@@ -1,1 +1,1 @@
-export const BASE_URL = "http://localhost:3002/api/learner";
+export const BASE_URL = import.meta.env.VITE_BACKEND_URL;
