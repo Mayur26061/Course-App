@@ -8,7 +8,7 @@ import userRoute from "./routes/userRoute";
 
 dotenv.config();
 
-const app = express();
+export const app = express();
 
 const corsConfig = {
   origin: [process.env.FRONTEND_URL, process.env.ADMIN_URL],
