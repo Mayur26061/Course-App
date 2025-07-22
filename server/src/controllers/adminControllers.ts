@@ -86,7 +86,7 @@ export const adminSignIn = asyncHandler(async (req, res, next) => {
     "admin"
   );
   const { password: pwd, ...user } = existUser;
-  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;`);
+  res.setHeader("set-cookie", `token=${token};Max-Age=172800;HttpOnly;SameSite=None;Secure;`);
   res.send({ error: false, user });
 });
 
