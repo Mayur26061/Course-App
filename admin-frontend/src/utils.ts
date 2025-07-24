@@ -9,7 +9,7 @@ interface UserTypeInp extends UserTypeBase {
   password: string;
 }
 
-interface checin {
+interface ContentCheck {
   title: string;
   description: string;
   price: string;
@@ -59,23 +59,28 @@ export const checkUserChanges = (
 ): boolean => {
   for (const key in obj1) {
     if (key != "password") {
-      if (obj1[key] !== obj2[key]) {
+      if (obj1[key as keyof UserTypeInp] !== obj2[key as keyof UserType]) {
         return true;
       }
-    } else if (obj1[key] != "") {
+    } else if (obj1[key as keyof UserTypeInp] != "") {
       return true;
     }
   }
   return false;
 };
 
-export const checkCourseChanges = (ct: checin, ob: checin): boolean => {
-  for (const a of Object.keys(ct)) {
-    if (ct[a] == "") {
+export const checkCourseChanges = (
+  newObject: ContentCheck,
+  oldObject: ContentCheck
+): boolean => {
+  for (const key of Object.keys(newObject)) {
+    if (newObject[key as keyof ContentCheck] == "") {
       return true;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    if (ct[a] !== ob[a]) {
+    if (
+      newObject[key as keyof ContentCheck] !==
+      oldObject[key as keyof ContentCheck]
+    ) {
       return false;
     }
   }
