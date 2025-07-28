@@ -1,17 +1,21 @@
 import { Button, TextField, Card, Typography } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import React from "react";
+import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { loginAction } from "./fetch";
+import { Loading } from "../common/Loading";
 
 const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
   const handleLogin = async () => {
+    setIsLoading(true);
     const response = await loginAction(email, password);
     if (response.error) {
       console.log(response.message);
@@ -28,9 +32,12 @@ const Login = () => {
         }
       }
     }
-    setEmail("");
-    setPassword("");
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="flex flex-col justify-center items-center mt-20">

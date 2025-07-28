@@ -4,15 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { signUpAction } from "./fetch";
+import { Loading } from "../common/Loading";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const setUser = useSetRecoilState(userState);
 
   const navigate = useNavigate();
   const handleSign = async () => {
+    setIsLoading(true);
+
     const response = await signUpAction({ username: email, password, name });
     if (response.user) {
       setUser({ isLoading: false, user: response.user });
@@ -24,11 +29,15 @@ const Register = () => {
         user: null,
       });
     }
+    setIsLoading(false);
     setEmail("");
     setPassword("");
     setName("");
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="flex flex-col justify-center items-center mt-20">
       <Typography variant="h6">Sign Up</Typography>

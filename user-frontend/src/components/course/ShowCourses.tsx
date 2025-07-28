@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import Landing from "../common/Landing";
+import { Loading } from "../common/Loading";
 import CoursesContainer from "./CoursesContainer";
 import { fetchCourses } from "./fetch";
 
 const ShowCourses = () => {
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     fetchCourses()
       .then((resposne) => {
@@ -12,13 +15,16 @@ const ShowCourses = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
   return (
     <div>
       <Landing />
-      <CoursesContainer courses={courses} />
+      {(isLoading && <Loading />) || <CoursesContainer courses={courses} />}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { FC, useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { CourseType } from "../../libs/types/course";
+import { Loading } from "../common/Loading";
 import Notfound from "../common/Notfound";
 import SingleContent from "../content/SingleContent";
 import Course from "./Course";
@@ -23,15 +24,25 @@ const MyCreation: FC = () => {
 
 const AllCourses = () => {
   const [courses, setCourses] = useState<CourseType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCall = async () => {
-      const courses = await fetchMyCreation();
-      setCourses(courses);
+      try {
+        const courses = await fetchMyCreation();
+        setCourses(courses);
+      } catch {
+        console.error("Something went wrong");
+      }
+      setIsLoading(false);
     };
     fetchCall();
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="inline-grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 w-full gap-y-3">
       <div
