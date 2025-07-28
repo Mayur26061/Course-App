@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "npm run build && nodemon dist/index.js",
+    "server": "npx tsc && nodemon dist/index.js",
     "build": "prisma generate && tsc",
     "postinstall": "prisma generate"
   },

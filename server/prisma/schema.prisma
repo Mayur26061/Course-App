@@ -20,7 +20,7 @@ model user {
   password     String
   image        String?
   createAt     DateTime      @default(now())
-  userType     String
+  userType     Role
   courses      course[]
   user_courses user_course[]
   isApproved   Boolean       @default(false)
@@ -84,4 +84,9 @@ model user_content {
   completed      Boolean     @default(true)
 
   @@unique([user_course_id, content_id])
+}
+
+enum Role {
+  learner
+  admin
 }
