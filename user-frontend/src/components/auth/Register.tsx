@@ -1,7 +1,7 @@
 import { Button, TextField, Card, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { signUpAction } from "./fetch";
 import { Loading } from "../common/Loading";
@@ -11,13 +11,12 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
+
   const handleSign = async () => {
     setIsLoading(true);
-
     const response = await signUpAction({ username: email, password, name });
     if (response.user) {
       setUser({ isLoading: false, user: response.user });
@@ -35,7 +34,13 @@ const Register = () => {
     setName("");
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    if (user.user) {
+      navigate("/");
+    }
+  }, [user]);
+
+  if (isLoading || user.isLoading) {
     return <Loading />;
   }
   return (

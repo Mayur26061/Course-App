@@ -1,7 +1,7 @@
 import { Button, TextField, Card, Typography } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useState } from "react";
-import { useSetRecoilState } from "recoil";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import { userState } from "../../stores/atoms/user";
 import { loginAction } from "./fetch";
 import { Loading } from "../common/Loading";
@@ -10,7 +10,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
+
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -35,7 +36,13 @@ const Login = () => {
     setIsLoading(false);
   };
 
-  if (isLoading) {
+  useEffect(() => {
+    if (user.user) {
+      navigate("/");
+    }
+  }, [user]);
+
+  if (isLoading || user.isLoading) {
     return <Loading />;
   }
 
