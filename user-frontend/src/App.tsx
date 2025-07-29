@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import Login from "./components/auth/Login";
 import MyProfileRoute from "./components/auth/MyProfileRoute";
 import Register from "./components/auth/Register";
@@ -20,7 +20,7 @@ import "./App.css";
 import { fetchMe } from "./fetch";
 
 const App = () => {
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
   useEffect(() => {
     const fetchUser = async () => {
       setUser({ isLoading: false, user: await fetchMe() });
@@ -39,9 +39,16 @@ const App = () => {
             <Route path="course/:cid" element={<SingleCourse />} />
             <Route path="signin" element={<Login />} />
             <Route path="signup" element={<Register />} />
-            <Route path="course/:co/content/:cid" element={<SingleContent />} />
             <Route path="search" element={<SearchCourses />} />
-            <Route path="my/*" element={<MyProfileRoute />} />
+            {user.user && (
+              <>
+                <Route
+                  path="course/:co/content/:cid"
+                  element={<SingleContent />}
+                />
+                <Route path="my/*" element={<MyProfileRoute />} />
+              </>
+            )}
             <Route path="*" element={<Notfound />} />
           </Routes>
         </div>
