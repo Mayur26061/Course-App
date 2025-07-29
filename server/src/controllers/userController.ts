@@ -200,6 +200,11 @@ export const getSelectedCourse = asyncHandler(async (req: reqObj, res) => {
       contents: {
         where: contCondition,
       },
+      author: {
+        select: {
+          name:true,
+        }
+      }
     },
   });
   if (!course) {
