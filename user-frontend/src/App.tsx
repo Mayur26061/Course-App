@@ -9,6 +9,7 @@ import { useRecoilState } from "recoil";
 import Login from "./components/auth/Login";
 import MyProfileRoute from "./components/auth/MyProfileRoute";
 import Register from "./components/auth/Register";
+import Checkout from "./components/checkout/Checkout";
 import Appbar from "./components/common/Appbar";
 import Notfound from "./components/common/Notfound";
 import SingleContent from "./components/content/SingleContent";
@@ -47,6 +48,7 @@ const App = () => {
                   element={<SingleContent />}
                 />
                 <Route path="my/*" element={<MyProfileRoute />} />
+                <Route path="checkout" element={<Checkout />} />
               </>
             )}
             <Route path="*" element={<Notfound />} />

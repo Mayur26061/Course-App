@@ -1,14 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { userState } from "../../stores/atoms/user";
+import { useRecoilValue } from "recoil";
 import { coursePriceState } from "../../stores/selectors/course";
 import { userOnlyState } from "../../stores/selectors/userEmail";
-import { buyCourseAction } from "./fetch";
 
 const CourseCardButton = () => {
   const navigate = useNavigate();
   const { cid } = useParams();
-  const [user, setUser] = useRecoilState(userState);
   const userEmail = useRecoilValue(userOnlyState);
   const price = useRecoilValue(coursePriceState);
 
@@ -20,28 +17,7 @@ const CourseCardButton = () => {
     if (!cid || !userEmail) {
       return;
     }
-    setUser({ isLoading: true, user: userEmail });
-    try {
-      const res = await buyCourseAction(cid);
-      setUser({ isLoading: true, user: userEmail });
-
-      if (res.status == 200) {
-        setUser({
-          isLoading: false,
-          user: {
-            ...userEmail,
-            user_courses: [
-              ...userEmail.user_courses,
-              { course_id: cid, user_contents: [] },
-            ],
-          },
-        });
-      } else {
-        setUser({ ...user, isLoading: false });
-      }
-    } catch {
-      setUser({ ...user, isLoading: false });
-    }
+    navigate(`/checkout?courseId=${cid}`);
   };
 
   return (
