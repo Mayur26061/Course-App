@@ -5,7 +5,8 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { Loading } from "../common/Loading";
 import ContentSection from "../content/edit/ContentSection";
 import { contentState } from "../../stores/atoms/content";
-import { courseState } from "../../stores/atoms/course";
+import { courseEditState } from "../../stores/atoms/course";
+import { courseEditImageState, courseEditPriceState, courseEditTitleState } from "../../stores/selectors/course";
 import CourseCard from "./CourseCard";
 import { GrayTopper } from "./SingleCourse";
 import UpdateCourse from "./UpdateCourse";
@@ -14,7 +15,7 @@ import Notfound from "../common/Notfound";
 
 const SingleCourseEdit = () => {
   const { cid } = useParams();
-  const [course, setCourse] = useRecoilState(courseState);
+  const [course, setCourse] = useRecoilState(courseEditState);
   const setContent = useSetRecoilState(contentState);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,7 +27,7 @@ const SingleCourseEdit = () => {
       }
       setIsLoading(true);
       const [contents, course] = await fetchSingleCourseEditable(cid);
-      setCourse({ isLoading: false, course: course });
+      setCourse({ course: course });
       setContent({ isLoading: false, contents: contents });
       setIsLoading(false);
     };
@@ -43,8 +44,11 @@ const SingleCourseEdit = () => {
 
   return (
     <div className="relative text-left">
-      <GrayTopper />
-      <CourseCard />
+      <GrayTopper title={course.course.title}/>
+      <CourseCard
+        courseImageState={courseEditImageState}
+        coursePriceState={courseEditPriceState}
+        courseTitleState={courseEditTitleState}/>
       <UpdateCourse course={course.course} />
       <ContentSection />
     </div>

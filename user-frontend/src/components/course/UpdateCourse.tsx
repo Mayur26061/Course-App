@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { CourseType } from "../../libs/types/course";
-import { courseState } from "../../stores/atoms/course";
+import { courseEditState } from "../../stores/atoms/course";
 import { deleteCourseCall, updateCourseCall } from "./fetch";
 
 interface UpdateCourseProps {
@@ -12,7 +12,7 @@ interface UpdateCourseProps {
 
 const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
   const navigate = useNavigate();
-  const setCourse = useSetRecoilState(courseState);
+  const setCourse = useSetRecoilState(courseEditState);
   const [title, setTitle] = useState(course.title);
   const [description, setDescription] = useState(course.description);
   const [price, setPrice] = useState(course.price);
@@ -28,7 +28,7 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
       console.log(updatedCourse.message);
       return;
     }
-    setCourse({ isLoading: false, course: updatedCourse });
+    setCourse({ course: updatedCourse });
   };
 
   const deleteCourse = async () => {

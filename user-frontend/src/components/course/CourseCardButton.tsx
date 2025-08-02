@@ -1,9 +1,13 @@
+import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { coursePriceState } from "../../stores/selectors/course";
+import { RecoilValueReadOnly, useRecoilValue } from "recoil";
 import { userOnlyState } from "../../stores/selectors/userEmail";
 
-const CourseCardButton = () => {
+interface CourseCardButtonProps {
+  coursePriceState: RecoilValueReadOnly<number | "">
+}
+
+const CourseCardButton:FC<CourseCardButtonProps> = ({ coursePriceState }) => {
   const navigate = useNavigate();
   const { cid } = useParams();
   const userEmail = useRecoilValue(userOnlyState);

@@ -1,15 +1,18 @@
+import { FC } from "react";
 import { Card, Typography } from "@mui/material";
-import { useRecoilValue } from "recoil";
-import {
-  courseImageState,
-  coursePriceState,
-  courseTitleState,
-} from "../../stores/selectors/course";
+import { RecoilValueReadOnly, useRecoilValue } from "recoil";
 import CourseCardButton from "./CourseCardButton";
 
-const CourseCard = () => {
+interface CourseCardProps {
+  courseTitleState: RecoilValueReadOnly<string>
+  courseImageState: RecoilValueReadOnly<string>
+  coursePriceState: RecoilValueReadOnly<number | "">
+}
+
+const CourseCard:FC<CourseCardProps> = ({courseTitleState, courseImageState, coursePriceState}) => {
   const title: string = useRecoilValue(courseTitleState);
   const imageLink: string = useRecoilValue(courseImageState);
+  const price = useRecoilValue(coursePriceState);
 
   return (
     <div className="flex justify-center lg:justify-start w-full mt-56 md:mt-44">
@@ -20,19 +23,13 @@ const CourseCard = () => {
         <div className="ml-2.5">
           <Typography variant="h5">{title}</Typography>
           <Typography variant="subtitle1">
-            <PriceCard />
+          <b>Rs {price}</b>
           </Typography>
-          <CourseCardButton />
+          <CourseCardButton coursePriceState={coursePriceState}/>
         </div>
       </Card>
     </div>
   );
-};
-
-// Component was used to test recoil state
-const PriceCard = () => {
-  const price = useRecoilValue(coursePriceState);
-  return <b>Rs {price}</b>;
 };
 
 export default CourseCard;
