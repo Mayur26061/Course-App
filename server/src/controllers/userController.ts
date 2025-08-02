@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { generateToken } from "../middleware/auth";
 import prisma from "../utils/client";
-import { generatePdf, reqObj } from "../utils/utils";
+import { checkAllSetExist, generatePdf, reqObj } from "../utils/utils";
 
 const signCheck = z.object({
   username: z.string().email().min(1),
@@ -302,34 +302,58 @@ export const markasCompleteContent = asyncHandler(async (req: reqObj, res) => {
   const courseId = req.body.courseId;
   const uid: string = req.headers.uid || "";
   const userCourse = await prisma.user_course.findFirst({
-    where: {
-      course_id: courseId,
-      user_id: uid,
-    },
-    include: {
-      user_contents: {
+      where: {
+          course_id: courseId,
+          user_id: uid,
+      },
+      include: {
+          user_contents: {
+              select: {
+                  id: true,
+                  content_id: true,
+              },
+          },
+      },
+  });
+
+  if (!userCourse) {
+      res.json({ error: true, message: "Please purchase course" });
+      return;
+  }
+
+  if (userCourse.status === "joined") {
+    if (!userCourse.user_contents.find((content) => content.content_id === cid)) {
+        const data = await prisma.user_content.create({
+            data: {
+                user_course_id: userCourse.id,
+                content_id: cid,
+                completed: true,
+            },
+        });
+    }
+    const publishedContentIds = await prisma.content.findMany({
         where: {
-          content_id: cid,
+            course_id: courseId,
+            published: true,
         },
         select: {
-          id: true,
+            id: true,
         },
-      },
-    },
-  });
-  if (!userCourse) {
-    res.json({ error: true, message: "Please purchase course" });
-    return;
-  }
-  if (!userCourse.user_contents.length) {
-    await prisma.user_content.create({
-      data: {
-        user_course_id: userCourse.id,
-        content_id: cid,
-        completed: true,
-      },
     });
+    const publishIds = new Set(publishedContentIds.map((d) => d.id));
+    const userContentIds = new Set([...userCourse.user_contents.map((c) => c.content_id), cid]);
+    if (checkAllSetExist(publishIds, userContentIds)) {
+        await prisma.user_course.update({
+            where: {
+                id: userCourse.id,
+            },
+            data: {
+                status: "completed",
+            },
+        });
+    }
   }
+
   const content = await _getContent(cid, courseId, uid);
   res.json({ error: false, content: content });
 });

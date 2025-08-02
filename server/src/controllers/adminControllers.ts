@@ -1,12 +1,18 @@
 import bcrypt from "bcryptjs";
 import asyncHandler from "express-async-handler";
 import { z } from "zod";
+import { UserCourseStatus } from "@prisma/client";
 
 import { generateToken } from "../middleware/auth";
 import { reqObj, updateUserVals } from "../utils/utils";
 import prisma from "../utils/client";
 import { signUpCheck, signCheck } from "../utils/utils";
 import { contentOptional, courseOptional } from "./InstructorController";
+
+type updateVal = {
+  completed_date: string;
+  status: UserCourseStatus;
+};
 
 // Sign Up for admin
 export const adminSignUp = asyncHandler(async (req, res, next) => {
@@ -273,15 +279,16 @@ export const updateSubcriber = asyncHandler(async (req: reqObj, res) => {
     return;
   }
   const date = new Date().toISOString();
-  const updateVals = data.completed
-    ? {
-        completed_date: date,
-        status: "completed",
-      }
-    : {
-        completed_date: null,
-        status: "joined",
-      };
+
+  const updateVals: updateVal = data.completed
+  ? {
+      completed_date: date,
+      status: "completed",
+    }
+  : {
+      completed_date: "",
+      status: "joined",
+  };
   const user_partner = await prisma.user_course.update({
     where: {
       id: req.params.subId,

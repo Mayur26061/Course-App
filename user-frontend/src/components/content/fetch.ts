@@ -13,7 +13,7 @@ export const fetchSingleContent = async (
   courseId: string
 ) => {
   const res = await axios.post(
-    `${BASE_URL}/content/${contentId}`,
+    `${BASE_URL}/markCompleted/${contentId}`,
     {
       courseId: courseId,
     },

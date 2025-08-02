@@ -45,7 +45,8 @@ const SingleCourse = () => {
           <CourseCard />
         </Grid>
       </Grid>
-      {course.course.contents.length > 0 && <ContentSection />}
+      {/* debug: why course.course.contents is undefined*/}
+      {course.course.contents?.length > 0 && <ContentSection />}
     </div>
   );
 };

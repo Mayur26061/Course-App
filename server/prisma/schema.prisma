@@ -51,7 +51,7 @@ model content {
   updatedAt   DateTime @updatedAt
   title       String
   description String?
-  type        String
+  type        ContentType
   published   Boolean  @default(false)
   content_url String
   duration    Decimal? @db.Decimal(10, 2)
@@ -69,7 +69,7 @@ model user_course {
   user           user           @relation(fields: [user_id], references: [id], onDelete: Cascade)
   completed_date DateTime?
   joined_date    DateTime       @default(now())
-  status         String         @default("joined")
+  status         UserCourseStatus         @default(joined)
   user_contents  user_content[]
 
   @@unique([course_id, user_id])
@@ -90,3 +90,14 @@ enum Role {
   learner
   admin
 }
+
+enum UserCourseStatus {
+  joined
+  completed
+}
+
+enum ContentType {
+  image
+  video
+  document
+ }

@@ -44,3 +44,12 @@ export const generatePdf = async (html: string): Promise<Buffer> => {
   await browser.close();
   return Buffer.from(pdfBuffer);
 };
+
+export const checkAllSetExist = (set1: Set<string>, set2: Set<string>) => {
+    for (const value of set1) {
+        if (!set2.has(value)) {
+            return false;
+        }
+    }
+    return true;
+};
