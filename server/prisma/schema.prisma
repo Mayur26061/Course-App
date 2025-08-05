@@ -53,7 +53,8 @@ model content {
   description String?
   type        ContentType
   published   Boolean  @default(false)
-  content_url String
+  content_url String?
+  body        String?
   duration    Decimal? @db.Decimal(10, 2)
   course      course   @relation(fields: [course_id], references: [id], onDelete: Cascade)
   course_id   String
@@ -100,4 +101,4 @@ enum ContentType {
   image
   video
   document
- }
+}

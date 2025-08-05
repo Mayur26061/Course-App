@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Markdown from "react-markdown";
 import { useParams } from "react-router-dom";
 import { ContentType } from "../../libs/types/course";
 import { Loading } from "../common/Loading";
@@ -49,11 +50,9 @@ const SingleContent = () => {
             <img className="w-full h-full" src={content.content_url} />
           )}
           {content.type == "document" && (
-            <iframe
-              src={content.content_url}
-              className="w-full h-full"
-              allow="autoplay"
-            ></iframe>
+            <Markdown>
+              {content.body}
+            </Markdown>
           )}
           {content.type == "video" && (
             <iframe

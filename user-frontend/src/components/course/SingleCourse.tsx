@@ -44,7 +44,7 @@ const SingleCourse = () => {
       <GrayTopper title={course.course.title}/>
       <Grid container>
         <Grid item lg={4} md={4} sm={12}>
-          <CourseCard courseImageState={courseImageState} coursePriceState={coursePriceState} courseTitleState={courseTitleState}/>
+          <CourseCard courseImageState={courseImageState} coursePriceState={coursePriceState} courseTitleState={courseTitleState} isPublished={course.course.published}/>
         </Grid>
       </Grid>
       {course.course.contents.length > 0 && <ContentSection />}

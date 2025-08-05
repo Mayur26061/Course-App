@@ -7,12 +7,14 @@ interface CourseCardProps {
   courseTitleState: RecoilValueReadOnly<string>
   courseImageState: RecoilValueReadOnly<string>
   coursePriceState: RecoilValueReadOnly<number | "">
+  isPublished: boolean
 }
 
-const CourseCard:FC<CourseCardProps> = ({courseTitleState, courseImageState, coursePriceState}) => {
+const CourseCard:FC<CourseCardProps> = ({courseTitleState, courseImageState, coursePriceState, isPublished}) => {
   const title: string = useRecoilValue(courseTitleState);
   const imageLink: string = useRecoilValue(courseImageState);
   const price = useRecoilValue(coursePriceState);
+
 
   return (
     <div className="flex justify-center lg:justify-start w-full mt-56 md:mt-44">
@@ -25,7 +27,7 @@ const CourseCard:FC<CourseCardProps> = ({courseTitleState, courseImageState, cou
           <Typography variant="subtitle1">
           <b>Rs {price}</b>
           </Typography>
-          <CourseCardButton coursePriceState={coursePriceState}/>
+          <CourseCardButton coursePriceState={coursePriceState} isPublished={isPublished}/>
         </div>
       </Card>
     </div>

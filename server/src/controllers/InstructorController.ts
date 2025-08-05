@@ -4,6 +4,21 @@ import { z } from "zod";
 import { reqObj } from "../utils/utils";
 import prisma from "../utils/client";
 
+interface ContentObj {
+  data: {
+    title: string;
+    description: string;
+    type: "image" | "document" | "video";
+    content_url?: string;
+    body?: string;
+    course: {
+      connect: {
+        id: string;
+      };
+    };
+  };
+}
+
 const courseInp = z.object({
   title: z.string().min(3),
   description: z.string().min(1),
@@ -28,8 +43,11 @@ const contentValidator = z.object({
   title: z.string().trim().min(3),
   description: z.string().trim(),
   type: z.enum(["image", "document", "video"]),
-  content_url: z.string().url(),
+  content_url: z.string().url().optional(),
+  body: z.string().optional(),
   duration: z.string().time().optional(),
+}).refine((data) => (data.type === "document" && data.body || data.type !== "document" && data.content_url), {
+  message: "Invalid content type"
 });
 
 export const contentOptional = z
@@ -38,11 +56,15 @@ export const contentOptional = z
     description: z.string().trim().optional(),
     type: z.enum(["image", "document", "video"]).optional(),
     content_url: z.string().url().optional(),
+    body: z.string().optional(),
     duration: z.string().time().optional(),
     published: z.boolean().optional(),
   })
   .refine((data) => Object.values(data).some((value) => value !== undefined), {
     message: "Empty Object",
+  })
+  .refine((data) => (data.type === "document" && data.body || data.type !== "document" && data.content_url), {
+    message: "Invalid content type"
   });
 
 export const getMyCreations = asyncHandler(async (req: reqObj, res) => {
@@ -192,6 +214,7 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
     });
     return;
   }
+  const { title, description, type, content_url, body } = result.data; // for duration will see the format later
   const courseId = req.params.courseId;
   const course = await prisma.course.count({
     where: {
@@ -206,13 +229,11 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
     });
     return;
   }
-  const { title, description, type, content_url, duration } = result.data; // for duration will see the format later
-  const contentObj = {
+  const contentObj: ContentObj = {
     data: {
       title,
       description,
       type,
-      content_url,
       course: {
         connect: {
           id: courseId,
@@ -220,6 +241,12 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
       },
     },
   };
+
+  if (type === "document") {
+    contentObj.data.body = body
+  } else {
+    contentObj.data.content_url = content_url
+  }
   const content = await prisma.content.create(contentObj);
   res.json({ error: false, content });
 });

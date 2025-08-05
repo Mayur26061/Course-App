@@ -48,7 +48,8 @@ const SingleCourseEdit = () => {
       <CourseCard
         courseImageState={courseEditImageState}
         coursePriceState={courseEditPriceState}
-        courseTitleState={courseEditTitleState}/>
+        courseTitleState={courseEditTitleState}
+        isPublished={course.course.published} />
       <UpdateCourse course={course.course} />
       <ContentSection />
     </div>

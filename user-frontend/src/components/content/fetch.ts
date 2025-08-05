@@ -5,7 +5,8 @@ interface Content {
   title: string;
   description: string | null;
   type: string;
-  content_url: string;
+  content_url?: string;
+  body?: string;
 }
 
 export const fetchSingleContent = async (

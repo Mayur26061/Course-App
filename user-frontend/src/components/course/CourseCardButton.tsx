@@ -5,9 +5,10 @@ import { userOnlyState } from "../../stores/selectors/userEmail";
 
 interface CourseCardButtonProps {
   coursePriceState: RecoilValueReadOnly<number | "">
+  isPublished: boolean
 }
 
-const CourseCardButton:FC<CourseCardButtonProps> = ({ coursePriceState }) => {
+const CourseCardButton:FC<CourseCardButtonProps> = ({ coursePriceState, isPublished }) => {
   const navigate = useNavigate();
   const { cid } = useParams();
   const userEmail = useRecoilValue(userOnlyState);
@@ -30,7 +31,7 @@ const CourseCardButton:FC<CourseCardButtonProps> = ({ coursePriceState }) => {
         userEmail &&
         userEmail?.user_courses.findIndex((data) => data.course_id === cid) >= 0
       ) &&
-        (userEmail ? (
+        (userEmail  ? isPublished && (
           <button
             className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700 min-w-20"
             onClick={buyCourse}

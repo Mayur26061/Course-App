@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material";
 import {
   Modal,
   Box,
@@ -7,17 +8,27 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  DialogProps,
 } from "@mui/material";
 import { FC, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
+import MDEditor from "@uiw/react-md-editor";
 import { contentState } from "../../../stores/atoms/content";
-import { boxStyle, validateContent } from "../../../utils";
+import { boxStyle, formatVideoContent, validationContentType } from "../../../utils";
 import { createContentCall } from "../fetch";
 
 interface CreateContentProps {
   handleClose: () => void;
   open: boolean;
+}
+
+export interface ContentObj {
+  title: string;
+  description: string | null;
+  type: string;
+  content_url?: string;
+  body?: string;
 }
 
 const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
@@ -26,6 +37,7 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [url, setUrl] = useState("");
+  const [body, setBody] = useState("");
   const { cid } = useParams();
 
   const onCloses = () => {
@@ -34,19 +46,34 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
     setDescription("");
     setType("");
     setUrl("");
+    setBody("");
+  };
+
+  const onDialogCloses: DialogProps["onClose"] = (_event, reason) => {
+    if (reason && reason === "backdropClick") {
+      return;
+    }
+    onCloses()
   };
 
   const createContent = async () => {
     if (!cid) {
       return;
     }
-    const contentobj = {
+    const contentobj: ContentObj = {
       title,
       description,
       type,
-      content_url: url,
     };
-    if (title && type && url && validateContent(contentobj)) {
+
+    if (type === "document") {
+      contentobj.body = body;
+    } else {
+      contentobj.content_url = url;
+    }
+
+    if (title && type && validationContentType(contentobj)) {
+      formatVideoContent(contentobj)
       const response = await createContentCall(cid, contentobj);
       if (response.data.error) {
         console.log(response.data.message);
@@ -59,13 +86,15 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
         });
       }
       onCloses();
+      return
     }
     console.log("Please fill the required details");
   };
 
   return (
-    <Modal open={open} onClose={onCloses}>
-      <Box sx={boxStyle} className="w-full max-w-lg p-2">
+    <Modal open={open} onClose={onDialogCloses} disableEscapeKeyDown>
+      <Box sx={boxStyle} className="w-full p-2 max-w-7xl">
+        <button className="absolute top-2 right-5" onClick={onCloses}><Close /></button>
         <Typography variant="h5" className="!mb-2.5">
           Create new content
         </Typography>
@@ -99,13 +128,35 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
           <MenuItem value={"document"}>Document</MenuItem>
           <MenuItem value={"video"}>Video</MenuItem>
         </Select>
-        <TextField
-          fullWidth={true}
-          value={url}
-          variant="outlined"
-          label="URL"
-          onChange={(e) => setUrl(e.target.value)}
-        />
+        {type && type !== "document" &&
+          (<TextField
+            fullWidth={true}
+            value={url}
+            variant="outlined"
+            label="URL"
+            onChange={(e) => setUrl(e.target.value)}
+          />)
+        }
+        {type === "document" && (
+          <MDEditor
+            className="mt-2"
+            value={body}
+            onChange={(value) => setBody(value as string)}
+            id="body"
+            preview="edit"
+            height={300}
+            data-color-mode="light"
+            style={{ borderRadius: 20, overflow: "hidden" }}
+            textareaProps={{
+              placeholder:
+                "Enter Content here",
+            }}
+            previewOptions={{
+              disallowedElements: ["style"],
+            }}
+          />
+        )
+        }
         <div className="mt-3">
           <Button variant="contained" onClick={createContent}>
             Create Content

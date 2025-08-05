@@ -9,9 +9,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useSetRecoilState } from "recoil";
+import MDEditor from "@uiw/react-md-editor";
 import { ContentType } from "../../../libs/types/course";
 import { contentState } from "../../../stores/atoms/content";
-import { boxStyle, validateContent } from "../../../utils";
+import { boxStyle, formatVideoContent, validationContentType } from "../../../utils";
+import { ContentObj } from "./CreateContent";
 import { editContentCall } from "../fetch";
 
 interface EditContentProps {
@@ -25,6 +27,7 @@ const EditContent: FC<EditContentProps> = ({ handleClose, open, content }) => {
   const [description, setDescription] = useState(content.description);
   const [type, setType] = useState(content.type);
   const [url, setUrl] = useState(content.content_url);
+  const [body, setBody] = useState(content.body);
   const setContent = useSetRecoilState(contentState);
 
   const onCloses = (ev: SyntheticEvent) => {
@@ -34,15 +37,22 @@ const EditContent: FC<EditContentProps> = ({ handleClose, open, content }) => {
     setDescription(content.description);
     setType(content.type);
     setUrl(content.content_url);
+    setBody(content.body);
   };
+
   const editContent = async () => {
-    const contentobj = {
+    const contentobj: ContentObj = {
       title,
       description,
       type,
-      content_url: url,
     };
-    if (title && type && url && validateContent(contentobj)) {
+    if (type === "document") {
+      contentobj.body = body;
+    } else {
+      contentobj.content_url = url;
+    }
+    if (title && type && validationContentType(contentobj)) {
+      formatVideoContent(contentobj);
       const response = await editContentCall(content.id, contentobj);
       if (response.data.error) {
         console.log(response.data.error);
@@ -97,13 +107,35 @@ const EditContent: FC<EditContentProps> = ({ handleClose, open, content }) => {
           <MenuItem value={"document"}>Document</MenuItem>
           <MenuItem value={"video"}>Video</MenuItem>
         </Select>
-        <TextField
-          fullWidth={true}
-          value={url}
-          variant="outlined"
-          label="URL"
-          onChange={(e) => setUrl(e.target.value)}
-        />
+        {type && type !== "document" &&
+          (<TextField
+            fullWidth={true}
+            value={url}
+            variant="outlined"
+            label="URL"
+            onChange={(e) => setUrl(e.target.value)}
+          />)
+        }
+        {type === "document" && (
+          <MDEditor
+            className="mt-2"
+            value={body}
+            onChange={(value) => setBody(value as string)}
+            id="body"
+            preview="edit"
+            height={300}
+            data-color-mode="light"
+            style={{ borderRadius: 20, overflow: "hidden" }}
+            textareaProps={{
+              placeholder:
+                "Enter Content here",
+            }}
+            previewOptions={{
+              disallowedElements: ["style"],
+            }}
+          />
+        )
+        }
         <div className="mt-3">
           <Button variant="contained" onClick={editContent}>
             Edit Content
