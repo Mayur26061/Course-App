@@ -349,6 +349,7 @@ export const markasCompleteContent = asyncHandler(async (req: reqObj, res) => {
             },
             data: {
                 status: "completed",
+                completed_date: new Date()
             },
         });
     }
