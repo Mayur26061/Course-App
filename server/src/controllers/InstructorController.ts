@@ -63,7 +63,7 @@ export const contentOptional = z
   .refine((data) => Object.values(data).some((value) => value !== undefined), {
     message: "Empty Object",
   })
-  .refine((data) => (data.type === "document" && data.body || data.type !== "document" && data.content_url), {
+  .refine((data) => (!data.type ||data.type === "document" && data.body || data.type !== "document" && data.content_url), {
     message: "Invalid content type"
   });
 
