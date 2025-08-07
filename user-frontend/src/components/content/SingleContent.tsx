@@ -23,6 +23,7 @@ const SingleContent = () => {
         const res = await fetchSingleContent(cid, co);
         if (res.data.error) {
           console.log(res.data.message);
+          setIsloading(false);
           return;
         }
         setContent(res.data.content);
