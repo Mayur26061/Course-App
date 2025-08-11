@@ -12,10 +12,16 @@ import { useSetRecoilState } from "recoil";
 import MDEditor from "@uiw/react-md-editor";
 import { ContentType } from "../../../libs/types/course";
 import { contentState } from "../../../stores/atoms/content";
-import { boxStyle, formatVideoContent, validationContentType } from "../../../utils";
-import { ContentObj } from "./CreateContent";
+import { boxStyle, validationContentType } from "../../../utils";
 import { editContentCall } from "../fetch";
 
+export interface ContentObj {
+  title: string;
+  description: string | null;
+  type: string;
+  content_url?: string;
+  body?: string;
+}
 interface EditContentProps {
   handleClose: () => void;
   open: boolean;
@@ -52,7 +58,6 @@ const EditContent: FC<EditContentProps> = ({ handleClose, open, content }) => {
       contentobj.content_url = url;
     }
     if (title && type && validationContentType(contentobj)) {
-      formatVideoContent(contentobj);
       const response = await editContentCall(content.id, contentobj);
       if (response.data.error) {
         console.log(response.data.error);

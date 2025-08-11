@@ -1,27 +1,13 @@
 interface ValidationContent {
   type: string;
-  content_url?: string;
+  file?: File | string;
   body?: string;
 }
-
-export const formatVideoContent = <T extends ValidationContent>(
-  content: T
-) => {
-  if (content.type === "video" && content.content_url) {
-    if (content.content_url.startsWith("https://youtu.be/")) {
-      const url = content.content_url;
-      content.content_url = url.replace(
-        "https://youtu.be",
-        "https://www.youtube.com/embed/"
-      );
-    }
-  }
-};
 
 export const validationContentType = <T extends ValidationContent>(content: T) => {
   if (content.type === "document" && content.body) {
     return true
-  } else if (content.type !== "document" && content.content_url) {
+  } else if (content.type !== "document" && content.file) {
     return true
   }
   return false
