@@ -7,6 +7,9 @@ declare global {
       FRONTEND_URL: string;
       ADMIN_URL: string;
       PORT: number;
+      IMAGEKIT_PRIVATE_KEY: string;
+      IMAGEKIT_PUBLIC_KEY: string;
+      IMAGEKIT_URL_ENDPOINT: string;
     }
   }
 }
