@@ -10,12 +10,12 @@ import {
   InputLabel,
   DialogProps,
 } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import MDEditor from "@uiw/react-md-editor";
 import { contentState } from "../../../stores/atoms/content";
-import { boxStyle, formatVideoContent, validationContentType } from "../../../utils";
+import { boxStyle } from "../../../utils";
 import { createContentCall } from "../fetch";
 
 interface CreateContentProps {
@@ -27,7 +27,7 @@ export interface ContentObj {
   title: string;
   description: string | null;
   type: string;
-  content_url?: string;
+  file?: File | string;
   body?: string;
 }
 
@@ -36,8 +36,10 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
-  const [url, setUrl] = useState("");
   const [body, setBody] = useState("");
+  const [file, setFile] = useState<File | string>("");
+  const fileElement = useRef<HTMLInputElement>(null);
+  const [accept, setAccept] = useState("");
   const { cid } = useParams();
 
   const onCloses = () => {
@@ -45,9 +47,15 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
     setTitle("");
     setDescription("");
     setType("");
-    setUrl("");
     setBody("");
   };
+
+  const OnFileChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    if (ev.target.files?.length) {
+      const file = ev.target.files[0];
+      setFile(file);
+    }
+  }
 
   const onDialogCloses: DialogProps["onClose"] = (_event, reason) => {
     if (reason && reason === "backdropClick") {
@@ -59,22 +67,23 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
   const createContent = async () => {
     if (!cid) {
       return;
-    }
-    const contentobj: ContentObj = {
-      title,
-      description,
-      type,
-    };
 
-    if (type === "document") {
-      contentobj.body = body;
+    }
+
+    const formData = new FormData();
+
+    if (type === "document" && body) {
+      formData.append('body', body)
+    } else if (file) {
+      formData.append('file', file)
     } else {
-      contentobj.content_url = url;
+      return
     }
-
-    if (title && type && validationContentType(contentobj)) {
-      formatVideoContent(contentobj)
-      const response = await createContentCall(cid, contentobj);
+    if (title && type) {
+      formData.append('title', title)
+      formData.append('description', description)
+      formData.append('type', type)
+      const response = await createContentCall(cid, formData);
       if (response.data.error) {
         console.log(response.data.message);
       } else {
@@ -122,20 +131,28 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
           id="demo-simple-select"
           value={type}
           label="Type"
-          onChange={(e) => setType(e.target.value)}
+          onChange={(e) => {
+            setType(e.target.value)
+            if (fileElement.current) {
+              fileElement.current.value = "";
+            }
+            if (e.target.value === "image") {
+              setAccept("image/*")
+            } else if (e.target.value === "video") {
+              setAccept("video/*")
+            } else {
+              setAccept("")
+            }
+          }}
         >
           <MenuItem value={"image"}>Image</MenuItem>
           <MenuItem value={"document"}>Document</MenuItem>
           <MenuItem value={"video"}>Video</MenuItem>
         </Select>
         {type && type !== "document" &&
-          (<TextField
-            fullWidth={true}
-            value={url}
-            variant="outlined"
-            label="URL"
-            onChange={(e) => setUrl(e.target.value)}
-          />)
+          (
+            <input type="file" title="Upload file" accept={accept} ref={fileElement} onChange={OnFileChange} />
+          )
         }
         {type === "document" && (
           <MDEditor

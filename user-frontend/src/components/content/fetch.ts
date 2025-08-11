@@ -27,7 +27,7 @@ export const fetchSingleContent = async (
 
 export const createContentCall = async (
   courseId: string,
-  contentobj: Content
+  contentobj: FormData
 ) => {
   const response = await axios.post(
     `${BASE_URL}/${courseId}/addcontent`,
