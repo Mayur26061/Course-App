@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { reqObj } from "../utils/utils";
 import prisma from "../utils/client";
+import imageKit from "../utils/imagekit";
 
 interface ContentObj {
   data: {
@@ -43,10 +44,9 @@ const contentValidator = z.object({
   title: z.string().trim().min(3),
   description: z.string().trim(),
   type: z.enum(["image", "document", "video"]),
-  content_url: z.string().url().optional(),
   body: z.string().optional(),
   duration: z.string().time().optional(),
-}).refine((data) => (data.type === "document" && data.body || data.type !== "document" && data.content_url), {
+}).refine((data) => (data.type === "document" && data.body || data.type !== "document"), {
   message: "Invalid content type"
 });
 
@@ -63,7 +63,7 @@ export const contentOptional = z
   .refine((data) => Object.values(data).some((value) => value !== undefined), {
     message: "Empty Object",
   })
-  .refine((data) => (!data.type ||data.type === "document" && data.body || data.type !== "document" && data.content_url), {
+  .refine((data) => (!data.type || data.type === "document" && data.body || data.type !== "document" && data.content_url), {
     message: "Invalid content type"
   });
 
@@ -206,6 +206,21 @@ export const addCourse = asyncHandler(async (req: reqObj, res) => {
 
 // add new content
 export const addContent = asyncHandler(async (req: reqObj, res) => {
+  if (!req.file) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return
+  }
+
+  const fileResponese = await imageKit.upload({
+    file: req.file.buffer.toString('base64'),
+    fileName: req.file.originalname,
+  })
+
+
+  const content_url = fileResponese.url
   const result = contentValidator.safeParse(req.body);
   if (result.error) {
     res.json({
@@ -214,7 +229,7 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
     });
     return;
   }
-  const { title, description, type, content_url, body } = result.data; // for duration will see the format later
+  const { title, description, type, body } = result.data; // for duration will see the format later
   const courseId = req.params.courseId;
   const course = await prisma.course.count({
     where: {
