@@ -1,14 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { UserCourseCertifaction } from "../../libs/types/course";
 import { generateCertificate } from "./fetch";
+import { Loading } from "../common/Loading";
 
 interface CertificateProps {
   cData: UserCourseCertifaction;
 }
 const Certificate: FC<CertificateProps> = ({ cData }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const downloadCertificate = async () => {
+    setIsLoading(true);
     const data = await generateCertificate(cData.id);
     if (!data.url) {
+      setIsLoading(false);
       return;
     }
     const link = document.createElement("a");
@@ -17,8 +22,12 @@ const Certificate: FC<CertificateProps> = ({ cData }) => {
     document.body.appendChild(link);
     link.click();
     link.remove();
+    setIsLoading(false);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
     <div className="flex items-center justify-start p-5 bg-white gap-2">
       <div className="w-20">
@@ -33,9 +42,7 @@ const Certificate: FC<CertificateProps> = ({ cData }) => {
         <p className="text-xs mt-2">{cData.course.author.name} </p>
         <p className="text-sm">
           Completed on:{" "}
-          <span className="font-bold">
-            {new Date(cData.completed_date).toLocaleDateString()}
-          </span>
+          <span className="font-bold">{new Date(cData.completed_date).toLocaleDateString()}</span>
         </p>
       </div>
       <button

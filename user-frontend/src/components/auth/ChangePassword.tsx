@@ -93,9 +93,7 @@ const ChangePassword = () => {
           <button
             type="submit"
             className="px-4 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-700 disabled:bg-gray-700"
-            disabled={
-              !newpass || !old || !confirm || Object.keys(errors).length > 0
-            }
+            disabled={!newpass || !old || !confirm || Object.keys(errors).length > 0}
           >
             Submit
           </button>

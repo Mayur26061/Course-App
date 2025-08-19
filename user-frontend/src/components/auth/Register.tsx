@@ -10,7 +10,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
@@ -37,6 +37,8 @@ const Register = () => {
   useEffect(() => {
     if (user.user) {
       navigate("/");
+    } else {
+      setIsLoading(false);
     }
   }, [user]);
 
@@ -79,12 +81,12 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div className="mt-3 flex flex-col items-center justify-center">
-          <Button variant="contained" size="small" onClick={handleSign}>
+          <Button variant="contained" size="small" onClick={handleSign} disabled={isLoading}>
             Signup
           </Button>
           <div className="mt-3">
             Already a user?{" "}
-            <Button onClick={() => navigate("/signin")} size="small">
+            <Button onClick={() => navigate("/signin")} size="small" disabled={isLoading}>
               Signin
             </Button>
           </div>

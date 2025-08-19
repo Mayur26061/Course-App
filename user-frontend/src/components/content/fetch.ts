@@ -1,14 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from "../../config";
 
-interface Content {
-  title: string;
-  description: string | null;
-  type: string;
-  content_url?: string;
-  body?: string;
-}
-
 export const fetchSingleContent = async (
   contentId: string,
   courseId: string
@@ -41,7 +33,7 @@ export const createContentCall = async (
 
 export const editContentCall = async (
   contentId: string,
-  contentobj: Content
+  contentobj: FormData
 ) => {
   const response = await axios.put(
     `${BASE_URL}/update/content/${contentId}`,
