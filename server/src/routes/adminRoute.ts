@@ -9,14 +9,17 @@ import {
   getSelectedCourse,
   deleteCourse,
   deleteContent,
-  updateCourse,
-  updateContent,
   updateUser,
   deleteUser,
   updateSubcriber,
   deleteSubsriber,
 } from "../controllers/adminControllers";
+import {
+  updateCourse,
+  updateContent,
+} from "../controllers/InstructorController";
 import { AuthenticateAdmin } from "../middleware/auth";
+import multer from "../utils/multer";
 
 const router = express.Router();
 
@@ -28,8 +31,8 @@ router.get("/users", AuthenticateAdmin, getAllUsers);
 router.get("/course/:courseId", AuthenticateAdmin, getSelectedCourse);
 router.delete("/delete/course/:courseId", AuthenticateAdmin, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateAdmin, deleteContent);
-router.put("/update/course/:courseId", AuthenticateAdmin, updateCourse);
-router.put("/update/content/:contentId", AuthenticateAdmin, updateContent);
+router.put("/update/course/:courseId", AuthenticateAdmin, multer.single("file"), updateCourse);
+router.put("/update/content/:contentId", AuthenticateAdmin, multer.single("file"), updateContent);
 router.delete("/delete/user/:userId", AuthenticateAdmin, deleteUser);
 router.put("/update/user/:userId", AuthenticateAdmin, updateUser);
 router.get("/subscriber", AuthenticateAdmin, getAllCourseEnroll);

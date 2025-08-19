@@ -6,6 +6,7 @@ import { contentState } from "../../../store/atoms/content";
 import { courseState } from "../../../store/atoms/course";
 import { courseTitleState } from "../../../store/selectors/course";
 import ContentSection from "../content/ContentSection";
+import { Loading } from "../../home/Loading";
 import Notfound from "../../home/NotFound";
 import CourseCard from "./CourseCard";
 import UpdateCourse from "./UpdateCourse";
@@ -33,7 +34,7 @@ const SingleCourse = () => {
   }, [param.cid]);
 
   if (isLoading) {
-    return "<Loading />;";
+    return <Loading />;
   }
   if (!course.course) {
     return <Notfound title="Course not found" />;
@@ -56,11 +57,7 @@ const GrayTopper = () => {
     <div className="h-64 bg-stone-900">
       <div className="h-64 flex flex-col justify-center">
         <div>
-          <Typography
-            className="text-white text-center"
-            variant="h3"
-            fontWeight={600}
-          >
+          <Typography className="text-white text-center" variant="h3" fontWeight={600}>
             {title || ""}
           </Typography>
         </div>

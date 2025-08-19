@@ -1,17 +1,10 @@
 import { BASE_URL } from "../../../config";
 import axios from "axios";
 
-interface ContentTypeParams {
-  title?: string;
-  description?: string | null;
-  type?: string;
-  content_url?: string;
-  published?: boolean;
-}
 
 export const editContentCall = async (
   contentId: string,
-  contentobj: ContentTypeParams
+  contentobj: FormData
 ) => {
   const response = await axios.put(
     `${BASE_URL}/update/content/${contentId}`,

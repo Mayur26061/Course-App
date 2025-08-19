@@ -44,7 +44,7 @@ export const deleteCourseCall = async (courseId: string) => {
 
 export const updateCourseCall = async (
   courseId: string,
-  courseObj: CourseUpdateParams
+  courseObj: CourseUpdateParams | FormData
 ) => {
   const res = await axios.put(
     `${BASE_URL}/update/course/${courseId}`,
