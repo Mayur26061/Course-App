@@ -233,7 +233,6 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
   }
 
   const { title, description, type, body } = result.data; // for duration will see the format later
-  console.log(type);
   let content_url;
   if (!req.file && type !== "document") {
     res.json({

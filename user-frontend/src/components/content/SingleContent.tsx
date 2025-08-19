@@ -47,24 +47,10 @@ const SingleContent = () => {
     <div className="flex flex-col grow">
       <div className="p-3 flex justify-center items-center">
         <div className="px-10 w-[800px] h-[560px]">
-          {content.type == "image" && (
-            <img className="w-full h-full" src={content.content_url} />
-          )}
-          {content.type == "document" && (
-            <Markdown>
-              {content.body}
-            </Markdown>
-          )}
+          {content.type == "image" && <img className="w-full h-full" src={content.content_url} />}
+          {content.type == "document" && <Markdown>{content.body}</Markdown>}
           {content.type == "video" && (
-            <iframe
-              className="w-full h-full"
-              src={content.content_url}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            ></iframe>
+            <video className="w-full h-full" controls src={content.content_url} />
           )}
         </div>
       </div>
