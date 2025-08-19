@@ -6,11 +6,7 @@ import { useSetRecoilState } from "recoil";
 import { CourseType } from "../../../lib/types/course";
 import { courseState } from "../../../store/atoms/course";
 import { checkCourseChanges } from "../../../utils";
-import {
-  CourseUpdateParams,
-  deleteCourseCall,
-  updateCourseCall,
-} from "./fetch";
+import { CourseUpdateParams, deleteCourseCall, updateCourseCall } from "./fetch";
 
 interface UpdateCourseProps {
   course: CourseType;
@@ -24,6 +20,28 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
   const [price, setPrice] = useState(course.price);
   const [disable, setDisable] = useState<boolean>(true);
   const [published, setPublished] = useState(course.published);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleFile = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setIsProcessing(true);
+    if (ev.target.files?.length) {
+      const file = ev.target.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      const updatedCourse = await updateCourseCall(course.id, formData);
+
+      if (updatedCourse.error) {
+        console.log(updatedCourse.message);
+        setIsProcessing(false);
+        return;
+      }
+      setCourse({ isLoading: false, course: updatedCourse });
+
+      ev.target.files = null;
+    }
+    setIsProcessing(false);
+  };
 
   useEffect(() => {
     const obj = { title, description, price };
@@ -33,14 +51,7 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
       price: course.price || "",
     };
     setDisable(checkCourseChanges(obj, ob2));
-  }, [
-    title,
-    description,
-    price,
-    course.title,
-    course.description,
-    course.price,
-  ]);
+  }, [title, description, price, course.title, course.description, course.price]);
 
   const update = async (vals: CourseUpdateParams) => {
     if (course) {
@@ -109,6 +120,25 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
             }}
           />
           <Switch checked={published} onChange={changePublished} />
+          <div>
+            <label
+              htmlFor="course_image"
+              className={`p-2 my-2 inline-block bg-black text-white ${
+                isProcessing ? "pointer-events-none bg-gray-800" : "cursor-pointer"
+              }`}
+            >
+              Change course Image
+            </label>
+            <input
+              disabled={isProcessing}
+              type="file"
+              title="Upload file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFile}
+              id="course_image"
+            />
+          </div>
           <div className="flex justify-between">
             <Button
               className="!m-1.5"

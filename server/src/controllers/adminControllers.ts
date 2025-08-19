@@ -175,49 +175,6 @@ export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
   res.json({ error: true, message: "Couldn't find course" });
 });
 
-export const updateCourse = asyncHandler(async (req: reqObj, res) => {
-  const result = courseOptional.safeParse(req.body);
-  if (result.error) {
-    res.json({
-      error: true,
-      message: "Invalid Inputs",
-    });
-    return;
-  }
-  const course = await prisma.course.update({
-    where: {
-      id: req.params.courseId,
-    },
-    data: {
-      ...req.body,
-    },
-    include: {
-      contents: true,
-    },
-  });
-  res.json({ error: false, course: course });
-});
-
-export const updateContent = asyncHandler(async (req: reqObj, res) => {
-  const result = contentOptional.safeParse(req.body);
-  if (result.error) {
-    res.json({
-      error: true,
-      message: "Invalid Inputs",
-    });
-    return;
-  }
-  const content = await prisma.content.update({
-    data: {
-      ...req.body,
-    },
-    where: {
-      id: req.params.contentId,
-    },
-  });
-  res.json({ error: false, content });
-});
-
 export const getAdmin = asyncHandler(async (req: reqObj, res) => {
   const user = await prisma.user.findUnique({
     where: {

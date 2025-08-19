@@ -1,17 +1,15 @@
 import { Card } from "@mui/material";
 import { useRecoilValue } from "recoil";
-import {
-  contentIsloading,
-  contentsState,
-} from "../../../store/selectors/content";
+import { contentIsloading, contentsState } from "../../../store/selectors/content";
 import Content from "./Content";
+import { Loading } from "../../home/Loading";
 
 const ContentSection = () => {
   const content = useRecoilValue(contentsState);
   const loading = useRecoilValue(contentIsloading);
 
   if (loading) {
-    return "<Loading/>";
+    return <Loading />;
   }
 
   return (
