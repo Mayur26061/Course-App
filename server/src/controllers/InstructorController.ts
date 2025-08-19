@@ -23,8 +23,7 @@ interface ContentObj {
 const courseInp = z.object({
   title: z.string().min(3),
   description: z.string().min(1),
-  price: z.number().gte(0).finite().default(0),
-  image: z.string().url().min(1),
+  price: z.coerce.number().gte(0).finite().default(0),
   published: z.boolean().optional(),
 });
 
@@ -33,29 +32,29 @@ export const courseOptional = z
     title: z.string().min(3).optional(),
     description: z.string().min(1).optional(),
     price: z.number().gte(0).finite().default(0).optional(),
-    image: z.string().url().min(1).optional(),
     published: z.boolean().optional(),
   })
   .refine((data) => Object.values(data).some((value) => value !== undefined), {
     message: "Empty Object",
   });
 
-const contentValidator = z.object({
-  title: z.string().trim().min(3),
-  description: z.string().trim(),
-  type: z.enum(["image", "document", "video"]),
-  body: z.string().optional(),
-  duration: z.string().time().optional(),
-}).refine((data) => (data.type === "document" && data.body || data.type !== "document"), {
-  message: "Invalid content type"
-});
+const contentValidator = z
+  .object({
+    title: z.string().trim().min(3),
+    description: z.string().trim(),
+    type: z.enum(["image", "document", "video"]),
+    body: z.string().optional(),
+    duration: z.string().time().optional(),
+  })
+  .refine((data) => (data.type === "document" && data.body) || data.type !== "document", {
+    message: "Invalid content type",
+  });
 
 export const contentOptional = z
   .object({
     title: z.string().trim().min(3).optional(),
     description: z.string().trim().optional(),
     type: z.enum(["image", "document", "video"]).optional(),
-    content_url: z.string().url().optional(),
     body: z.string().optional(),
     duration: z.string().time().optional(),
     published: z.boolean().optional(),
@@ -63,9 +62,12 @@ export const contentOptional = z
   .refine((data) => Object.values(data).some((value) => value !== undefined), {
     message: "Empty Object",
   })
-  .refine((data) => (!data.type || data.type === "document" && data.body || data.type !== "document" && data.content_url), {
-    message: "Invalid content type"
-  });
+  .refine(
+    (data) => !data.type || (data.type === "document" && data.body) || data.type !== "document",
+    {
+      message: "Invalid content type",
+    }
+  );
 
 export const getMyCreations = asyncHandler(async (req: reqObj, res) => {
   const course = await prisma.course.findMany({
@@ -178,6 +180,14 @@ export const addCourse = asyncHandler(async (req: reqObj, res) => {
   // ];
   // await prisma.course.createMany({ data });
 
+  if (!req.file) {
+    res.json({
+      error: true,
+      message: "Invalid Inputs",
+    });
+    return;
+  }
+
   const result = courseInp.safeParse(req.body);
   if (result.error) {
     res.json({
@@ -186,7 +196,14 @@ export const addCourse = asyncHandler(async (req: reqObj, res) => {
     });
     return;
   }
-  const { title, description, price, image } = result.data;
+
+  const fileResponese = await imageKit.upload({
+    file: req.file.buffer.toString("base64"),
+    fileName: req.file.originalname,
+  });
+
+  const image = fileResponese.url;
+  const { title, description, price } = result.data;
   const courseObject = {
     data: {
       title,
@@ -206,30 +223,32 @@ export const addCourse = asyncHandler(async (req: reqObj, res) => {
 
 // add new content
 export const addContent = asyncHandler(async (req: reqObj, res) => {
-  if (!req.file) {
-    res.json({
-      error: true,
-      message: "Invalid Inputs",
-    });
-    return
-  }
-
-  const fileResponese = await imageKit.upload({
-    file: req.file.buffer.toString('base64'),
-    fileName: req.file.originalname,
-  })
-
-
-  const content_url = fileResponese.url
   const result = contentValidator.safeParse(req.body);
   if (result.error) {
     res.json({
       error: true,
-      message: "Invalid Inputs",
+      message: "Invalid Inputss",
     });
     return;
   }
+
   const { title, description, type, body } = result.data; // for duration will see the format later
+  console.log(type);
+  let content_url;
+  if (!req.file && type !== "document") {
+    res.json({
+      error: true,
+      message: "File Error",
+    });
+    return;
+  } else if (req.file) {
+    const fileResponese = await imageKit.upload({
+      file: req.file.buffer.toString("base64"),
+      fileName: req.file.originalname,
+    });
+    content_url = fileResponese.url;
+  }
+
   const courseId = req.params.courseId;
   const course = await prisma.course.count({
     where: {
@@ -258,9 +277,9 @@ export const addContent = asyncHandler(async (req: reqObj, res) => {
   };
 
   if (type === "document") {
-    contentObj.data.body = body
+    contentObj.data.body = body;
   } else {
-    contentObj.data.content_url = content_url
+    contentObj.data.content_url = content_url;
   }
   const content = await prisma.content.create(contentObj);
   res.json({ error: false, content });
@@ -297,19 +316,31 @@ export const deleteCourse = asyncHandler(async (req: reqObj, res) => {
 
 export const updateCourse = asyncHandler(async (req: reqObj, res) => {
   const result = courseOptional.safeParse(req.body);
-  if (result.error) {
+  if (result.error && !req.file) {
     res.json({
       error: true,
       message: "Invalid Inputs",
     });
     return;
   }
+  let data = req.body;
+  if (req.file) {
+    const fileResponese = await imageKit.upload({
+      file: req.file.buffer.toString("base64"),
+      fileName: req.file.originalname,
+    });
+
+    const image = fileResponese.url;
+    if (image) {
+      data = { image };
+    }
+  }
   const course = await prisma.course.update({
     where: {
       id: req.params.courseId,
     },
     data: {
-      ...req.body,
+      ...data,
     },
     include: {
       contents: true,
@@ -323,13 +354,27 @@ export const updateContent = asyncHandler(async (req: reqObj, res) => {
   if (result.error) {
     res.json({
       error: true,
-      message: "Invalid Inputs",
+      message: result.error.message,
     });
     return;
   }
+  const data = req.body;
+
+  if (req.file) {
+    const fileResponese = await imageKit.upload({
+      file: req.file.buffer.toString("base64"),
+      fileName: req.file.originalname,
+    });
+
+    const content_url = fileResponese.url;
+    if (content_url) {
+      data.content_url = content_url;
+    }
+  }
+
   const content = await prisma.content.update({
     data: {
-      ...req.body,
+      ...data,
     },
     where: {
       id: req.params.contentId,

@@ -8,13 +8,6 @@ interface SingleCourseData {
   message?: string;
 }
 
-interface CourseCreateParams {
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-}
-
 interface CourseUpdateParams {
   title: string;
   description: string;
@@ -40,16 +33,11 @@ export const fetchCourses = async () => {
  * Fetch single course with specfied
  * @param {string} courseId
  */
-export const fetchSingleCourse = async (
-  courseId: string
-): Promise<SingleCourseData> => {
+export const fetchSingleCourse = async (courseId: string): Promise<SingleCourseData> => {
   try {
-    const res = await axios.get<SingleCourseData>(
-      `${BASE_URL}/course/${courseId}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const res = await axios.get<SingleCourseData>(`${BASE_URL}/course/${courseId}`, {
+      withCredentials: true,
+    });
     return res.data;
   } catch {
     return { error: true, course: null };
@@ -73,11 +61,7 @@ export const fetchSingleCourseEditable = async (courseId: string) => {
 };
 
 export const buyCourseAction = async (courseId: string) => {
-  const res = await axios.post(
-    `${BASE_URL}/buycourse/${courseId}`,
-    {},
-    { withCredentials: true }
-  );
+  const res = await axios.post(`${BASE_URL}/buycourse/${courseId}`, {}, { withCredentials: true });
   return res;
 };
 
@@ -93,7 +77,7 @@ export const fetchMyCreation = async () => {
   }
 };
 
-export const createCourseCall = async (courseData: CourseCreateParams) => {
+export const createCourseCall = async (courseData: FormData) => {
   const res = await axios.post(`${BASE_URL}/addcourse`, courseData, {
     withCredentials: true,
   });
@@ -108,15 +92,11 @@ export const deleteCourseCall = async (courseId: string) => {
 
 export const updateCourseCall = async (
   courseId: string,
-  courseObj: CourseUpdateParams
+  courseObj: CourseUpdateParams | FormData
 ) => {
-  const res = await axios.put(
-    `${BASE_URL}/update/course/${courseId}`,
-    courseObj,
-    {
-      withCredentials: true,
-    }
-  );
+  const res = await axios.put(`${BASE_URL}/update/course/${courseId}`, courseObj, {
+    withCredentials: true,
+  });
   if (res.data.error) {
     return res.data;
   }
@@ -167,8 +147,7 @@ export const generateCertificate = async (
       url,
       filename: "test.pdf",
     };
-    data.filename =
-      headers["content-disposition"]?.split("filename=")[1] || "error.pdf";
+    data.filename = headers["content-disposition"]?.split("filename=")[1] || "error.pdf";
 
     return data;
   } catch {

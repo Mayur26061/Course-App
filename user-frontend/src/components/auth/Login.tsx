@@ -9,7 +9,7 @@ import { Loading } from "../common/Loading";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useRecoilState(userState);
 
   const navigate = useNavigate();
@@ -39,6 +39,8 @@ const Login = () => {
   useEffect(() => {
     if (user.user) {
       navigate("/");
+    } else {
+      setIsLoading(false);
     }
   }, [user]);
 
@@ -72,12 +74,12 @@ const Login = () => {
         />
         <br />
         <div className="mt-3 flex flex-col items-center justify-center">
-          <Button variant="contained" size="small" onClick={handleLogin}>
+          <Button variant="contained" size="small" onClick={handleLogin} disabled={isLoading}>
             Signin
           </Button>
           <div className="mt-3">
             New user?{" "}
-            <Button onClick={() => navigate("/signup")} size="small">
+            <Button onClick={() => navigate("/signup")} size="small" disabled={isLoading}>
               Sign up
             </Button>
           </div>

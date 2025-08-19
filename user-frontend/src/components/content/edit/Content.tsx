@@ -15,6 +15,7 @@ const Content: FC<ContentProps> = ({ content }) => {
   const navigate = useNavigate();
   const setContent = useSetRecoilState(contentState);
   const [open, setOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   // const {cid} = useParams()
 
   const handleOpen = (ev: SyntheticEvent) => {
@@ -27,6 +28,7 @@ const Content: FC<ContentProps> = ({ content }) => {
   };
 
   const deleteContent = async (ev: SyntheticEvent) => {
+    setDisabled(true);
     // setContent({isLoading:true,content:[]})
     ev.stopPropagation();
     await deleteContentCall(content.id, content.course_id);
@@ -37,6 +39,7 @@ const Content: FC<ContentProps> = ({ content }) => {
         contents: contents.contents.filter((c) => c.id !== content.id),
       };
     });
+    setDisabled(false);
   };
 
   return (
@@ -57,6 +60,7 @@ const Content: FC<ContentProps> = ({ content }) => {
             variant="outlined"
             color="error"
             size="small"
+            disabled={disabled}
           >
             Delete
           </Button>

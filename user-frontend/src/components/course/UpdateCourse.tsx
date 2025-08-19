@@ -17,6 +17,27 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
   const [description, setDescription] = useState(course.description);
   const [price, setPrice] = useState(course.price);
   const [disable, setDisable] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleFile = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setIsProcessing(true);
+    if (ev.target.files?.length) {
+      const file = ev.target.files[0];
+
+      const formData = new FormData();
+      formData.append("file", file);
+      const updatedCourse = await updateCourseCall(course.id, formData);
+
+      if (updatedCourse.error) {
+        console.log(updatedCourse.message);
+        setIsProcessing(false);
+        return;
+      }
+      setCourse({ course: updatedCourse });
+      ev.target.files = null;
+    }
+    setIsProcessing(false);
+  };
 
   const update = async () => {
     const updatedCourse = await updateCourseCall(course.id, {
@@ -32,6 +53,7 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
   };
 
   const deleteCourse = async () => {
+    setIsProcessing(true);
     await deleteCourseCall(course.id);
     navigate("/courses");
   };
@@ -74,6 +96,25 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
               setDisable(false);
             }}
           />
+          <div>
+            <label
+              htmlFor="course_image"
+              className={`p-2 my-2 inline-block bg-black text-white ${
+                isProcessing ? "pointer-events-none bg-gray-800" : "cursor-pointer"
+              }`}
+            >
+              Change course Image
+            </label>
+            <input
+              disabled={isProcessing}
+              type="file"
+              title="Upload file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFile}
+              id="course_image"
+            />
+          </div>
           <div className="flex justify-between">
             <Button
               className="!m-1.5"
@@ -87,6 +128,7 @@ const UpdateCourse: FC<UpdateCourseProps> = ({ course }) => {
               Update
             </Button>
             <Button
+              disabled={isProcessing}
               className="!m-1.5"
               onClick={() => {
                 deleteCourse();

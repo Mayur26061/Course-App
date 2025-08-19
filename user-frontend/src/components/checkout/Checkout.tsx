@@ -90,12 +90,14 @@ interface OrderSummaryProps {
 }
 const OrderSummary: FC<OrderSummaryProps> = ({ course }) => {
   const [user, setUser] = useRecoilState(userState);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onBuyAction = async () => {
     if (!user.user) {
       return;
     }
-    setUser({ isLoading: true, user: user.user });
+    setIsLoading(true);
+    // setUser({ isLoading: true, user: user.user });
     try {
       const res = await buyCourseAction(course.id);
       if (res.status == 200) {
@@ -115,6 +117,7 @@ const OrderSummary: FC<OrderSummaryProps> = ({ course }) => {
     } catch {
       setUser({ ...user, isLoading: false });
     }
+    setIsLoading(false);
   };
 
   return (
@@ -128,8 +131,9 @@ const OrderSummary: FC<OrderSummaryProps> = ({ course }) => {
         <button
           className="px-4 py-1 bg-gray-900 text-white rounded-full hover:bg-gray-700 w-full"
           onClick={onBuyAction}
+          disabled={isLoading}
         >
-          Buy
+          {isLoading? "Buying..." : "Buy"}
         </button>
       </div>
     </div>

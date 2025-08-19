@@ -41,6 +41,7 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
   const fileElement = useRef<HTMLInputElement>(null);
   const [accept, setAccept] = useState("");
   const { cid } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onCloses = () => {
     handleClose();
@@ -55,37 +56,40 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
       const file = ev.target.files[0];
       setFile(file);
     }
-  }
+  };
 
   const onDialogCloses: DialogProps["onClose"] = (_event, reason) => {
     if (reason && reason === "backdropClick") {
       return;
     }
-    onCloses()
+    onCloses();
   };
 
   const createContent = async () => {
     if (!cid) {
       return;
-
     }
 
     const formData = new FormData();
 
     if (type === "document" && body) {
-      formData.append('body', body)
+      formData.append("body", body);
     } else if (file) {
-      formData.append('file', file)
+      formData.append("file", file);
     } else {
-      return
+      return;
     }
     if (title && type) {
-      formData.append('title', title)
-      formData.append('description', description)
-      formData.append('type', type)
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("type", type);
+      setIsLoading(true);
       const response = await createContentCall(cid, formData);
       if (response.data.error) {
         console.log(response.data.message);
+        setIsLoading(false);
+
+        return;
       } else {
         setContent((data) => {
           return {
@@ -94,8 +98,9 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
           };
         });
       }
+      setIsLoading(false);
       onCloses();
-      return
+      return;
     }
     console.log("Please fill the required details");
   };
@@ -103,7 +108,9 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
   return (
     <Modal open={open} onClose={onDialogCloses} disableEscapeKeyDown>
       <Box sx={boxStyle} className="w-full p-2 max-w-7xl">
-        <button className="absolute top-2 right-5" onClick={onCloses}><Close /></button>
+        <button className="absolute top-2 right-5" onClick={onCloses}>
+          <Close />
+        </button>
         <Typography variant="h5" className="!mb-2.5">
           Create new content
         </Typography>
@@ -132,16 +139,16 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
           value={type}
           label="Type"
           onChange={(e) => {
-            setType(e.target.value)
+            setType(e.target.value);
             if (fileElement.current) {
               fileElement.current.value = "";
             }
             if (e.target.value === "image") {
-              setAccept("image/*")
+              setAccept("image/*");
             } else if (e.target.value === "video") {
-              setAccept("video/*")
+              setAccept("video/*");
             } else {
-              setAccept("")
+              setAccept("");
             }
           }}
         >
@@ -149,11 +156,15 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
           <MenuItem value={"document"}>Document</MenuItem>
           <MenuItem value={"video"}>Video</MenuItem>
         </Select>
-        {type && type !== "document" &&
-          (
-            <input type="file" title="Upload file" accept={accept} ref={fileElement} onChange={OnFileChange} />
-          )
-        }
+        {type && type !== "document" && (
+          <input
+            type="file"
+            title="Upload file"
+            accept={accept}
+            ref={fileElement}
+            onChange={OnFileChange}
+          />
+        )}
         {type === "document" && (
           <MDEditor
             className="mt-2"
@@ -165,17 +176,15 @@ const CreateContent: FC<CreateContentProps> = ({ handleClose, open }) => {
             data-color-mode="light"
             style={{ borderRadius: 20, overflow: "hidden" }}
             textareaProps={{
-              placeholder:
-                "Enter Content here",
+              placeholder: "Enter Content here",
             }}
             previewOptions={{
               disallowedElements: ["style"],
             }}
           />
-        )
-        }
+        )}
         <div className="mt-3">
-          <Button variant="contained" onClick={createContent}>
+          <Button variant="contained" onClick={createContent} disabled={isLoading}>
             Create Content
           </Button>
           <Button variant="outlined" onClick={onCloses} className="!ml-1.5">

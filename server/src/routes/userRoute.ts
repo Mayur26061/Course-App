@@ -46,10 +46,10 @@ router.post(
 );
 router.post("/searchCourses", AuthenticateMixedUser, getSearchedCourses);
 router.get("/mycreation", AuthenticateUser, getMyCreations);
-router.post("/addcourse", AuthenticateUser, addCourse);
+router.post("/addcourse", AuthenticateUser, multer.single("file"), addCourse);
 router.post("/:courseId/addcontent", AuthenticateUser, multer.single("file"), addContent);
-router.put("/update/course/:courseId", AuthenticateUser, updateCourse);
-router.put("/update/content/:contentId", AuthenticateUser, updateContent);
+router.put("/update/course/:courseId", AuthenticateUser, multer.single("file"), updateCourse);
+router.put("/update/content/:contentId", AuthenticateUser, multer.single("file"), updateContent);
 router.delete("/delete/course/:courseId", AuthenticateUser, deleteCourse);
 router.delete("/delete/content/:contentId", AuthenticateUser, deleteContent);
 router.get("/my/enrolled", AuthenticateUser, getMyCourse);
