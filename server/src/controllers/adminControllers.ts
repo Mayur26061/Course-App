@@ -10,7 +10,7 @@ import { signUpCheck, signCheck } from "../utils/utils";
 import { contentOptional, courseOptional } from "./InstructorController";
 
 type updateVal = {
-  completed_date: string;
+  completed_date: string | null;
   status: UserCourseStatus;
 };
 
@@ -243,7 +243,7 @@ export const updateSubcriber = asyncHandler(async (req: reqObj, res) => {
       status: "completed",
     }
   : {
-      completed_date: "",
+      completed_date: null,
       status: "joined",
   };
   const user_partner = await prisma.user_course.update({

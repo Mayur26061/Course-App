@@ -30,14 +30,14 @@ export interface CourseType {
   };
 }
 
-interface UserContent {
+export interface UserContent {
   id: string;
   user_course_id: string;
   content_id: string;
   completed: boolean;
 }
 
-interface UserCourse {
+export interface UserCourse {
   course_id: string;
   user_contents: UserContent[];
 }
