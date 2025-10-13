@@ -5,9 +5,11 @@ import dotenv from "dotenv";
 
 import adminRoute from "./routes/adminRoute";
 import userRoute from "./routes/userRoute";
+import getImageKit from "./utils/imagekit";
 
 dotenv.config();
 
+export const imageKit = getImageKit()
 export const app = express();
 
 const corsConfig = {

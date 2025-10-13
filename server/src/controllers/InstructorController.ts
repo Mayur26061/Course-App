@@ -1,9 +1,9 @@
 import asyncHandler from "express-async-handler";
 import { z } from "zod";
 
+import { imageKit } from "../index";
 import { reqObj } from "../utils/utils";
 import prisma from "../utils/client";
-import imageKit from "../utils/imagekit";
 
 interface ContentObj {
   data: {
