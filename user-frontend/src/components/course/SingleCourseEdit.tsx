@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { Loading } from "../common/Loading";
-import ContentSection from "../content/edit/ContentSection";
+// import ContentSection from "../content/edit/ContentSection";
 import { contentState } from "../../stores/atoms/content";
 import { courseEditState } from "../../stores/atoms/course";
 import { courseEditImageState, courseEditPriceState, courseEditTitleState } from "../../stores/selectors/course";
@@ -12,6 +12,7 @@ import { GrayTopper } from "./SingleCourse";
 import UpdateCourse from "./UpdateCourse";
 import { fetchSingleCourseEditable } from "./fetch";
 import Notfound from "../common/Notfound";
+const ContentSection = lazy(()=>import("../content/edit/ContentSection"))
 
 const SingleCourseEdit = () => {
   const { cid } = useParams();
@@ -51,7 +52,10 @@ const SingleCourseEdit = () => {
         courseTitleState={courseEditTitleState}
         isPublished={course.course.published} />
       <UpdateCourse course={course.course} />
-      <ContentSection />
+      {/* Lazy Load editable content section */}
+      <Suspense fallback={<Loading/>}>
+        <ContentSection />
+      </Suspense>
     </div>
   );
 };

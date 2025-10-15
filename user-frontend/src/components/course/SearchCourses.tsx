@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import {  useSetRecoilState } from "recoil";
 import { Loading } from "../common/Loading";
 import { fetchSearchTerm } from "../common/fetch";
 import { CourseType } from "../../libs/types/course";
@@ -9,12 +9,14 @@ import CoursesContainer from "./CoursesContainer";
 
 const SearchCourses: FC = () => {
   const [search] = useSearchParams();
-  const [searchValue, setSearchState] = useRecoilState(searchState);
+  const setSearchState = useSetRecoilState(searchState);
   const [courses, setCourses] = useState<CourseType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const term = search.get("search")?.trim() || "";
+
 
   useEffect(() => {
-    const term = search.get("search")?.trim() || "";
+    // const term = search.get("search")?.trim() || "";
 
     const fetchData = async () => {
       try {
@@ -26,6 +28,7 @@ const SearchCourses: FC = () => {
       setIsLoading(false);
     };
     if (term) {
+      setIsLoading(true)
       fetchData();
     }
   }, [search]);
@@ -41,12 +44,12 @@ const SearchCourses: FC = () => {
   }
 
   if(!courses.length){
-    return <div className="text-center">No result found for "{searchValue}"</div>
+    return <div className="text-center">No result found for "{term}"</div>
   }
 
   return (
     <div>
-      <div className="p-1 m-1">Result for "{searchValue}"</div>
+      <div className="p-1 m-1">Result for "{term}"</div>
       <CoursesContainer courses={courses} />
     </div>
   );

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { Card, Typography } from "@mui/material";
 import { RecoilValueReadOnly, useRecoilValue } from "recoil";
 import CourseCardButton from "./CourseCardButton";
@@ -10,7 +10,7 @@ interface CourseCardProps {
   isPublished: boolean
 }
 
-const CourseCard:FC<CourseCardProps> = ({courseTitleState, courseImageState, coursePriceState, isPublished}) => {
+const CourseCard:FC<CourseCardProps> = memo(({courseTitleState, courseImageState, coursePriceState, isPublished}) => {
   const title: string = useRecoilValue(courseTitleState);
   const imageLink: string = useRecoilValue(courseImageState);
   const price = useRecoilValue(coursePriceState);
@@ -32,6 +32,6 @@ const CourseCard:FC<CourseCardProps> = ({courseTitleState, courseImageState, cou
       </Card>
     </div>
   );
-};
+});
 
 export default CourseCard;

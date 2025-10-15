@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { FC, useEffect } from "react";
+import { FC, memo, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Loading } from "../common/Loading";
@@ -56,7 +56,9 @@ interface GrayTopperProps {
   title: string
 }
 
-export const GrayTopper:FC<GrayTopperProps> = ({title}) => {
+//  using memo as its parent has many state that update quickly
+// this should only re-render when title is updated
+export const GrayTopper:FC<GrayTopperProps> = memo(({title}) => {
   return (
     <div className="h-64 w-full -mb-64 bg-stone-900">
       <div className="h-64 flex flex-col justify-center">
@@ -72,6 +74,6 @@ export const GrayTopper:FC<GrayTopperProps> = ({title}) => {
       </div>
     </div>
   );
-};
+});
 
 export default SingleCourse;
